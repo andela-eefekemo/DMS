@@ -1,0 +1,23 @@
+{
+  "name": "document-management-system",
+  "version": "1.0.0",
+  "description": "Creating a Document Management System where each document defines access rights; the document defines which roles can access it.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-eefekemo/DMS.git"
+  },
+  "keywords": [
+    "Express",
+    "PostGreSQL"
+  ],
+  "author": "Eguonoghene Efekemo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andela-eefekemo/DMS/issues"
+  },
+  "homepage": "https://github.com/andela-eefekemo/DMS#readme"
+}
