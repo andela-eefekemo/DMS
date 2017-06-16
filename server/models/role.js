@@ -1,6 +1,9 @@
 const roleModel = (sequelize, DataTypes) => {
   const Role = sequelize.define('Role', {
-    name: DataTypes.STRING
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
   }, {
     classMethods: {
       associate: (models) => {

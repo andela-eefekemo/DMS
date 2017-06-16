@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 
 const userModel = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -17,6 +18,11 @@ const userModel = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    roleId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      defaultValue: 2,
     }
   }, {
     classMethods: {
@@ -28,9 +34,30 @@ const userModel = (sequelize, DataTypes) => {
         });
 
         User.hasMany(models.Document, {
-          foreignKey: 'authorId',
-          as: 'author'
+          foreignKey: 'authorId'
         });
+      }
+    },
+    instanceMethods: {
+      validPassword(password) {
+        return bcrypt.compareSync(password, this.password);
+      },
+
+      hashPassword() {
+        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
+      }
+    },
+
+    hooks: {
+      beforeCreate(user) {
+        user.hashPassword();
+      },
+
+      beforeUpdate(user) {
+        /* eslint-disable no-underscore-dangle*/
+        if (user._changed.password) {
+          user.hashPassword();
+        }
       }
     }
   });

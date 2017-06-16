@@ -14,6 +14,10 @@ const documentModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'public',
+    },
+    authorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     classMethods: {
@@ -21,7 +25,7 @@ const documentModel = (sequelize, DataTypes) => {
         // associations can be defined here
         Document.belongsTo(models.User, {
           foreignKey: 'authorId',
-          onDelete: 'CASCADE',
+          onDelete: 'SET NULL',
         });
       }
     }

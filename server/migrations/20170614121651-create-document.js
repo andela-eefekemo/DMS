@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Documents', {
       id: {
@@ -8,12 +8,15 @@ export default {
         type: Sequelize.INTEGER
       },
       title: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       content: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       access: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {
@@ -23,6 +26,15 @@ export default {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      authorId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
       }
     });
   },
