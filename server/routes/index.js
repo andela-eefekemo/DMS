@@ -13,6 +13,7 @@ module.exports = (app) => {
   });
   app.post('/users', userController.create);
   app.post('/roles', roleController.create);
+  app.post('/users/login', userController.login);
   app.get('/efe', passport.authenticate('jwt', {
     session: false
   }), (req, res) => {

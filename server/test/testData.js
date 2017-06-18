@@ -51,5 +51,13 @@ module.exports = {
   roleOne: {
     title: 'admin',
     description: 'has complete access'
+  },
+  userTwo: {
+    email: 'efeuono@gmail.com',
+    password: 'eguono'
+  },
+  userThree: {
+    email: 'efeuono@gmail.com',
+    password: 'john'
   }
 };
