@@ -1,19 +1,12 @@
 import chai from 'chai';
 
 import db from '../../models';
+import testData from '../testData';
 
 const expect = chai.expect;
 
-const goodUser = {
-  firstName: 'Eguono',
-  lastName: 'Efekemo',
-  email: 'efe@gmail.com',
-  password: 'password'
-};
-
-const role = {
-  name: 'regularUser'
-};
+const goodUser = testData.goodUser;
+const role = testData.writer;
 
 let user;
 

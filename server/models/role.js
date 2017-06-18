@@ -1,9 +1,20 @@
 const roleModel = (sequelize, DataTypes) => {
   const Role = sequelize.define('Role', {
-    name: {
+    title: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        notEmpty: true
+      }
     },
+    description: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    }
   }, {
     classMethods: {
       associate: (models) => {
