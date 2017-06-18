@@ -8,6 +8,7 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
+let savedUser;
 // Sign up user
 describe('/POST users', () => {
   it('should fail without email field', (done) => {
@@ -28,6 +29,7 @@ describe('/POST users', () => {
       .post('/users')
       .send(testData.newUser)
       .end((err, res) => {
+        savedUser = res.body.userData;
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property('userData');
@@ -191,6 +193,32 @@ describe('/GET users', () => {
         res.body.should.have.property('metaData');
         res.body.metaData.should.be.a('object');
         res.body.userList.length.should.be.eql(1);
+        done();
+      });
+  });
+});
+
+// Get user by id
+describe('/GET user:id', () => {
+  it('should find user', (done) => {
+    chai.request(server)
+      .get(`/users/${savedUser.id}`)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('user');
+        res.body.should.have.property('message').eql('User found');
+        res.body.user.should.be.a('object');
+        done();
+      });
+  });
+
+  it("should return 'User not found' if user does not exist", (done) => {
+    chai.request(server)
+      .get('/users/6')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.not.have.property('user');
+        res.body.should.have.property('message').eql('User not found');
         done();
       });
   });

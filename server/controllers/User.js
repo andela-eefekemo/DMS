@@ -135,6 +135,36 @@ class User {
    * @static
    * @param {any} req
    * @param {any} res
+   * @return {void}
+   * @memberof User
+   */
+  static viewUser(req, res) {
+    const id = authenticate.verify(req.params.id);
+    db.User.findOne({ where: { id } })
+      .then((user) => {
+        if (user) {
+          res.status(200).send(
+            {
+              message: 'User found',
+              user
+            });
+        } else {
+          res.status(401).send({ message: 'User not found' });
+        }
+      })
+      .catch((error) => {
+        res.status(400).send(
+          {
+            message: "We're sorry, we had an error, please try again",
+            error
+          });
+      });
+  }
+
+  /**
+   * @static
+   * @param {any} req
+   * @param {any} res
    * @return {void} -
    * @memberof User
    */
