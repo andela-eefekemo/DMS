@@ -1,6 +1,7 @@
 import db from '../models';
 import validate from '../helpers/Validate';
 import authenticate from '../helpers/authenticate';
+import paginate from '../helpers/paginate';
 
 /**
  * @class User
@@ -91,6 +92,41 @@ class User {
             message: "we're sorry, we couldn't log you in",
             error
           });
+        });
+    }
+  }
+
+  /**
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @return {void}
+   * @memberof User
+   */
+  static getUsers(req, res) {
+    // Make this accessible to only admin role users
+    const id = authenticate.verify(req.query.roleId);
+    const offset = authenticate.verify(req.query.offset) || 0;
+    const limit = authenticate.verify(req.query.limit) || 20;
+    if (id !== 1) {
+      res.status(401).send(
+        { message: "We're sorry, you're not authorized for this feature" });
+    } else {
+      db.User.findAndCount({ offset, limit, where: { roleId: { $not: 1 } } })
+        .then((users) => {
+          res.status(200).send(
+            {
+              message: 'Users found',
+              userList: users.rows,
+              metaData: paginate(users.count, limit, offset)
+            });
+        })
+        .catch((error) => {
+          res.status(400).send(
+            {
+              message: "We're sorry, we had an error, please try again",
+              error
+            });
         });
     }
   }

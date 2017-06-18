@@ -15,6 +15,7 @@ module.exports = (app) => {
   app.post('/roles', roleController.create);
   app.post('/users/login', userController.login);
   app.post('/users/logout', userController.logout);
+  app.get('/users', userController.getUsers);
   app.get('/efe', passport.authenticate('jwt', {
     session: false
   }), (req, res) => {

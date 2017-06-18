@@ -43,6 +43,16 @@ class Authenticate {
   static verifyPassword(password, hash) {
     return bcrypt.compareSync(password, hash);
   }
+
+  /**
+   * @static
+   * @param {any} request
+   * @returns {integer} -
+   * @memberof Authenticate
+   */
+  static verify(request) {
+    return Number(request);
+  }
 }
 
 export default Authenticate;
