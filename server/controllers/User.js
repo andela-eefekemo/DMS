@@ -94,6 +94,19 @@ class User {
         });
     }
   }
+
+  /**
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @return {void} -
+   * @memberof User
+   */
+  static logout(req, res) {
+    res.status(200).send({
+      message: 'Success, delete user token'
+    });
+  }
 }
 
 export default User;
