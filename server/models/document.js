@@ -5,15 +5,24 @@ const documentModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        notEmpty: true
+      }
     },
     content: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     access: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'public',
+      validate: {
+        notEmpty: true
+      }
     },
     authorId: {
       type: DataTypes.INTEGER,
