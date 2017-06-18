@@ -125,3 +125,19 @@ describe('/POST users/login', () => {
       });
   });
 });
+
+// POST /users/logout
+describe('/POST/logout user', () => {
+  it('should logout user', (done) => {
+    chai.request(server)
+      .post('/users/logout')
+      .send(testData.userThree)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.message.should.be.a('string').eql(
+          'Success, delete user token');
+        done();
+      });
+  });
+});
