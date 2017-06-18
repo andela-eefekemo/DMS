@@ -127,7 +127,7 @@ describe('/POST users/login', () => {
 });
 
 // POST /users/logout
-describe('/POST/logout user', () => {
+describe('/POST logout user', () => {
   it('should logout user', (done) => {
     chai.request(server)
       .post('/users/logout')
@@ -137,6 +137,60 @@ describe('/POST/logout user', () => {
         res.body.should.be.a('object');
         res.body.message.should.be.a('string').eql(
           'Success, delete user token');
+        done();
+      });
+  });
+});
+
+// GET /users
+describe('/GET users', () => {
+  it('should be only accessible to admins', (done) => {
+    chai.request(server)
+      .get('/users')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property('message').eql(
+          "We're sorry, you're not authorized for this feature");
+        done();
+      });
+  });
+  it('should get list of users', (done) => {
+    chai.request(server)
+      .get('/users?roleId=1')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('userList');
+        res.body.should.have.property('message').eql('Users found');
+        res.body.should.have.property('metaData');
+        res.body.metaData.should.be.a('object');
+        res.body.userList.length.should.be.eql(4);
+        done();
+      });
+  });
+
+  it('should limit list of users', (done) => {
+    chai.request(server)
+      .get('/users?roleId=1&limit=2')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('userList');
+        res.body.should.have.property('message').eql('Users found');
+        res.body.should.have.property('metaData');
+        res.body.metaData.should.be.a('object');
+        res.body.userList.length.should.be.eql(2);
+        done();
+      });
+  });
+  it('should limit users based on offset', (done) => {
+    chai.request(server)
+      .get('/users?roleId=1&limit=2&offset=3')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('userList');
+        res.body.should.have.property('message').eql('Users found');
+        res.body.should.have.property('metaData');
+        res.body.metaData.should.be.a('object');
+        res.body.userList.length.should.be.eql(1);
         done();
       });
   });
