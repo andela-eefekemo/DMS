@@ -10,7 +10,8 @@ module.exports = {
     firstName: 'Eguono',
     lastName: 'Efekemo',
     email: 'eee@gmail.com',
-    password: 'password'
+    password: 'password',
+    roleId: 2
   },
   newUser: {
     firstName: 'Eguono',
@@ -43,7 +44,7 @@ module.exports = {
   awesomeBook: {
     title: 'Best book ever written',
     content: 'And Eguono was so awesome it blow the world away',
-    access: 'Private'
+    access: 'private'
   },
   incompleteRole: {
     description: 'creepy'
@@ -118,5 +119,36 @@ module.exports = {
     email: 'finer@gmail.com',
     password: 'finer',
     password1: 'finer'
+  },
+  userEight: {
+    firstName: 'jane',
+    lastName: 'doe',
+    email: 'janedoe@gmail.com',
+    password: 'janed',
+    password1: 'janed'
+  },
+  documentOne: {
+    title: 'Harry Potter and The Socerrer Stone',
+    content: 'The one where harry had the socerrer stone',
+    access: 'private'
+  },
+  documentTwo: {
+    title: 'Harry Potter and The Chamber of Secrets',
+    content: 'The one where harry defeated the gaint snake',
+    access: 'public'
+  },
+  documentThree: {
+    title: 'Harry Potter and The Prisoner of Azkaban',
+    content: "The one with the prisoner of azkaban aka harry's uncle",
+    access: 'role'
+  },
+  documentFour: {
+    title: 'Harry Potter and The Goblet of Fire',
+    content: 'The one where harry won the game'
+  },
+  documentFive: {
+    title: 'Harry Potter and The Order of the Phoenix',
+    content: 'The one where they found out that voldamot was alive',
+    access: 'mr_awesome'
   }
 };

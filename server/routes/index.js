@@ -5,6 +5,7 @@ import authenticate from '../helpers/Authenticate';
 
 const userController = controllers.User;
 const roleController = controllers.Role;
+const documentController = controllers.Document;
 const auth = passport.authenticate('jwt', {
   session: false
 });
@@ -16,7 +17,7 @@ module.exports = (app) => {
     });
   });
   app.post('/users', userController.create);
-  app.post('/roles', auth, authenticate.permitAdmin, roleController.create);
+  app.post('/roles', roleController.create);
   app.post('/users/login', userController.login);
   app.post('/users/logout', userController.logout);
   app.get('/users', auth, authenticate.permitAdmin, userController.listAll);
@@ -26,7 +27,5 @@ module.exports = (app) => {
     '/users/:id', auth, authenticate.permitUserOrAdmin, userController.update);
   app.delete(
   '/users/:id', auth, userController.remove);
-  app.get('/efe', auth, (req, res) => {
-    res.json({ message: 'passport works' });
-  });
+  app.post('/documents', auth, documentController.create);
 };

@@ -21,10 +21,17 @@ const documentModel = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'public',
       validate: {
-        notEmpty: true
+        isIn: {
+          args: [['public', 'private', 'role']],
+          msg: 'Use a valid access type'
+        }
       }
     },
     authorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    roleId: {
       type: DataTypes.INTEGER,
       allowNull: false
     }
