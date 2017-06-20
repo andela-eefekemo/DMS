@@ -65,7 +65,6 @@ class User {
    * @memberof User
    */
   static login(req, res) {
-    console.log(req.body);
     validate.user(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {

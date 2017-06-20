@@ -11,6 +11,16 @@ chai.use(chaiHttp);
 describe('Document', () => {
   let savedUser;
   let userToken;
+  let savedUser1;
+  let userTokenOne;
+  let savedUser2;
+  let userToken2;
+  let savedDocument1;
+  let savedDocument2;
+  let savedDocument3;
+  let savedDocument4;
+  let savedDocument5;
+  let savedDocument6;
   before((done) => {
     chai.request(server)
       .post('/users')
@@ -18,6 +28,73 @@ describe('Document', () => {
       .end((err, res) => {
         savedUser = res.body.userData;
         userToken = res.body.token;
+        res.should.have.status(200);
+      });
+    chai.request(server)
+      .post('/users')
+      .send(testData.userNine)
+      .end((err, res) => {
+        savedUser1 = res.body.userData;
+        userTokenOne = res.body.token;
+        res.should.have.status(200);
+      });
+    chai.request(server)
+      .post('/users')
+      .send(testData.userTen)
+      .end((err, res) => {
+        savedUser2 = res.body.userData;
+        userToken2 = res.body.token;
+        res.should.have.status(200);
+        done();
+      });
+  });
+  before((done) => {
+    chai.request(server)
+      .post('/documents')
+      .set({ Authorization: userTokenOne })
+      .send(testData.documentSix)
+      .end((err, res) => {
+        savedDocument1 = res.body.newDocument;
+        res.should.have.status(200);
+      });
+    chai.request(server)
+      .post('/documents')
+      .set({ Authorization: userTokenOne })
+      .send(testData.documentEight)
+      .end((err, res) => {
+        savedDocument2 = res.body.newDocument;
+        res.should.have.status(200);
+      });
+    chai.request(server)
+      .post('/documents')
+      .set({ Authorization: userTokenOne })
+      .send(testData.documentTen)
+      .end((err, res) => {
+        savedDocument3 = res.body.newDocument;
+        res.should.have.status(200);
+      });
+    chai.request(server)
+      .post('/documents')
+      .set({ Authorization: userToken })
+      .send(testData.documentSeven)
+      .end((err, res) => {
+        savedDocument4 = res.body.newDocument;
+        res.should.have.status(200);
+      });
+    chai.request(server)
+      .post('/documents')
+      .set({ Authorization: userToken })
+      .send(testData.documentNine)
+      .end((err, res) => {
+        savedDocument5 = res.body.newDocument;
+        res.should.have.status(200);
+      });
+    chai.request(server)
+      .post('/documents')
+      .set({ Authorization: userToken })
+      .send(testData.documentEleven)
+      .end((err, res) => {
+        savedDocument6 = res.body.newDocument;
         res.should.have.status(200);
         done();
       });
@@ -45,51 +122,99 @@ describe('Document', () => {
 
     it('should not create document with incorrect access type', (done) => {
       chai.request(server)
-      .post('/documents')
-      .set({ Authorization: userToken })
-      .send(testData.documentFive)
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.property('message').eql(
-          "we're sorry, Use a valid access type, please try again");
-      });
+        .post('/documents')
+        .set({ Authorization: userToken })
+        .send(testData.documentFive)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('message').eql(
+            "we're sorry, Use a valid access type, please try again");
+        });
       done();
     });
 
     it('should not create document with the same title', (done) => {
       chai.request(server)
-      .post('/documents')
-      .set({ Authorization: userToken })
-      .send(testData.documentOne)
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.property('message').eql(
-          "we're sorry, title must be unique, please try again");
-      });
+        .post('/documents')
+        .set({ Authorization: userToken })
+        .send(testData.documentOne)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('message').eql(
+            "we're sorry, title must be unique, please try again");
+        });
       done();
     });
 
     it('should not create document with the same title', (done) => {
       chai.request(server)
-      .post('/documents')
-      .set({ Authorization: userToken })
-      .send(testData.documentFour)
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.property('message').eql(
-          'Invalid Access Type');
-      });
+        .post('/documents')
+        .set({ Authorization: userToken })
+        .send(testData.documentFour)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('message').eql(
+            'Invalid Access Type');
+        });
       done();
     });
 
     it('should fail if user is not signed in', (done) => {
       chai.request(server)
-      .post('/documents')
-      .send(testData.documentThree)
-      .end((err, res) => {
-        res.should.have.status(404);
-      });
+        .post('/documents')
+        .send(testData.documentThree)
+        .end((err, res) => {
+          res.should.have.status(404);
+        });
       done();
+    });
+  });
+
+  // list all documents
+  describe('DOCUMENTS listAll', () => {
+    it('should listAll documents for the admin', () => {
+      chai.request(server)
+        .get('/documents')
+        .set({ Authorization: userTokenOne })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message').eql('Documents found');
+          res.body.should.have.property('documentList');
+          res.body.documentList.length.should.eql(8);
+        });
+    });
+
+    it(
+      'should list role, public and private documents user has access to view',
+      () => {
+        chai.request(server)
+          .get('/documents')
+          .set({ Authorization: userToken })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property('message').eql('Documents found');
+            res.body.should.have.property('documentList');
+            res.body.documentList.length.should.eql(5);
+          });
+      });
+    it('should list only public and documents if user has no other access',
+      () => {
+        chai.request(server)
+          .get('/documents')
+          .set({ Authorization: userToken2 })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property('message').eql('Documents found');
+            res.body.should.have.property('documentList');
+            res.body.documentList.length.should.eql(2);
+          });
+      });
+    it('should fail if user is not logged in', () => {
+      chai.request(server)
+        .get('/documents')
+        .end((err, res) => {
+          res.should.have.status(404);
+        });
     });
   });
 });
