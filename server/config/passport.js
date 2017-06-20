@@ -11,12 +11,11 @@ module.exports = (passport) => {
   jwtOptions.secretOrKey = process.env.SECRET;
 
   const strategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-    const user = db.User.findOne({ email: jwtPayload.email });
-    if (user) {
-      next(null, user);
-    } else {
-      next(null, false);
-    }
+    db.User.findOne({ where: { email: jwtPayload.email } })
+      .then((user) => {
+        next(null, user);
+      })
+      .catch(() => next(null, false));
   });
   passport.use(strategy);
 };

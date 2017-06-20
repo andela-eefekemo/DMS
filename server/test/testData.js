@@ -59,5 +59,64 @@ module.exports = {
   userThree: {
     email: 'efeuono@gmail.com',
     password: 'john'
+  },
+  admin: {
+    firstName: 'Eg',
+    lastName: 'Efe',
+    email: 'efeuno@gmail.com',
+    password: 'eguono',
+    password1: 'eguono',
+    roleId: 1
+  },
+  admin2: {
+    firstName: 'Eg',
+    lastName: 'Efe',
+    email: 'efeno@gmail.com',
+    password: 'eguono',
+    password1: 'eguono',
+    roleId: 1
+  },
+  updatedUser: {
+    firstName: 'Eguonoghene',
+    lastName: 'Efekemo',
+    email: 'efeeguono@gmail.com',
+    password: 'eguono',
+    password1: 'eguono'
+  },
+  userFour: {
+    firstName: 'Eguohene',
+    lastName: 'Efemo',
+    email: 'guono@gmail.com',
+    password: 'eguono',
+    password1: 'eguono'
+  },
+  userFive: {
+    firstName: 'Pretty',
+    lastName: 'Girl',
+    email: 'pretty@gmail.com',
+    password: 'pretty',
+    password1: 'pretty'
+  },
+  userSix: {
+    firstName: 'Fine',
+    lastName: 'Girl',
+    email: 'fine@gmail.com',
+    password: 'finedd',
+    password1: 'finedd'
+  },
+  adminUser: {
+    firstName: 'Hot',
+    lastName: 'Girl',
+    email: 'hot@gmail.com',
+    password: 'hotgirl',
+    password1: 'hotgirl',
+    roleId: 1
+  },
+  userSeven: {
+    firstName: 'Finer',
+    lastName: 'Girlie',
+    email: 'finer@gmail.com',
+    password: 'finer',
+    password1: 'finer'
   }
 };

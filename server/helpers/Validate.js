@@ -9,7 +9,42 @@ class Validate {
    * @memberof Validate
    * @return {void}
    */
-  static user(req) {
+  static update(req) {
+    const keys = Object.keys(req.body);
+    keys.forEach((element, index, array) => {
+      if (element === 'email') {
+        const email = req.body[element];
+        req.checkBody('email', 'Please Input Valid Email').isEmail().notEmpty();
+      }
+      if (element === 'password') {
+        const password = req.body[element];
+        req.checkBody('password', 'Password is Required').notEmpty();
+      }
+      if (element === 'password1') {
+        const password1 = req.body[element];
+        req.checkBody('password1', 'Passwords do not match').equals(
+          req.body.password);
+      }
+      if (element === 'firstName') {
+        const firstName = req.body[element];
+        req.checkBody('firstName', 'Must be alphabets').isAlpha();
+        req.checkBody('firstName', 'Required').notEmpty();
+      }
+      if (element === 'lastName') {
+        const lastName = req.body[element];
+        req.checkBody('lastName', 'Must be alphabets').isAlpha();
+        req.checkBody('lastName', 'Required').notEmpty();
+      }
+    });
+  }
+
+  /**
+   * @static
+   * @param {any} req
+   * @return {void}
+   * @memberof Validate
+   */
+  static user(req){
     let firstName, lastName, email, password, password1;
     if (!req.body.firstName || !req.body.firstName) {
       email = req.body.email;
