@@ -30,7 +30,6 @@ describe('User', () => {
         savedUser5 = res.body.userData;
         userToken5 = res.body.token;
         res.should.have.status(200);
-        adminToken = res.body.token;
       });
     chai.request(server)
       .post('/users')
@@ -217,7 +216,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(7);
+          res.body.userList.length.should.be.eql(8);
           done();
         });
     });
@@ -246,7 +245,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(4);
+          res.body.userList.length.should.be.eql(5);
           done();
         });
     });

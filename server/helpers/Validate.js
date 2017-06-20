@@ -82,6 +82,22 @@ class Validate {
     req.checkBody('title', 'Must be alphabets').isAlpha();
     req.checkBody('description', 'Descrition is Required').notEmpty();
   }
+
+  /**
+   * @static
+   * @param {any} req
+   * @return {void}
+   * @memberof Validate
+   */
+  static document(req) {
+    const title = req.body.title;
+    const content = req.body.content;
+    const access = req.body.access;
+
+    req.checkBody('title', 'Title is Required').notEmpty();
+    req.checkBody('content', 'Content is Required').notEmpty();
+    req.checkBody('access', 'Invalid Access Type').isAlpha().notEmpty();
+  }
 }
 
 export default Validate;

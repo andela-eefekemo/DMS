@@ -16,6 +16,7 @@ before((done) => {
   db.User.create(goodUser)
     .then((newUser) => {
       awesomeBook.authorId = newUser.id;
+      awesomeBook.roleId = newUser.roleId;
       db.Document.create(awesomeBook).then((newBook) => {
         book = newBook;
         done();
