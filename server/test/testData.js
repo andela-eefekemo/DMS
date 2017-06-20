@@ -121,11 +121,27 @@ module.exports = {
     password1: 'finer'
   },
   userEight: {
-    firstName: 'jane',
+    firstName: 'janet',
     lastName: 'doe',
-    email: 'janedoe@gmail.com',
+    email: 'janetdoe@gmail.com',
     password: 'janed',
     password1: 'janed'
+  },
+  userNine: {
+    firstName: 'janer',
+    lastName: 'doe',
+    email: 'janerdoe@gmail.com',
+    password: 'janed',
+    password1: 'janed',
+    roleId: 1
+  },
+  userTen: {
+    firstName: 'janee',
+    lastName: 'doe',
+    email: 'janeedoe@gmail.com',
+    password: 'janed',
+    password1: 'janed',
+    roleId: 3
   },
   documentOne: {
     title: 'Harry Potter and The Socerrer Stone',
@@ -150,5 +166,35 @@ module.exports = {
     title: 'Harry Potter and The Order of the Phoenix',
     content: 'The one where they found out that voldamot was alive',
     access: 'mr_awesome'
+  },
+  documentSix: {
+    title: 'Harry Potter 6',
+    content: 'The one where they found out that voldamot was alive',
+    access: 'private'
+  },
+  documentSeven: {
+    title: 'Harry Potter 7',
+    content: 'The one where they found out that voldamot was alive',
+    access: 'private'
+  },
+  documentEight: {
+    title: 'Harry Potter 8',
+    content: 'The one where they found out that voldamot was alive',
+    access: 'public'
+  },
+  documentNine: {
+    title: 'Harry Potter 9',
+    content: 'The one where they found out that voldamot was alive',
+    access: 'public'
+  },
+  documentTen: {
+    title: 'Harry Potter 10',
+    content: 'The one where they found out that voldamot was alive',
+    access: 'role'
+  },
+  documentEleven: {
+    title: 'Harry Potter 11',
+    content: 'The one where they found out that voldamot was alive',
+    access: 'role'
   }
 };

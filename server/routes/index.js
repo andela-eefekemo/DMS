@@ -17,7 +17,7 @@ module.exports = (app) => {
     });
   });
   app.post('/users', userController.create);
-  app.post('/roles', roleController.create);
+  app.post('/roles', auth, authenticate.permitAdmin, roleController.create);
   app.post('/users/login', userController.login);
   app.post('/users/logout', userController.logout);
   app.get('/users', auth, authenticate.permitAdmin, userController.listAll);
@@ -28,4 +28,9 @@ module.exports = (app) => {
   app.delete(
   '/users/:id', auth, userController.remove);
   app.post('/documents', auth, documentController.create);
+  app.get('/documents', auth, documentController.listAll);
+
+  app.get('*', (req, res) => res.status(200).send({
+    message: 'Welcome to the beginning of nothingness.',
+  }));
 };

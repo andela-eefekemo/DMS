@@ -1,5 +1,7 @@
 import db from '../models';
 import validate from '../helpers/Validate';
+import authenticate from '../helpers/Authenticate';
+import paginate from '../helpers/paginate';
 
 /**
  * @class Document
@@ -46,6 +48,67 @@ class Document {
             message: "we're sorry, there was an error, please try again",
             error
           });
+        });
+    }
+  }
+
+  /**
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @return {void}
+   * @memberof Document
+   */
+  static listAll(req, res) {
+    const offset = authenticate.verify(req.query.offset) || 0;
+    const limit = authenticate.verify(req.query.limit) || 20;
+
+    if (Number(req.user.roleId) === 1) {
+      db.Document.findAndCount({ offset, limit })
+        .then((documents) => {
+          res.status(200).send(
+            {
+              message: 'Documents found',
+              documentList: documents.rows,
+              metaData: paginate(documents.count, limit, offset)
+            });
+        })
+        .catch((error) => {
+          res.status(400).send(
+            {
+              message: "We're sorry, we had an error eguono, please try again",
+              error
+            });
+        });
+    } else {
+      db.Document.findAndCount({
+        offset,
+        limit,
+        where: {
+          $or: [
+            {
+              $or: [{ access: 'public' }, {
+                $and: [
+                  { access: 'role' }, { roleId: req.user.roleId }]
+              }]
+            },
+            { authorId: req.user.id }
+          ]
+        }
+      }).then((documents) => {
+        res.status(200).send(
+          {
+            message: 'Documents found',
+            documentList: documents.rows,
+            metaData: paginate(documents.count, limit, offset)
+          });
+      })
+        .catch((error) => {
+          res.status(400).send(
+            {
+              message: "We're sorry, we had an error, please try again",
+              error
+            });
         });
     }
   }
