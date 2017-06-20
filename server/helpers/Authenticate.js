@@ -17,7 +17,7 @@ class Authenticate {
       firstName: request.firstName,
       lastName: request.lastName,
       email: request.email,
-      role: request.role,
+      roleId: request.roleId,
     };
   }
 
@@ -28,6 +28,7 @@ class Authenticate {
    * @memberof Authenticate
    */
   static generateWebToken(user) {
+    console.log(process.env.SECRET);
     return jwt.sign(user, process.env.SECRET, {
       expiresIn: 60 * 60 * 24 * 7
     });
@@ -53,7 +54,41 @@ class Authenticate {
   static verify(request) {
     return Number(request);
   }
-}
 
+  /**
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @param {any} next
+   * @returns {request} -
+   * @memberof Authenticate
+   */
+  static permitUserOrAdmin(req, res, next) {
+    if (
+      req.user.roleId === 1 || Number(req.params.id) === Number(req.user.id)) {
+      res.locals.user = req.user;
+      return next();
+    }
+    return res.status(401).send(
+      { message: 'You are unauthorized for this action' });
+  }
+
+  /**
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @param {any} next
+   * @returns {request} -
+   * @memberof Authenticate
+   */
+  static permitAdmin(req, res, next) {
+    if (req.user.roleId !== 1) {
+      return res.status(401).send(
+        { message: "We're sorry, you're not authorized for this feature" });
+    }
+    res.locals.user = req.user;
+    next();
+  }
+}
 export default Authenticate;
 
