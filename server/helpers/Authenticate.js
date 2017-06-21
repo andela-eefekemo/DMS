@@ -28,7 +28,6 @@ class Authenticate {
    * @memberof Authenticate
    */
   static generateWebToken(user) {
-    console.log(process.env.SECRET);
     return jwt.sign(user, process.env.SECRET, {
       expiresIn: 60 * 60 * 24 * 7
     });

@@ -44,7 +44,7 @@ class Validate {
    * @return {void}
    * @memberof Validate
    */
-  static user(req){
+  static user(req) {
     let firstName, lastName, email, password, password1;
     if (!req.body.firstName || !req.body.firstName) {
       email = req.body.email;
