@@ -33,7 +33,8 @@ describe('Role', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           res.body.error.should.be.a('array');
-          res.body.error[0].should.have.property('msg').eql('Title is Required');
+          res.body.error[0].should.have.property('msg').eql(
+            'Title is Required');
           done();
         });
     });

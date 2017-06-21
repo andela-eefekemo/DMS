@@ -29,6 +29,7 @@ module.exports = (app) => {
   '/users/:id', auth, userController.remove);
   app.post('/documents', auth, documentController.create);
   app.get('/documents', auth, documentController.listAll);
+  app.get('/documents/:id', auth, documentController.view);
 
   app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to the beginning of nothingness.',

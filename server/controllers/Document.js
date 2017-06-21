@@ -112,6 +112,45 @@ class Document {
         });
     }
   }
+
+  /**
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @return {void}
+   * @memberof Document
+   */
+  static view(req, res) {
+    const id = authenticate.verify(req.params.id);
+    db.Document.findOne({ where: { id } })
+      .then((document) => {
+        if (document) {
+          if (
+            (document.authorId !== req.user.id && req.user.roleId !== 1
+            && document.access !== 'public') || (document.access === 'role'
+              && document.roleId === req.user.roleId)
+          ) {
+            res.status(401).send(
+              { message: 'You are unauthorized to view this document' });
+          } else {
+            res.status(200).send(
+              {
+                message: 'Document found',
+                document
+              });
+          }
+        } else {
+          res.status(401).send({ message: 'Document not found' });
+        }
+      })
+      .catch((error) => {
+        res.status(400).send(
+          {
+            message:
+            `We're sorry, ${error.errors[0].message} , please try again`,
+          });
+      });
+  }
 }
 
 export default Document;
