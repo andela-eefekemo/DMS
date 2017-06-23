@@ -18,6 +18,10 @@ module.exports = (app) => {
   });
   app.post('/users', userController.create);
   app.post('/roles', auth, authenticate.permitAdmin, roleController.create);
+  app.get('/roles', auth, authenticate.permitAdmin, roleController.view);
+  app.put('/roles/:id', auth, authenticate.permitAdmin, roleController.update);
+  app.delete('/roles/:id',
+    auth, authenticate.permitAdmin, roleController.delete);
   app.post('/users/login', userController.login);
   app.post('/users/logout', userController.logout);
   app.get('/users', auth, authenticate.permitAdmin, userController.listAll);
@@ -26,11 +30,20 @@ module.exports = (app) => {
   app.put(
     '/users/:id', auth, authenticate.permitUserOrAdmin, userController.update);
   app.delete(
-  '/users/:id', auth, userController.remove);
+    '/users/:id', auth, authenticate.permitUserOrAdmin, userController.remove);
+  app.get('/users/:id/documents',
+    auth, authenticate.permitAdmin, documentController.getUserDocuments);
   app.post('/documents', auth, documentController.create);
   app.get('/documents', auth, documentController.listAll);
   app.get('/documents/:id', auth, documentController.view);
-
+  app.put('/documents/:id',
+    auth, documentController.update);
+  app.delete(
+    '/documents/:id', auth, documentController.delete);
+  app.get('/search/users',
+    auth, authenticate.permitAdmin, userController.search);
+  app.get('/search/documents',
+    auth, documentController.search);
   app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to the beginning of nothingness.',
   }));

@@ -217,7 +217,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(9);
+          res.body.userList.length.should.be.eql(10);
           done();
         });
     });
@@ -246,7 +246,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(6);
+          res.body.userList.length.should.be.eql(7);
           done();
         });
     });
@@ -308,7 +308,7 @@ describe('User', () => {
     it('should allow admin to update user information', (done) => {
       chai.request(server)
         .put(`/users/${savedUser.id}`)
-        .send(testData.updatedUser)
+        .send({ email: 'jonah@gmail.com' })
         .set({ Authorization: adminToken })
         .end((err, res) => {
           updatedToken = res.body.token;
@@ -352,15 +352,53 @@ describe('User', () => {
         });
     });
 
-    it("should return 'User not found' if user does not exist", (done) => {
+    it('should fail if email already exists', (done) => {
       chai.request(server)
-        .get('/users/20')
+        .put(`/users/${fineUser.id}`)
+        .set({ Authorization: fineToken })
+        .send({ email: 'jonah@gmail.com' })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.should.have.property(
+            'message').eql('Email already exists');
+          done();
+        });
+    });
+  });
+
+  // Search documents by title
+  describe('USERS search', () => {
+    it('admin should search all users based on firstname or lastname', (done) => {
+      chai.request(server)
+        .get('/search/users?q=o')
         .set({ Authorization: adminToken })
-        .send(testData.updatedUser)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('userList');
+          res.body.userList.length.should.eql(9);
+          done();
+        });
+    });
+
+    it('user not be able to search for other users', (done) => {
+      chai.request(server)
+        .get('/search/users?q=o')
+        .set({ Authorization: fineToken })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.not.have.property('updatedUser');
-          res.body.should.have.property('message').eql('User not found');
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+
+    it('should return empty if no searchterm was provided', (done) => {
+      chai.request(server)
+        .get('/search/users?')
+        .set({ Authorization: adminToken })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('userList');
+          res.body.userList.length.should.eql(0);
           done();
         });
     });
@@ -379,14 +417,49 @@ describe('User', () => {
         });
     });
 
-    it('admin should not be able to delete user account', (done) => {
+    it('admin should be able to delete user account', (done) => {
+      chai.request(server)
+        .delete(`/users/${savedUser5.id}`)
+        .set({ Authorization: adminToken })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message').eql(
+            'User has been deleted');
+          done();
+        });
+    });
+
+    it('admin should fail if user not found', (done) => {
       chai.request(server)
         .delete(`/users/${updatedUser.id}`)
         .set({ Authorization: adminToken })
         .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.have.property('message').eql(
+            'User not found');
+          done();
+        });
+    });
+
+    it('user should not be able to delete other users account', (done) => {
+      chai.request(server)
+        .delete(`/users/${updatedUser.id}`)
+        .set({ Authorization: fineToken })
+        .end((err, res) => {
           res.should.have.status(401);
           res.body.should.have.property('message').eql(
             'You are unauthorized for this action');
+          done();
+        });
+    });
+
+
+    it('should fail if user was not found', (done) => {
+      chai.request(server)
+        .delete('/users/30002')
+        .set({ Authorization: updatedToken })
+        .end((err, res) => {
+          res.should.have.status(401);
           done();
         });
     });

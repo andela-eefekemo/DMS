@@ -9,7 +9,7 @@ class Validate {
    * @memberof Validate
    * @return {void}
    */
-  static update(req) {
+  static userUpdate(req) {
     const keys = Object.keys(req.body);
     keys.forEach((element, index, array) => {
       if (element === 'email') {
@@ -89,6 +89,25 @@ class Validate {
    * @return {void}
    * @memberof Validate
    */
+  static roleUpdate(req) {
+    const keys = Object.keys(req.body);
+    keys.forEach((element, index, array) => {
+      if (element === 'title') {
+        const title = req.body[element];
+        req.checkBody('title', 'Title is Required').notEmpty();
+      }
+      if (element === 'description') {
+        const description = req.body[element];
+        req.checkBody('description', 'Description is Required').notEmpty();
+      }
+    });
+  }
+  /**
+   * @static
+   * @param {any} req
+   * @return {void}
+   * @memberof Validate
+   */
   static document(req) {
     const title = req.body.title;
     const content = req.body.content;
@@ -97,6 +116,30 @@ class Validate {
     req.checkBody('title', 'Title is Required').notEmpty();
     req.checkBody('content', 'Content is Required').notEmpty();
     req.checkBody('access', 'Invalid Access Type').isAlpha().notEmpty();
+  }
+
+  /**
+   * @static
+   * @param {any} req
+   * @return {void}
+   * @memberof Validate
+   */
+  static documentUpdate(req) {
+    const keys = Object.keys(req.body);
+    keys.forEach((element, index, array) => {
+      if (element === 'title') {
+        const title = req.body[element];
+        req.checkBody('title', 'Title is Required').notEmpty();
+      }
+      if (element === 'content') {
+        const content = req.body[element];
+        req.checkBody('content', 'Content is Required').notEmpty();
+      }
+      if (element === 'access') {
+        const password1 = req.body[element];
+        req.checkBody('access', 'Invalid Access Type').isAlpha().notEmpty();
+      }
+    });
   }
 }
 

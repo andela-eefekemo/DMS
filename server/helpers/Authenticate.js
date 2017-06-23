@@ -86,7 +86,7 @@ class Authenticate {
         { message: "We're sorry, you're not authorized for this feature" });
     }
     res.locals.user = req.user;
-    next();
+    return next();
   }
 }
 export default Authenticate;

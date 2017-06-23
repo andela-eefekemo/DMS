@@ -164,37 +164,55 @@ class User {
    * @memberof User
    */
   static update(req, res) {
-    validate.update(req);
+    validate.userUpdate(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
       res.status(403).send({ error: validateErrors });
-    } else if (req.body.email === res.locals.user.email) {
-      res.status(400).send({ message: 'Email already exists' });
     } else {
       const id = Number(req.params.id);
       db.User.findById(id)
         .then((user) => {
-          user.update({
-            firstName: req.body.firstName || res.locals.user.firstName,
-            lastName: req.body.lastName || res.locals.user.lastName,
-            email: req.body.email || res.locals.user.email,
-            password: req.body.password || res.locals.user.password
-          }).then((updatedUser) => {
-            const userInfo = authenticate.setUserInfo(updatedUser);
-            const token = authenticate.generateWebToken(userInfo);
-            res.status(200).send(
-              { message: 'User information has been updated',
-                updatedUser,
-                token: `JWT ${token}`
+          db.User.findAll({ where: { email: req.body.email } })
+            .then((existingUser) => {
+              if (existingUser.length !== 0 &&
+                (existingUser.email !== res.locals.user.email)) {
+                res.status(403).send({ message: 'Email already exists' });
+              } else {
+                user.update({
+                  firstName: req.body.firstName || res.locals.user.firstName,
+                  lastName: req.body.lastName || res.locals.user.lastName,
+                  email: req.body.email || res.locals.user.email,
+                  password: req.body.password || res.locals.user.password
+                }).then((updatedUser) => {
+                  const userInfo = authenticate.setUserInfo(updatedUser);
+                  const token = authenticate.generateWebToken(userInfo);
+                  res.status(200).send(
+                    {
+                      message: 'User information has been updated',
+                      updatedUser,
+                      token: `JWT ${token}`
+                    });
+                }).catch((error) => {
+                  res.status(400).send({
+                    message:
+                    "we're sorry, there was an error, please try again",
+                    error
+                  });
+                });
+              }
+            }).catch((error) => {
+              res.status(400).send({
+                message:
+                `We're sorry,${error.errors[0].message}, please try again`,
+                error
               });
-          });
+            });
         })
         .catch((error) => {
-          res.status(400).send(
-            {
-              message: "We're sorry, we had an error, please try again",
-              error
-            });
+          res.status(400).send({
+            message: 'User not found',
+            error
+          });
         });
     }
   }
@@ -208,14 +226,10 @@ class User {
    */
   static remove(req, res) {
     const id = authenticate.verify(req.params.id);
-    if (Number(req.user.id) !== id) {
-      return res.status(401).send(
-      { message: 'You are unauthorized for this action' });
-    }
-    db.User.findById(id)
+    return db.User.findById(id)
       .then((user) => {
         if (user === null) {
-          res.status(400).send({ message: 'User not found' });
+          res.status(404).send({ message: 'User not found' });
         } else {
           user.destroy()
             .then(() => {
@@ -223,6 +237,47 @@ class User {
             });
         }
       }).catch((error) => {
+        res.status(400).send(
+          {
+            message: "We're sorry, we had an error, please try again",
+            error
+          });
+      });
+  }
+
+  /**
+   * @static
+   * @param {any} req -
+   * @param {any} res -
+   * @return {void}
+   * @memberof User
+   */
+  static search(req, res) {
+    const searchTerm = req.query.q;
+    const offset = req.query.offset || 0;
+    const limit = req.query.limit || 20;
+
+    const query = {
+      offset,
+      limit,
+      where: {
+        $or: [
+          { firstName: { $iLike: `%${searchTerm}%` } },
+          { lastName: { $iLike: `%${searchTerm}%` } }
+        ]
+      }
+    };
+
+    return db.User.findAndCount(query)
+      .then((users) => {
+        res.status(200).send(
+          {
+            message: 'Users found',
+            userList: users.rows,
+            metaData: paginate(users.count, limit, offset)
+          });
+      })
+      .catch((error) => {
         res.status(400).send(
           {
             message: "We're sorry, we had an error, please try again",

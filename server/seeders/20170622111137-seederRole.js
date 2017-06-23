@@ -1,16 +1,16 @@
 module.exports = {
   up: (queryInterface) => {
-    queryInterface.bulkInsert('Roles', [{
+    return queryInterface.bulkInsert('Roles', [{
       title: 'admin',
       description: 'total access',
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     },
     {
       title: 'regularUser',
       description: 'partial access',
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     }], {});
   },
 
