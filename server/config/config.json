@@ -4,14 +4,16 @@
     "password": null,
     "database": "Document",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "test": {
     "username": "andeladeveloper",
     "password": null,
-    "database": "DMS_test",
+    "database": "DMS",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "username": "root",

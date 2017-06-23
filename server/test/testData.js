@@ -50,7 +50,7 @@ module.exports = {
     description: 'creepy'
   },
   roleOne: {
-    title: 'admin',
+    title: 'editor',
     description: 'has complete access'
   },
   userTwo: {
@@ -80,7 +80,7 @@ module.exports = {
   updatedUser: {
     firstName: 'Eguonoghene',
     lastName: 'Efekemo',
-    email: 'efeeguono@gmail.com',
+    email: 'jonah@gmail.com',
     password: 'eguono',
     password1: 'eguono'
   },
@@ -194,6 +194,11 @@ module.exports = {
   },
   documentEleven: {
     title: 'Harry Potter 11',
+    content: 'The one where they found out that voldamot was alive',
+    access: 'role'
+  },
+  documentTwelve: {
+    title: 'Harry Potter 12',
     content: 'The one where they found out that voldamot was alive',
     access: 'role'
   }

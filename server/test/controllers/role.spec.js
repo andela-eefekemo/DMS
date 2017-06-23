@@ -69,4 +69,90 @@ describe('Role', () => {
         });
     });
   });
+
+  describe('/VIEW role', () => {
+    it('should get list of roles', (done) => {
+      chai.request(server)
+        .get('/roles')
+        .set({ Authorization: adminToken })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message').eql('Roles found');
+          res.body.should.have.property('roles');
+          res.body.roles.length.should.eql(3);
+          done();
+        });
+    });
+  });
+
+  describe('/UPDATE roles', () => {
+    it('should update role', (done) => {
+      chai.request(server)
+        .put('/roles/3')
+        .set({ Authorization: adminToken })
+        .send({ description: 'has been updated' })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('updatedRole');
+          res.body.should.have.property(
+            'message').eql('Role successfully updated');
+          res.body.updatedRole.description.should.eql('has been updated');
+          done();
+        });
+    });
+
+    it('should fail if an empty input was sent', (done) => {
+      chai.request(server)
+        .put('/roles/3')
+        .set({ Authorization: adminToken })
+        .send({ description: '' })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.should.not.have.property('updatedRole');
+          res.body.error[0].should.have.property(
+            'msg').eql('Description is Required');
+          done();
+        });
+    });
+
+    it('should fail if role does not exist', (done) => {
+      chai.request(server)
+        .put('/roles/300')
+        .set({ Authorization: adminToken })
+        .send({ description: 'hello world' })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.not.have.property('updatedRole');
+          res.body.should.have.property(
+            'message').eql('Role not found');
+          done();
+        });
+    });
+  });
+
+  describe('/DELETE role', () => {
+    it('should delete role', (done) => {
+      chai.request(server)
+      .delete('/roles/3')
+      .set({ Authorization: adminToken })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('message').eql('Role has been deleted');
+        done();
+      });
+    });
+
+    it('should fail if role does not exist', (done) => {
+      chai.request(server)
+        .delete('/roles/3000')
+        .set({ Authorization: adminToken })
+        .send({ description: 'hello world' })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property(
+            'message').eql('Role not found');
+          done();
+        });
+    });
+  });
 });

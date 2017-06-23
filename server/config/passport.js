@@ -11,9 +11,9 @@ module.exports = (passport) => {
   jwtOptions.secretOrKey = process.env.SECRET;
 
   const strategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-    db.User.findOne({ where: { email: jwtPayload.email } })
+    return db.User.findOne({ where: { email: jwtPayload.email } })
       .then((user) => {
-        next(null, user);
+        return next(null, user);
       })
       .catch(() => next(null, false));
   });
