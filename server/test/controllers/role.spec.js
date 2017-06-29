@@ -17,7 +17,7 @@ describe('Role', () => {
       .send(testData.admin)
       .end((err, res) => {
         res.should.have.status(200);
-        adminToken = res.body.token;
+        adminToken = `JWT ${res.body.token}`;
         done();
       });
   });

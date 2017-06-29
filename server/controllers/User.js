@@ -40,7 +40,7 @@ class User {
                     res.status(200).send({
                       message: 'Signup successful',
                       userData: savedUser,
-                      token: `JWT ${token}`
+                      token
                     });
                   }).catch((error) => {
                     res.send(error);
@@ -82,7 +82,7 @@ class User {
             res.status(200).send({
               message: 'login successful',
               userData: user,
-              token: `JWT ${token}`
+              token
             });
           } else {
             res.status(401).send({ message: 'Invalid password' });
@@ -190,7 +190,7 @@ class User {
                     {
                       message: 'User information has been updated',
                       updatedUser,
-                      token: `JWT ${token}`
+                      token
                     });
                 }).catch((error) => {
                   res.status(400).send({

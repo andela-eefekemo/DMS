@@ -44,7 +44,4 @@ module.exports = (app) => {
     auth, authenticate.permitAdmin, userController.search);
   app.get('/search/documents',
     auth, documentController.search);
-  app.get('*', (req, res) => res.status(200).send({
-    message: 'Welcome to the beginning of nothingness.',
-  }));
 };

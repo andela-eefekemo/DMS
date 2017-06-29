@@ -27,7 +27,7 @@ describe('Document', () => {
       .send(testData.userEight)
       .end((err, res) => {
         savedUser = res.body.userData;
-        regularUserToken = res.body.token;
+        regularUserToken = `JWT ${res.body.token}`;
         res.should.have.status(200);
       });
     chai.request(server)
@@ -35,7 +35,7 @@ describe('Document', () => {
       .send(testData.userNine)
       .end((err, res) => {
         adminUser = res.body.userData;
-        adminToken = res.body.token;
+        adminToken = `JWT ${res.body.token}`;
         res.should.have.status(200);
       });
     chai.request(server)
@@ -43,7 +43,7 @@ describe('Document', () => {
       .send(testData.userTen)
       .end((err, res) => {
         contributorUser = res.body.userData;
-        contributorToken = res.body.token;
+        contributorToken = `JWT ${res.body.token}`;
         res.should.have.status(200);
         done();
       });
