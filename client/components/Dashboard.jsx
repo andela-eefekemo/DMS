@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Header from './include/Header';
+import Footer from './include/Footer';
 
 /**
  * @class Dashboard
@@ -37,7 +39,9 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
+        <Header />
         <h1>DashBoard</h1>
+        <Footer />
       </div>
     );
   }
