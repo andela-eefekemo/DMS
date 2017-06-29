@@ -18,20 +18,20 @@ module.exports = {
     lastName: 'Efe',
     email: 'efeeguono@gmail.com',
     password: 'eguono',
-    password1: 'eguono'
+    confirmPassword: 'eguono'
   },
   incompleteInfo: {
     firstName: 'Eguono',
     lastName: 'Efe',
     password: 'eguono',
-    password1: 'eguono'
+    confirmPassword: 'eguono'
   },
   userOne: {
     firstName: 'Eg',
     lastName: 'Efe',
     email: 'efeuono@gmail.com',
     password: 'eguono',
-    password1: 'eguono'
+    confirmPassword: 'eguono'
   },
   owner: {
     title: 'owner',
@@ -66,7 +66,7 @@ module.exports = {
     lastName: 'Efe',
     email: 'efeuno@gmail.com',
     password: 'eguono',
-    password1: 'eguono',
+    confirmPassword: 'eguono',
     roleId: 1
   },
   admin2: {
@@ -74,7 +74,7 @@ module.exports = {
     lastName: 'Efe',
     email: 'efeno@gmail.com',
     password: 'eguono',
-    password1: 'eguono',
+    confirmPassword: 'eguono',
     roleId: 1
   },
   updatedUser: {
@@ -82,35 +82,35 @@ module.exports = {
     lastName: 'Efekemo',
     email: 'jonah@gmail.com',
     password: 'eguono',
-    password1: 'eguono'
+    confirmPassword: 'eguono'
   },
   userFour: {
     firstName: 'Eguohene',
     lastName: 'Efemo',
     email: 'guono@gmail.com',
     password: 'eguono',
-    password1: 'eguono'
+    confirmPassword: 'eguono'
   },
   userFive: {
     firstName: 'Pretty',
     lastName: 'Girl',
     email: 'pretty@gmail.com',
     password: 'pretty',
-    password1: 'pretty'
+    confirmPassword: 'pretty'
   },
   userSix: {
     firstName: 'Fine',
     lastName: 'Girl',
     email: 'fine@gmail.com',
     password: 'finedd',
-    password1: 'finedd'
+    confirmPassword: 'finedd'
   },
   adminUser: {
     firstName: 'Hot',
     lastName: 'Girl',
     email: 'hot@gmail.com',
     password: 'hotgirl',
-    password1: 'hotgirl',
+    confirmPassword: 'hotgirl',
     roleId: 1
   },
   userSeven: {
@@ -118,21 +118,21 @@ module.exports = {
     lastName: 'Girlie',
     email: 'finer@gmail.com',
     password: 'finer',
-    password1: 'finer'
+    confirmPassword: 'finer'
   },
   userEight: {
     firstName: 'janet',
     lastName: 'doe',
     email: 'janetdoe@gmail.com',
     password: 'janed',
-    password1: 'janed'
+    confirmPassword: 'janed'
   },
   userNine: {
     firstName: 'janer',
     lastName: 'doe',
     email: 'janerdoe@gmail.com',
     password: 'janed',
-    password1: 'janed',
+    confirmPassword: 'janed',
     roleId: 1
   },
   userTen: {
@@ -140,7 +140,7 @@ module.exports = {
     lastName: 'doe',
     email: 'janeedoe@gmail.com',
     password: 'janed',
-    password1: 'janed',
+    confirmPassword: 'janed',
     roleId: 3
   },
   documentOne: {

@@ -1,0 +1,111 @@
+$primary-color: #1d32a8;
+$primary-color-light: lighten($primary-color, 15%);
+$primary-color-dark: darken($primary-color, 15%);
+$secondary-color: #7bc1ff;
+$primary-color2: #ab33b5;
+$secondary-color2: #f1e3ff;
+$background-color: #F5F5F6;
+$background-color2: #0F0F0F;
+$font-family: "Roboto";
+
+body {
+  background:linear-gradient(
+      rgba(0,0,0,0.5), 
+      rgba(0,0,0,0.5)
+    ), url('../img/dmsbackground.jpg') !important ;
+  
+}
+
+.auth-card{
+  max-height: 200px;
+  max-width: 400px;
+  vertical-align: middle;
+  margin-top: 50px;
+  background: $primary-color;
+  font-family: $font-family;
+}
+
+.form-design{
+  margin-bottom: -20px;
+}
+
+.nav-design{
+  background: $primary-color;
+  padding-left: 30px;
+  font-family: $font-family;
+}
+
+.tabs {
+  .indicator {
+    background-color: $primary-color;
+  }
+
+  .tab {
+    a {
+      color: $primary-color !important;
+
+      &:hover,
+      &:focus,
+      .active {
+        color: $primary-color !important;
+      }
+    }
+  }
+}
+
+input-field input, input[type=text]{
+  border-bottom: 1px solid $primary-color!important;
+}
+.input-field i{
+  color: $primary-color;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label,
+.input-field input[type=password]:focus + label,
+.input-field input[type=email]:focus + label,
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus{
+  color: $primary-color;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus,
+.input-field input[type=password]:focus,
+.input-field input[type=email]:focus,
+input[type=text]:focus,
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=search]:focus,
+input[type=email]:focus,
+input[type=text]:focus:not([readonly]),
+input[type=search]:focus:not([readonly]){
+  border-bottom: 1px solid $primary-color;
+  box-shadow: 0 1px 0 0 $primary-color;
+}
+/* valid color */
+.input-field input[type=text].valid,
+input[type=text].valid,
+input[type=email].valid {
+  border-bottom: 1px solid $primary-color;
+  box-shadow: 0 1px 0 0 $primary-color;
+}
+/* invalid color */
+.input-field input[type=text].invalid,
+input[type=email].invalid,
+input[type=password].invalid{
+  border-bottom: 1px solid $primary-color;
+  box-shadow: 0 1px 0 0 $primary-color;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: $primary-color;
+}
+
+.button-design{
+  background-color: $primary-color-light;
+  color: white;
+  &:hover{
+    background-color: $primary-color-light;
+    color: white;
+  }
+}

@@ -28,7 +28,7 @@ describe('User', () => {
       .send(testData.userFive)
       .end((err, res) => {
         savedUser5 = res.body.userData;
-        userToken5 = res.body.token;
+        userToken5 = `JWT ${res.body.token}`;
         res.should.have.status(200);
       });
     chai.request(server)
@@ -36,7 +36,7 @@ describe('User', () => {
       .send(testData.userSix)
       .end((err, res) => {
         fineUser = res.body.userData;
-        fineToken = res.body.token;
+        fineToken = `JWT ${res.body.token}`;
         res.should.have.status(200);
       });
     chai.request(server)
@@ -44,7 +44,7 @@ describe('User', () => {
       .send(testData.userFour)
       .end((err, res) => {
         hotAdmin = res.body.userData;
-        hotToken = res.body.token;
+        hotToken = `JWT ${res.body.token}`;
         res.should.have.status(200);
       });
     chai.request(server)
@@ -52,7 +52,7 @@ describe('User', () => {
       .send(testData.admin2)
       .end((err, res) => {
         res.should.have.status(200);
-        adminToken = res.body.token;
+        adminToken = `JWT ${res.body.token}`;
         adminUser = res.body.userData;
         done();
       });
@@ -79,7 +79,7 @@ describe('User', () => {
         .send(testData.newUser)
         .end((err, res) => {
           savedUser = res.body.userData;
-          userToken = res.body.token;
+          userToken = `JWT ${res.body.token}`;
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('userData');
@@ -101,7 +101,7 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('token');
-          res.body.token.should.be.a('string');
+          `JWT ${res.body.token}`.should.be.a('string');
           done();
         });
     });
@@ -144,7 +144,7 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('token');
-          res.body.token.should.be.a('string');
+          `JWT ${res.body.token}`.should.be.a('string');
           done();
         });
     });
@@ -311,7 +311,7 @@ describe('User', () => {
         .send({ email: 'jonah@gmail.com' })
         .set({ Authorization: adminToken })
         .end((err, res) => {
-          updatedToken = res.body.token;
+          updatedToken = `JWT ${res.body.token}`;
           updatedUser = res.body.updatedUser;
           res.should.have.status(200);
           res.body.should.have.property('updatedUser');

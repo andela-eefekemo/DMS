@@ -20,9 +20,9 @@ class Validate {
         const password = req.body[element];
         req.checkBody('password', 'Password is Required').notEmpty();
       }
-      if (element === 'password1') {
-        const password1 = req.body[element];
-        req.checkBody('password1', 'Passwords do not match').equals(
+      if (element === 'confirmPassword') {
+        const confirmPassword = req.body[element];
+        req.checkBody('confirmPassword', 'Passwords do not match').equals(
           req.body.password);
       }
       if (element === 'firstName') {
@@ -45,7 +45,7 @@ class Validate {
    * @memberof Validate
    */
   static user(req) {
-    let firstName, lastName, email, password, password1;
+    let firstName, lastName, email, password, confirmPassword;
     if (!req.body.firstName || !req.body.firstName) {
       email = req.body.email;
       password = req.body.password;
@@ -56,7 +56,7 @@ class Validate {
       lastName = req.body.lastName;
       email = req.body.email;
       password = req.body.password;
-      password1 = req.body.password1;
+      confirmPassword = req.body.confirmPassword;
       req.checkBody('firstName', 'Last Name is Required').notEmpty();
       req.checkBody('firstName', 'Must be alphabets').isAlpha();
       req.checkBody('lastName', 'Last Name is Required').notEmpty();
@@ -64,7 +64,7 @@ class Validate {
       req.checkBody('email', 'Email is Required').notEmpty();
       req.checkBody('email', 'Email is not valid').isEmail();
       req.checkBody('password', 'Password is Required').notEmpty();
-      req.checkBody('password1', 'Passwords do not match').equals(password);
+      req.checkBody('confirmPassword', 'Passwords do not match').equals(password);
     }
   }
 
@@ -136,7 +136,7 @@ class Validate {
         req.checkBody('content', 'Content is Required').notEmpty();
       }
       if (element === 'access') {
-        const password1 = req.body[element];
+        const confirmPassword = req.body[element];
         req.checkBody('access', 'Invalid Access Type').isAlpha().notEmpty();
       }
     });
