@@ -29,7 +29,7 @@ InputField.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired
+  label: PropTypes.string
 };
 
 export default InputField;

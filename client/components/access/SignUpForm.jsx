@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import AccessActions from '../../actions/AccessActions';
 import InputField from '../common/InputField';
@@ -73,13 +74,13 @@ class SignUpForm extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
-        <h5 className="center"> Join our Community!</h5>
+        <h5 className="center"> Create an account </h5>
         <div className="row">
           <div className="col l6 m6 s12">
             <InputField
               name="firstName"
               value={this.state.firstName}
-              label="First Name"
+              placeholder="First Name"
               className="validate form-design"
               type="text" onChange={this.onChange} />
           </div>
@@ -87,7 +88,7 @@ class SignUpForm extends Component {
             <InputField
               name="lastName"
               value={this.state.lastName}
-              label="Last Name"
+              placeholder="Last Name"
               className="validate form-design"
               type="text" onChange={this.onChange} />
           </div>
@@ -95,7 +96,7 @@ class SignUpForm extends Component {
             <InputField
               name="email"
               value={this.state.email}
-              label="Email"
+              placeholder="Email"
               className="validate form-design"
               type="email" onChange={this.onChange} />
           </div>
@@ -103,7 +104,7 @@ class SignUpForm extends Component {
             <InputField
               name="password"
               value={this.state.password}
-              label="Password"
+              placeholder="Password"
               className="validate form-design"
               type="password" onChange={this.onChange} />
           </div>
@@ -111,7 +112,7 @@ class SignUpForm extends Component {
             <InputField
               name="confirmPassword"
               value={this.state.confirmPassword}
-              label="Re-Type Password"
+              placeholder="Re-Type Password"
               className="validate form-design"
               type="password" onChange={this.onChange} />
           </div>
@@ -121,6 +122,7 @@ class SignUpForm extends Component {
             Sign Up
           </button>
         </div>
+        <p className="center">Have an account? <Link to="signin">Sign In</Link></p>
       </form>
     );
   }

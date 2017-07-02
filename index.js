@@ -12,6 +12,8 @@ import config from './webpack.config';
 let port = process.env.PORT || 3000;
 let homepage = `${__dirname}/client/index.html`;
 
+process.env.NODE_ENV = 'development';
+
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(config);
   app.use(require('webpack-dev-middleware')(compiler, {

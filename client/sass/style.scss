@@ -1,4 +1,4 @@
-$primary-color: #1d32a8;
+$primary-color: white;
 $primary-color-light: lighten($primary-color, 15%);
 $primary-color-dark: darken($primary-color, 15%);
 $secondary-color: #7bc1ff;
@@ -6,33 +6,47 @@ $primary-color2: #ab33b5;
 $secondary-color2: #f1e3ff;
 $background-color: #F5F5F6;
 $background-color2: #0F0F0F;
-$font-family: "Roboto";
+$font-family: "Gotham SSm",sans-serif;
 
 body {
-  background:linear-gradient(
-      rgba(0,0,0,0.5), 
-      rgba(0,0,0,0.5)
-    ), url('../img/dmsbackground.jpg') !important ;
-  
+  background: black;
 }
 
 .auth-card{
   max-height: 200px;
-  max-width: 400px;
-  vertical-align: middle;
-  margin-top: 50px;
-  background: $primary-color;
+  width: 350px;
+  margin:auto !important;
+  margin-top: 23% !important;
   font-family: $font-family;
+  form{
+    p{
+      color:white;
+      margin:auto !important;
+      margin-top: 12px !important;
+      font-size: 14px;
+    }
+  }
 }
 
 .form-design{
-  margin-bottom: -20px;
+  margin-bottom: -2px !important;
 }
 
 .nav-design{
-  background: $primary-color;
-  padding-left: 30px;
+  background: #ffffff;
+  padding-left: 70px;
+  padding-right: 70px;
+  box-shadow: none !important;
+}
+
+.brand-logo{
+  color: black !important;
   font-family: $font-family;
+  font-size: 15px;
+}
+.brand-img{
+  height:30px;
+  width:60px;
 }
 
 .tabs {
@@ -102,10 +116,85 @@ input[type=password].invalid{
 }
 
 .button-design{
-  background-color: $primary-color-light;
-  color: white;
+  background-color: #E6E6E6;
+  color: black;
+  width: 100%;
+  font-family: $font-family;
+  font-size: 12px !important;
   &:hover{
-    background-color: $primary-color-light;
+    background-color: #ccc9c9;
+    color: black;
+  }
+}
+
+.landing-page{
+  background: #ffffff !important;
+}
+.signup-button{
+  background:black;
+  height:50px !important;
+  margin-top:8px !important;
+  a{
+    padding: 0px 40px;
+    margin-top: -5px;
+    font-family: $font-family;
+    font-size: 12px !important;
+  }
+}
+.signin-button{
+  height:50px !important;
+  margin-top:8px !important;
+  margin-right:5px !important;
+  a{
+    color:black;
+    padding: 0px 40px;
+    margin-top: -5px;
+    font-family: $font-family;
+    font-size: 12px !important;
+  }
+}
+
+.section{
+  min-width: 1024px;
+  margin-left: 20px;
+  margin-right: 20px;
+  min-height: 645px;
+  margin-top: -10px !important;
+}
+
+.carousel{
+  min-height: 645px !important;
+}
+.landing-content{
+  margin-top:10%;
+  margin-right: 78%; 
+  a{
+    background:black;
+    padding: 18px 40px;
+    margin-top: -5px;
+    font-family: $font-family;
+    font-size: 15px !important;
     color: white;
   }
+}
+
+.inner-slide{
+  float: right;
+  margin-right: 4%;
+  margin-bottom: 10%; 
+  height: 300px;
+  width: 500px;
+  background: black;
+  img{
+    height: 300px;
+    width: 500px;
+  }
+}
+
+.slide-img{
+  max-height: 645px
+}
+
+.authpage{
+  background: black;
 }

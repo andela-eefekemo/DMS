@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import AccessActions from '../../actions/AccessActions';
 import InputField from '../common/InputField';
@@ -66,15 +67,15 @@ class SignInForm extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
-        <h5 className="center"> Sign In!</h5>
+        <h5 className="center"> Log into Doc MS</h5>
         <InputField
           name="email"
-          label="Email"
+          placeholder="Email"
           className="validate form-design"
           type="email" onChange={this.onChange} />
         <InputField
           name="password"
-          label="Password"
+          placeholder="Password"
           className="validate form-design"
           type="password" onChange={this.onChange} />
         <div className="input-field center">
@@ -82,6 +83,7 @@ class SignInForm extends Component {
             Sign In
           </button>
         </div>
+        <p className="center">Don't Have an account? <Link to="signup">Create an Account</Link></p>
       </form>
     );
   }
