@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import Header from '../include/Header';
+
+import SignInForm from './SignInForm';
+import SignUpForm from './SignUpForm';
+
 
 /**
  * @class LandingContainer
@@ -19,7 +24,10 @@ class AuthPage extends Component {
         <Header match={this.props.match} />
         <div className="container authpage">
           <div className="row auth-card">
-            {this.props.children}
+            <Switch>
+              <Route exact path={`${this.props.match.path}/signin`} component={SignInForm} />
+              <Route exact path={`${this.props.match.path}/signup`} component={SignUpForm} />
+            </Switch>
           </div>
         </div>
       </div>

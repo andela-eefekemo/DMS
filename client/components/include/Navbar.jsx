@@ -12,28 +12,48 @@ const NavBar = ({ match }) => {
             <i className="material-icons">menu</i>
           </Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li className="signin-button"><Link to="/signin">LOG IN</Link></li>
+            <li className="signin-button"><Link to="/auth/signin">LOG IN</Link></li>
             <li className="signup-button">
-              <Link to="/signup">GET STARTED</Link>
+              <Link to="/auth/signup">GET STARTED</Link>
             </li>
           </ul>
           <ul className="side-nav" id="mobile-demo">
-            <li><Link to="/signin">LOG IN</Link></li>
-            <li><Link to="/signup">GET STARTED</Link></li>
+            <li><Link to="/auth/signin">LOG IN</Link></li>
+            <li><Link to="/auth/signup">GET STARTED</Link></li>
           </ul>
         </div>
       </nav>
     );
   }
   if (match.url === '/auth') {
-    return (<nav className="nav-extended nav-design">
-      <div className="nav-wrapper">
-        <Link to="/" className="brand-logo"><img className="brand-img" src="../../img/logo2.jpg" /> ms</Link>
-        <Link to="" data-activates="mobile-demo" className="button-collapse">
-          <i className="material-icons">menu</i>
-        </Link>
-      </div>
-    </nav>
+    console.log(match);
+    return (
+      <nav className="nav-extended nav-design">
+        <div className="nav-wrapper">
+          <Link to="/" className="brand-logo"><img className="brand-img" src="../../img/logo2.jpg" /> ms</Link>
+          <Link to="" data-activates="mobile-demo" className="button-collapse">
+            <i className="material-icons">menu</i>
+          </Link>
+        </div>
+      </nav>
+    );
+  }
+  if (match.url === '/dashboard') {
+    return (
+      <nav className="nav-extended nav-design">
+        <div className="nav-wrapper">
+          <Link to="/" className="brand-logo"><img className="brand-img" src="../../img/logo2.jpg" /> ms</Link>
+          <Link to="" data-activates="mobile-demo" className="button-collapse">
+            <i className="material-icons">menu</i>
+          </Link>
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li className="signin-button"><Link to="/signout">LOG OUT</Link></li>
+          </ul>
+          <ul className="side-nav" id="mobile-demo">
+            <li><Link to="/auth/signin">LOG OUT</Link></li>
+          </ul>
+        </div>
+      </nav>
     );
   }
 };

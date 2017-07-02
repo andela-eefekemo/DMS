@@ -38,8 +38,8 @@ class Dashboard extends Component {
    */
   render() {
     return (
-      <div>
-        <Header />
+      <div className="dashboard">
+        <Header match={this.props.match} />
         <h1>DashBoard</h1>
         <Footer />
       </div>
