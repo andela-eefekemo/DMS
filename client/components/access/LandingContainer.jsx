@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../include/Header';
 import SectionDisplay from './SectionDisplay';
 
@@ -8,6 +9,11 @@ import SectionDisplay from './SectionDisplay';
  * @extends {Component}
  */
 class LandingContainer extends Component {
+  /**
+   * Creates an instance of LandingContainer.
+   * @param {any} props -
+   * @memberof LandingContainer
+   */
   constructor(props) {
     super(props);
   }
@@ -18,6 +24,9 @@ class LandingContainer extends Component {
   componentDidMount() {
     $('.tabs').tabs();
     $('.carousel.carousel-slider').carousel({ fullWidth: true });
+    if (this.props.access.isAuthenticated === true) {
+      this.context.router.history.push('/dashboard');
+    }
   }
 
   /**
@@ -34,4 +43,19 @@ class LandingContainer extends Component {
   }
 }
 
-export default LandingContainer;
+const mapPropsToState = (state) => {
+  return {
+    access: state.access
+  };
+};
+
+LandingContainer.propTypes = {
+  access: PropTypes.object.isRequired
+};
+
+LandingContainer.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
+
+export default connect(mapPropsToState)(LandingContainer);

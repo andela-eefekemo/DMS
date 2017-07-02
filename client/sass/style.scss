@@ -3,7 +3,8 @@ $primary-color-light: lighten($primary-color, 15%);
 $primary-color-dark: darken($primary-color, 15%);
 $secondary-color: #7bc1ff;
 $primary-color2: #ab33b5;
-$secondary-color2: #f1e3ff;
+$secondary-color2: #ccc9c9
+;
 $background-color: #F5F5F6;
 $background-color2: #0F0F0F;
 $font-family: "Gotham SSm",sans-serif;
@@ -26,6 +27,9 @@ body {
       margin-top: 12px !important;
       font-size: 14px;
     }
+    h5{
+      color:white;
+    }
   }
 }
 
@@ -33,11 +37,15 @@ body {
   margin-bottom: -2px !important;
 }
 
-.nav-design{
+.nav-design,
+.dashboard-nav{
   background: #ffffff;
   padding-left: 70px;
   padding-right: 70px;
   box-shadow: none !important;
+}
+.dashboard-nav{
+  background-color:transparent !important;
 }
 
 .brand-logo{
@@ -208,4 +216,40 @@ input[type=password].invalid{
   left: 0;
   top: 0;
   overflow: auto;
+}
+@media only screen and (min-width: 996px) {
+    .dashboard-margin{
+  margin-left: 300px;
+}
+}
+
+.side-logo{
+  margin-top: 25px;
+}
+#slide-out{
+  box-shadow:none !important;
+  margin: auto !important;
+}
+.user-card{
+  width:90%;
+  height: 90%;
+  background: $secondary-color2;
+  margin: auto;
+}
+.profile{
+  .row,
+  .col{
+    margin: 0 auto !important;
+    float: initial !important;
+  }
+}
+
+.user-action{
+  margin-top: 20% !important;
+  a,
+  button{
+    box-shadow: none !important;
+    border-top-color: white;
+    margin: auto;
+  }
 }

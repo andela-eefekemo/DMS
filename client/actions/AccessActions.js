@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import * as actionTypes from './actionTypes';
 import setAuthorizationToken from '../utilities/setAuthorizationToken';
 
 /**
@@ -21,13 +22,13 @@ class AccessActions {
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
             dispatch({
-              type: 'SIGNUP_USER',
+              type: actionTypes.SIGN_UP_USER,
               user: response.data.userData
             });
           } else {
             dispatch({
-              type: 'SIGNUP_ERROR',
-              error: response.data.message
+              type: actionTypes.ACCESS_ERROR,
+              error: 'There was an error, please try again'
             });
           }
         }).catch((error) => {
@@ -51,13 +52,13 @@ class AccessActions {
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
             dispatch({
-              type: 'SIGNIN_USER',
+              type: actionTypes.SIGN_IN_USER,
               user: response.data.userData
             });
           } else {
             dispatch({
-              type: 'SIGNIN_ERROR',
-              error: response.data.error
+              type: actionTypes.ACCESS_ERROR,
+              error: 'There was an error, please try again'
             });
           }
         }).catch((error) => {
@@ -77,7 +78,7 @@ class AccessActions {
         .then((response) => {
           localStorage.removeItem('jwToken');
           dispatch({
-            type: 'SIGNOUT_USER',
+            type: actionTypes.SIGN_OUT_USER,
             message: response.data.message
           });
         }).catch((error) => {

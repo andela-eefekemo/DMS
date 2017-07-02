@@ -1,0 +1,120 @@
+import axios from 'axios';
+import * as actionTypes from './actionTypes';
+
+/**
+ * @class RoleActions
+ */
+class RoleActions {
+  /**
+   * @static
+   * @param {any} roleContent -
+   * @returns {promise} -
+   * @memberof RoleActions
+   */
+  static createRole(roleContent) {
+    return (dispatch) => {
+      return axios.post('/roles', roleContent)
+        .then((response) => {
+          if (response.data.message === 'Role Created') {
+            return dispatch({
+              type: actionTypes.ROLE_CREATED,
+              role: response.data.savedRole
+            });
+          }
+          return dispatch({
+            type: actionTypes.ROLE_ERROR,
+            message: 'There was an error please try again'
+          });
+        }).catch((err) => {
+          throw err;
+        });
+    };
+  }
+
+  /**
+   * @static
+   * @returns {promise} -
+   * @memberof RoleActions
+   */
+  static viewRole() {
+    return (dispatch) => {
+      return axios.get('roles')
+        .then((response) => {
+          if (response.data.message === 'Roles found') {
+            return dispatch({
+              type: actionTypes.VIEW_ROLE,
+              role: response.data.roles
+            });
+          }
+          return dispatch({
+            type: actionTypes.ROLE_ERROR,
+            message: 'There was an error please try again'
+          });
+        }).catch((err) => {
+          throw err;
+        });
+    };
+  }
+
+  /**
+   * @static
+   * @param {any} roleContent -
+   * @param {any} id -
+   * @returns {promise} -
+   * @memberof RoleActions
+   */
+  static updateRole(roleContent, id) {
+    return (dispatch) => {
+      return axios.put(`/roles/${id}`)
+        .then((response) => {
+          if (response.data.message === 'Role has been updated') {
+            return dispatch({
+              type: actionTypes.ROLE_UPDATED,
+              updatedRole: response.data.updatedRole
+            });
+          }
+          if (response.data.message ===
+              "we're sorry, role title must be unique") {
+            return dispatch({
+              type: actionTypes.ROLE_UPDATE_ERROR,
+              message: 'Role title must be unique, please rename role'
+            });
+          }
+          return dispatch({
+            type: actionTypes.ROLE_ERROR,
+            message: 'There was an error please try again'
+          });
+        }).catch((err) => {
+          throw err;
+        });
+    };
+  }
+
+  /**
+   * @static
+   * @param {any} id -
+   * @returns {promise} -
+   * @memberof RoleActions
+   */
+  static deleteRole(id) {
+    return (dispatch) => {
+      return axios.delete(`/roles/${id}`)
+      .then((response) => {
+        if (response.data.message === 'Role has been deleted') {
+          return dispatch({
+            type: actionTypes.ROLE_DELETED,
+            message: 'Role has been deleted'
+          });
+        }
+        return dispatch({
+          type: actionTypes.ROLE_ERROR,
+          message: 'There was an error please try again'
+        });
+      }).catch((err) => {
+        throw err;
+      });
+    };
+  }
+}
+
+export default RoleActions;

@@ -67,7 +67,7 @@ class SignInForm extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
-        <h5 className="center"> Log into Doc MS</h5>
+        <h5 className="center"> Log Into Doc-ms</h5>
         <InputField
           name="email"
           placeholder="Email"

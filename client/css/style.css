@@ -13,15 +13,21 @@ body {
     margin: auto !important;
     margin-top: 12px !important;
     font-size: 14px; }
+  .auth-card form h5 {
+    color: white; }
 
 .form-design {
   margin-bottom: -2px !important; }
 
-.nav-design {
+.nav-design,
+.dashboard-nav {
   background: #ffffff;
   padding-left: 70px;
   padding-right: 70px;
   box-shadow: none !important; }
+
+.dashboard-nav {
+  background-color: transparent !important; }
 
 .brand-logo {
   color: black !important;
@@ -168,5 +174,35 @@ input[type=password].invalid {
   left: 0;
   top: 0;
   overflow: auto; }
+
+@media only screen and (min-width: 996px) {
+  .dashboard-margin {
+    margin-left: 300px; } }
+
+.side-logo {
+  margin-top: 25px; }
+
+#slide-out {
+  box-shadow: none !important;
+  margin: auto !important; }
+
+.user-card {
+  width: 90%;
+  height: 90%;
+  background: #ccc9c9;
+  margin: auto; }
+
+.profile .row,
+.profile .col {
+  margin: 0 auto !important;
+  float: initial !important; }
+
+.user-action {
+  margin-top: 20% !important; }
+  .user-action a,
+  .user-action button {
+    box-shadow: none !important;
+    border-top-color: white;
+    margin: auto; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuL2Nzcy9zdHlsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/

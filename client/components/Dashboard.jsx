@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './include/Header';
+import SideBar from './include/sideBar';
 import Footer from './include/Footer';
-
+import UserContainer from './user/UserContainer';
 /**
  * @class Dashboard
  * @extends {Component}
@@ -39,9 +40,13 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="dashboard">
-        <Header match={this.props.match} />
-        <h1>DashBoard</h1>
-        <Footer />
+        <SideBar />
+        <div className="dashboard-margin">
+          <Header match={this.props.match} />
+          <h1>DashBoard</h1>
+          <UserContainer />
+          <Footer />
+        </div>
       </div>
     );
   }

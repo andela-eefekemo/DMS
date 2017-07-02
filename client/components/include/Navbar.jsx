@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const NavBar = ({ match }) => {
+const NavBar = ({ match, onClick }) => {
   if (match.url === '/') {
     return (
       <nav className="nav-extended nav-design">
@@ -26,31 +26,26 @@ const NavBar = ({ match }) => {
     );
   }
   if (match.url === '/auth') {
-    console.log(match);
     return (
       <nav className="nav-extended nav-design">
         <div className="nav-wrapper">
           <Link to="/" className="brand-logo"><img className="brand-img" src="../../img/logo2.jpg" /> ms</Link>
-          <Link to="" data-activates="mobile-demo" className="button-collapse">
-            <i className="material-icons">menu</i>
-          </Link>
         </div>
       </nav>
     );
   }
   if (match.url === '/dashboard') {
     return (
-      <nav className="nav-extended nav-design">
+      <nav className="nav-extended dashboard-nav navbar-fixed">
         <div className="nav-wrapper">
-          <Link to="/" className="brand-logo"><img className="brand-img" src="../../img/logo2.jpg" /> ms</Link>
           <Link to="" data-activates="mobile-demo" className="button-collapse">
             <i className="material-icons">menu</i>
           </Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li className="signin-button"><Link to="/signout">LOG OUT</Link></li>
+            <li className="signin-button"><Link to="/signout" onClick={onClick}>LOG OUT</Link></li>
           </ul>
           <ul className="side-nav" id="mobile-demo">
-            <li><Link to="/auth/signin">LOG OUT</Link></li>
+            <li><Link to="/signout" onClick={onClick}>LOG OUT</Link></li>
           </ul>
         </div>
       </nav>

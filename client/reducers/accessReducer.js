@@ -1,17 +1,18 @@
+import * as actionTypes from '../actions/actionTypes';
+
 const accessReducer = (
   state = { isAuthenticated: false, user: {}, error: null }, action) => {
   switch (action.type) {
-    case 'SIGNUP_USER':
-    case 'SIGNIN_USER':
+    case actionTypes.SIGN_UP_USER:
+    case actionTypes.SIGN_IN_USER:
     case 'LOGGEDIN_USER':
       return {
         isAuthenticated: true,
         user: action.user,
         error: null
       };
-    case 'SIGNUP_ERROR':
-    case 'SIGNIN_ERROR':
-    case 'SIGNOUT_USER':
+    case actionTypes.SIGN_OUT_USER:
+    case actionTypes.ERROR:
       return {
         isAuthenticated: false,
         user: {},
