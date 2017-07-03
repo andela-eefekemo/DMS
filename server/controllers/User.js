@@ -1,6 +1,6 @@
 import db from '../models';
 import validate from '../helpers/Validate';
-import authenticate from '../helpers/authenticate';
+import authenticate from '../helpers/Authenticate';
 import paginate from '../helpers/paginate';
 
 /**
