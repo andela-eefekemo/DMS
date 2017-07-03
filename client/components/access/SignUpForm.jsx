@@ -46,7 +46,9 @@ class SignUpForm extends Component {
       }
       this.props.signUpUser(this.state)
         .then(() => {
-          debugger;
+          if (this.props.access.message) {
+            return Materialize.toast(this.props.access.message, 2000, 'indigo darken-4 white-text rounded');
+          }
           Materialize.toast('Success!', 2000, 'indigo darken-4 white-text rounded');
           this.context.router.history.push('/dashboard');
         });
@@ -128,6 +130,12 @@ class SignUpForm extends Component {
   }
 }
 
+const mapPropsToState = (state) => {
+  return {
+    access: state.access
+  };
+};
+
 SignUpForm.propTypes = {
   signUpUser: PropTypes.func.isRequired
 };
@@ -136,4 +144,4 @@ SignUpForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default connect(null, { signUpUser })(SignUpForm);
+export default connect(mapPropsToState, { signUpUser })(SignUpForm);

@@ -53,7 +53,6 @@ class UserContainer extends Component {
     //   }
     // this.props.signUpUser(this.state)
     //     .then(() => {
-    //       debugger;
     //       Materialize.toast('Success!', 2000, 'indigo darken-4 white-text rounded');
     //       this.context.router.history.push('/dashboard');
     //     });

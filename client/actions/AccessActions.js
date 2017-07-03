@@ -31,8 +31,11 @@ class AccessActions {
               error: 'There was an error, please try again'
             });
           }
-        }).catch((error) => {
-          throw error;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ACCESS_ERROR,
+            error: 'There was an error, please try again'
+          });
         });
     };
   }
@@ -47,22 +50,30 @@ class AccessActions {
     return (dispatch) => {
       return axios.post('/users/login', userDetails)
         .then((response) => {
-          if (!response.data.error) {
+          if (response.data.message === 'login successful') {
             setAuthorizationToken(response.data.token);
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
-            dispatch({
+            return dispatch({
               type: actionTypes.SIGN_IN_USER,
               user: response.data.userData
             });
-          } else {
-            dispatch({
-              type: actionTypes.ACCESS_ERROR,
-              error: 'There was an error, please try again'
+          }
+          if (response.data.message === 'User does not exist') {
+            return dispatch({
+              type: actionTypes.USER_DOES_NOT_EXIST,
+              message: 'User does not exist'
             });
           }
-        }).catch((error) => {
-          throw error;
+          return dispatch({
+            type: actionTypes.ACCESS_ERROR,
+            error: 'There was an error, please try again'
+          });
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ACCESS_ERROR,
+            message: 'There was an error, please try again'
+          });
         });
     };
   }
@@ -81,8 +92,11 @@ class AccessActions {
             type: actionTypes.SIGN_OUT_USER,
             message: response.data.message
           });
-        }).catch((error) => {
-          throw error;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ACCESS_ERROR,
+            error: 'There was an error, please try again'
+          });
         });
     };
   }

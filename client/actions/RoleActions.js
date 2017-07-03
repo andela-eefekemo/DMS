@@ -25,8 +25,11 @@ class RoleActions {
             type: actionTypes.ROLE_ERROR,
             message: 'There was an error please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ROLE_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -43,15 +46,18 @@ class RoleActions {
           if (response.data.message === 'Roles found') {
             return dispatch({
               type: actionTypes.VIEW_ROLE,
-              role: response.data.roles
+              roleList: response.data.roles
             });
           }
           return dispatch({
             type: actionTypes.ROLE_ERROR,
             message: 'There was an error please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ROLE_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -70,11 +76,11 @@ class RoleActions {
           if (response.data.message === 'Role has been updated') {
             return dispatch({
               type: actionTypes.ROLE_UPDATED,
-              updatedRole: response.data.updatedRole
+              role: response.data.updatedRole
             });
           }
           if (response.data.message ===
-              "we're sorry, role title must be unique") {
+            "we're sorry, role title must be unique") {
             return dispatch({
               type: actionTypes.ROLE_UPDATE_ERROR,
               message: 'Role title must be unique, please rename role'
@@ -84,8 +90,11 @@ class RoleActions {
             type: actionTypes.ROLE_ERROR,
             message: 'There was an error please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ROLE_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -99,20 +108,23 @@ class RoleActions {
   static deleteRole(id) {
     return (dispatch) => {
       return axios.delete(`/roles/${id}`)
-      .then((response) => {
-        if (response.data.message === 'Role has been deleted') {
+        .then((response) => {
+          if (response.data.message === 'Role has been deleted') {
+            return dispatch({
+              type: actionTypes.ROLE_DELETED,
+              message: 'Role has been deleted'
+            });
+          }
           return dispatch({
-            type: actionTypes.ROLE_DELETED,
-            message: 'Role has been deleted'
+            type: actionTypes.ROLE_ERROR,
+            message: 'There was an error please try again'
           });
-        }
-        return dispatch({
-          type: actionTypes.ROLE_ERROR,
-          message: 'There was an error please try again'
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ROLE_ERROR,
+            message: 'There was an error please try again'
+          });
         });
-      }).catch((err) => {
-        throw err;
-      });
     };
   }
 }

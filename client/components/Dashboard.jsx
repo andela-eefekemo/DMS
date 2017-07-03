@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Switch, Route } from 'react-router-dom';
+
 import Header from './include/Header';
 import SideBar from './include/sideBar';
 import Footer from './include/Footer';
 import UserContainer from './user/UserContainer';
+import DocumentContainer from './documents/DocumentContainer';
+import RoleContainer from './role/RoleContainer';
+
 /**
  * @class Dashboard
  * @extends {Component}
@@ -33,6 +38,8 @@ class Dashboard extends Component {
         'indigo darken-4 white-text rounded');
     }
   }
+
+  
   /**
    * @return {jsx} -
    * @memberof Dashboard
@@ -40,11 +47,20 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="dashboard">
-        <SideBar />
+        <SideBar match={this.props.match} />
         <div className="dashboard-margin">
           <Header match={this.props.match} />
           <h1>DashBoard</h1>
-          <UserContainer />
+          <Switch>
+            <Route
+              path={`${this.props.match.url}/document`}
+              component={DocumentContainer} />
+            <Route
+              path={`${this.props.match.url}/role`}
+              component={RoleContainer} />
+            <Route
+              exact path={this.props.match.url} component={UserContainer} />
+          </Switch>
           <Footer />
         </div>
       </div>

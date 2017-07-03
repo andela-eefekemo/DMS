@@ -41,6 +41,9 @@ class SignInForm extends Component {
       }
       this.props.signInUser(this.state)
         .then(() => {
+          if (this.props.access.message) {
+            return Materialize.toast(this.props.access.message, 2000, 'indigo darken-4 white-text rounded');
+          }
           Materialize.toast('Success!', 2000, 'indigo darken-4 white-text rounded');
           this.context.router.history.push('/dashboard');
         });
@@ -89,6 +92,12 @@ class SignInForm extends Component {
   }
 }
 
+const mapPropsToState = (state) => {
+  return {
+    access: state.access
+  };
+};
+
 SignInForm.propTypes = {
   signInUser: PropTypes.func.isRequired
 };
@@ -97,4 +106,4 @@ SignInForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default connect(null, { signInUser })(SignInForm);
+export default connect(mapPropsToState, { signInUser })(SignInForm);

@@ -19,15 +19,18 @@ class UserActions {
           if (response.data.message === 'Users found') {
             return dispatch({
               type: actionTypes.GET_USERS_LIST,
-              users: response.data.userList
+              userList: response.data.userList
             });
           }
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -52,8 +55,11 @@ class UserActions {
             type: actionTypes.ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -74,41 +80,18 @@ class UserActions {
           if (response.data.message === 'Users found') {
             return dispatch({
               type: actionTypes.SEARCH_USERS,
-              usersList: response.data.usersList
+              userList: response.data.userList
             });
           }
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
-        });
-    };
-  }
-
-  /**
-   * @static
-   * @param {any} id -
-   * @returns {promise} -
-   * @memberof UserActions
-   */
-  static getUserDocuments(id) {
-    return (dispatch) => {
-      return axios.get(`/users/${id}`)
-        .then((response) => {
-          if (response.data.message === 'Documents found') {
-            return dispatch({
-              type: actionTypes.USER_DOCUMENTS,
-              documentList: response.data.documnents
-            });
-          }
+        }).catch(() => {
           return dispatch({
             type: actionTypes.ERROR,
-            message: 'There was an error, please try again'
+            message: 'There was an error please try again'
           });
-        }).catch((err) => {
-          throw err;
         });
     };
   }
@@ -134,7 +117,7 @@ class UserActions {
           if (response.data.message === 'User information has been updated') {
             return dispatch({
               type: actionTypes.UPDATE_USER_SUCCESS,
-              updatedUser: response.data.updatedUser,
+              user: response.data.updatedUser,
               token: response.data.token
             });
           }
@@ -142,8 +125,11 @@ class UserActions {
             type: actionTypes.ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -168,8 +154,11 @@ class UserActions {
             type: actionTypes.ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }

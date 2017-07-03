@@ -23,8 +23,11 @@ class DocumentActions {
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.DOCUMENT_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -37,6 +40,7 @@ class DocumentActions {
    */
   static createDocument(documentContent) {
     return (dispatch) => {
+      console.log(documentContent);
       return axios.post('/documents', documentContent)
         .then((response) => {
           if (response.data.message ===
@@ -56,8 +60,12 @@ class DocumentActions {
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch((error) => {
+          console.log(error);
+          return dispatch({
+            type: actionTypes.DOCUMENT_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -82,12 +90,43 @@ class DocumentActions {
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.DOCUMENT_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
 
+    /**
+   * @static
+   * @param {any} id -
+   * @returns {promise} -
+   * @memberof UserActions
+   */
+  static getUserDocuments(id) {
+    return (dispatch) => {
+      return axios.get(`/users/${id}/documents`)
+        .then((response) => {
+          if (response.data.message === 'Documents found') {
+            return dispatch({
+              type: actionTypes.USER_DOCUMENTS,
+              documentList: response.data.documnents
+            });
+          }
+          return dispatch({
+            type: actionTypes.ERROR,
+            message: 'There was an error, please try again'
+          });
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.DOCUMENT_ERROR,
+            message: 'There was an error please try again'
+          });
+        });
+    };
+  }
   /**
    * @static
    * @param {any} id -
@@ -117,8 +156,11 @@ class DocumentActions {
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.DOCUMENT_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -146,8 +188,11 @@ class DocumentActions {
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.DOCUMENT_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
@@ -171,8 +216,11 @@ class DocumentActions {
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((err) => {
-          throw err;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.DOCUMENT_ERROR,
+            message: 'There was an error please try again'
+          });
         });
     };
   }
