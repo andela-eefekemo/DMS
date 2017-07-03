@@ -11,8 +11,13 @@ module.exports = {
     logging: false
   },
   test: {
-    use_env_variable: 'postgres://mgenhpog:XPDDU6KlEloSzxcecJ8UT8ZU0GCiXW6L@stampy.db.elephantsql.com:5432/mgenhpog',
-    dialect: 'postgres'
+    dialect: 'postgres',
+    username: 'mgenhpog',
+    password: 'XPDDU6KlEloSzxcecJ8UT8ZU0GCiXW6L',
+    database: 'mgenhpog',
+    host: 'stampy.db.elephantsql.com',
+    port: 5432,
+    logging: false
   },
   production: {
     use_env_variable: 'DATABASE_URL'

@@ -144,7 +144,7 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.have.property('message').eql(
-            "we're sorry, title must be unique, please try again");
+            "we're sorry, document title must be unique, please try again");
         });
       done();
     });
