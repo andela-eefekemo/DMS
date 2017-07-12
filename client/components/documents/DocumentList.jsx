@@ -132,7 +132,7 @@ class DocumentList extends Component {
     e.preventDefault();
     this.props.searchDocuments(e.target.value)
       .then(() => {
-        console.log(this.state.searchTerm);
+        console.log('Success');
       }).catch(() => {
 
       });
@@ -140,12 +140,26 @@ class DocumentList extends Component {
 
   /**
    * @return {void}
+   * @memberof DocumentList
+   */
+  updateDocumentList() {
+    this.props.getAllDocuments()
+      .then(() => {
+        this.setState({
+          documents: this.props.documentList
+        });
+      }).catch(() => {
+
+      });
+  }
+  /**
+   * @return {void}
    * @param {any} e -
    * @memberof DocumentList
    */
   deleteDocument(e) {
-    this.props.deleteDocument(e.target.value).then(() => {
-      console.log('Document has been deleted');
+    this.props.deleteDocument(e.target.name).then(() => {
+      this.updateDocumentList();
       this.context.router.history.push(`${this.props.match.url}`);
     }).catch(() => {
 
@@ -169,9 +183,11 @@ class DocumentList extends Component {
           content: this.props.document.content,
           access: this.props.document.access
         });
+        this.updateDocumentList();
       }).catch(() => {
 
       });
+    this.context.router.history.push('/dashboard/alldocument');
   }
 
   /**

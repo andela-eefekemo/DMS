@@ -129,7 +129,6 @@ class UserActions {
             message: 'There was an error, please try again'
           });
         }).catch(() => {
-          debugger;
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error please try again'

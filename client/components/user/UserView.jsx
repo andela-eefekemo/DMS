@@ -1,60 +1,37 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
-import InputField from '../common/InputField';
-import Dropdown from '../common/Dropdown';
 
-const UserView = ({ id, firstName, lastName, email, roleId, roles, onSubmit, onChange, deleteUser }) => {
-  const roleOptions = roles.map(role => <Dropdown value={role.id} key={role.id} text={role.title} />);
+const UserView = ({ id, firstName, lastName, email, deleteUser }) => {
   return (
-    <div>
-      <h5>{firstName}</h5>
-      <p>{lastName}</p>
-      <p>{email}</p>
-      <p>{roleId}</p>
-      <button
-        className="waves-effect btn button-design"
-        onClick={deleteUser}
-        value={id}
-      >
-        Delete
-      </button>
-      <Modal
-        trigger={
-          <a
-            className="waves-effect btn button-design"
-            data-target="passwordModal">
-            Update
-                  </a>
-        }
-      >
-        <form onSubmit={onSubmit} >
-          <h5>Update User</h5>
-          <InputField
-            name="firstName"
-            value={firstName}
-            placeholder="Document firstName"
-            className="validate form-design"
-            type="text" />
-          <InputField
-            name="lastName"
-            value={lastName}
-            placeholder="Document lastName"
-            className="validate form-design"
-            type="text" />
-          <select
-            name="access"
-            className="browser-default input-field select" onChange={onChange}>
-            <Dropdown value={2} text="Regular User" />
-            {roleOptions}
-          </select>
-          <div className="input-field center">
-            <button className="waves-effect btn button-design" type="submit">
-              Update
-            </button>
+    <div className="card blue-grey darken-1">
+      <div className="card-content white-text">
+        <span className="card-title">{firstName} {lastName}</span>
+        <div>{email}</div>
+      </div>
+      <div className="card-action">
+        <div className="row">
+          <div className="col l12 m12 s12">
+            <Modal
+              trigger={
+                <a
+                  className="waves-effect btn button-design"
+                  data-target="passwordModal">
+                  Delete
+                </a>}
+              actions={
+                <div>
+                  <button className="btn waves-effect waves-light btn-flat modal-action modal-close" name={id} onClick={deleteUser}>
+                    Delete
+                </button>
+                  <button className="btn waves-effect waves-light btn-flat modal-action modal-close left">Cancel</button>
+                </div>}>
+              <div >
+                <h5 className="center">Are you sure you want to delete the user</h5>
+              </div>
+            </Modal>
           </div>
-
-        </form>
-      </Modal>
+        </div>
+      </div>
     </div>
   );
 };

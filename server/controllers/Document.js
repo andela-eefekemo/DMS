@@ -18,7 +18,7 @@ class Document {
     validate.document(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ error: validateErrors[0].msg });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       db.User.findById(req.user.id)
         .then((user) => {
@@ -201,13 +201,13 @@ class Document {
     validate.documentUpdate(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(403).send({ error: validateErrors[0].msg });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       const id = Number(req.params.id);
       db.Document.findById(id)
         .then((document) => {
           if (document.authorId !== req.user.id && req.user.roleId !== 1) {
-            return res.status(401).send({
+            return res.status(200).send({
               message: 'you are unauthorized for this action'
             });
           }
@@ -215,7 +215,7 @@ class Document {
             .then((existingDocument) => {
               if (existingDocument.length !== 0 &&
                 document.authorId !== req.user.id) {
-                return res.status(401).send({
+                return res.status(200).send({
                   message: 'Document already exists'
                 });
               }
@@ -230,7 +230,7 @@ class Document {
                     updatedDocument
                   });
               }).catch((error) => {
-                return res.status(400).send({
+                return res.status(200).send({
                   message:
                   `we're sorry, document ${error.errors[0].message}`
                 });
@@ -273,6 +273,10 @@ class Document {
             { title: { $iLike: `%${searchTerm}%` } }
           ]
         },
+        include: [{
+          model: db.User,
+          attributes: ['firstName', 'lastName', 'roleId']
+        }],
         order: [['createdAt', 'DESC']]
       };
     } else {

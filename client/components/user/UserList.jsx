@@ -32,8 +32,6 @@ class UserList extends Component {
       searchTerm: ''
     };
     this.onClick = this.onClick.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.onSearch = this.onSearch.bind(this);
   }
@@ -43,17 +41,19 @@ class UserList extends Component {
    * @memberof UserList
    */
   componentWillMount() {
+    this.updateUserList();
+  }
+
+  /**
+   * @return {void}
+   * @memberof UserList
+   */
+  updateUserList() {
     this.props.getAllUsers()
       .then(() => {
         this.setState({
           Users: this.props.UserList
         });
-        this.props.viewRoles()
-          .then(() => {
-            console.log('hi');
-          }).catch(() => {
-
-          });
       }).catch(() => {
 
       });
@@ -71,21 +71,12 @@ class UserList extends Component {
     }
   }
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof UserContainer
-   */
-  onChange(e) {
-    const field = e.target.name;
-    this.setState({ [field]: e.target.value });
-  }
-  /**
    * @param {any} e -
    * @return {void}
    * @memberof UserList
    */
   onClick(e) {
-    this.props.viewUser(e.target.value).then(() => {
+    this.props.viewUser(e.target.name).then(() => {
       this.setState({
         firstName: this.props.User.firstName,
         lastName: this.props.User.lastName,
@@ -99,11 +90,13 @@ class UserList extends Component {
   }
 
   /**
+   * @param {any} e -
    * @return {void}
    * @memberof UserList
    */
-  onSearch() {
-    this.props.searchUsers(this.state.searchTerm)
+  onSearch(e) {
+    e.preventDefault();
+    this.props.searchUsers(e.target.value)
       .then(() => {
         console.log(this.state.searchTerm);
       }).catch(() => {
@@ -117,36 +110,12 @@ class UserList extends Component {
    * @memberof UserList
    */
   deleteUser(e) {
-    this.props.deleteUser(e.target.value).then(() => {
-      console.log('User has been deleted');
-      this.context.router.history.push(`${this.props.match.url}`);
+    this.props.deleteUser(e.target.name).then(() => {
+      this.updateUserList();
+      this.context.router.history.push(`${this.props.match.url}/allusers`);
     }).catch(() => {
 
     });
-  }
-
-  /**
-   * @return {void}
-   * @memberof UserList
-   */
-  onSubmit() {
-    const updatedUser = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      roleId: this.state.roleId
-    };
-    this.props.updateUser(updatedUser, this.props.User.id)
-      .then(() => {
-        this.setState({
-          firstName: this.props.User.firstName,
-          lastName: this.props.User.lastName,
-          email: this.props.User.email,
-          roleId: this.props.User.roleId
-        });
-      }).catch(() => {
-
-      });
   }
 
   /**
@@ -160,36 +129,42 @@ class UserList extends Component {
         onClick={this.onClick} match={this.props.match} />
     ));
     return (
-      <div className="container">
-        <div className="row">
-          <div className="searchDiv">
-            <input
-              className="search"
-              type="text"
-              name="searchTerm"
-              placeholder="Search.."
-              value={this.state.searchTerm}
-              onChange={this.onChange} />
-            <button onClick={this.onSearch}>Search</button>
-          </div>
-          <div className="col l4 m4 s12">
-            {singleUser}
-          </div>
-          <div className="col l8 m8 s12">
-            <Switch>
-              <Route
-                path={`${this.props.match.url}/viewUser`} render={() => (
-                  <UserView
-                    id={this.props.User.id}
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    email={this.state.email}
-                    roleId={this.state.roleId}
-                    onSubmit={this.onSubmit}
-                    onChange={this.onChange}
-                    roles={this.props.roles}
-                    deleteUser={this.deleteUser} />)} />
-            </Switch>
+      <div className="document-list">
+        <div className="container">
+          <div className="row">
+            <div className="col l12 m12 s12">
+              <div className="col l5 m5 s12">
+                <input
+                  className="search"
+                  type="text"
+                  name="searchTerm"
+                  placeholder="Search.."
+                  onChange={this.onSearch} />
+              </div>
+            </div>
+            <div className="document-list-view">
+              <div className="col l5 m5 s12">
+                <div className=" card-panel hoverable">
+                  <h5>All Users</h5>
+                  <div className="scrollable">
+                    {singleUser}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col l6 m6 s12">
+              <Switch>
+                <Route
+                  path={`${this.props.match.url}/viewUser`} render={() => (
+                    <UserView
+                      id={this.props.User.id}
+                      firstName={this.state.firstName}
+                      lastName={this.state.lastName}
+                      email={this.state.email}
+                      roleId={this.state.roleId}
+                      deleteUser={this.deleteUser} />)} />
+              </Switch>
+            </div>
           </div>
         </div>
       </div>

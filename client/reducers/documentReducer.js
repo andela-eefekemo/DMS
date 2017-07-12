@@ -6,7 +6,7 @@ const documentReducer =
       case actionTypes.VIEW_DOCUMENT:
       case actionTypes.DOCUMENT_CREATED:
       case actionTypes.DOCUMENT_UPDATED:
-        return { ...state, document: action.document };
+        return { ...state, document: action.document, message: action.message };
       case actionTypes.USER_DOCUMENTS:
       case actionTypes.DOCUMENTS_LIST:
       case actionTypes.SEARCH_DOCUMENTS:

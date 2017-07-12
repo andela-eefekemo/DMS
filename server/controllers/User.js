@@ -18,12 +18,12 @@ class User {
     validate.user(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(403).send({ error: validateErrors });
+      res.status(200).send({ message: validateErrors });
     } else {
       db.User.findOne({ where: { email: req.body.email } })
         .then((user) => {
           if (user !== null) {
-            res.status(400).send({ message: 'Email already exists' });
+            res.status(200).send({ message: 'Email already exists' });
           } else {
             return db.User.create({
               firstName: req.body.firstName,
@@ -108,7 +108,15 @@ class User {
     // Make this accessible to only admin role users
     const offset = authenticate.verify(req.query.offset) || 0;
     const limit = authenticate.verify(req.query.limit) || 20;
-    db.User.findAndCount({ offset, limit, where: { roleId: { $not: 1 } } })
+    db.User.findAndCount({
+      offset,
+      limit,
+      include: [{
+        model: db.Role,
+        attributes: ['title']
+      }],
+      where: { roleId: { $not: 1 } }
+    })
       .then((users) => {
         res.status(200).send(
           {
@@ -167,7 +175,7 @@ class User {
     validate.userUpdate(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ error: validateErrors });
+      res.status(200).send({ message: validateErrors });
     } else {
       const id = Number(req.params.id);
       db.User.findById(id)
@@ -201,7 +209,7 @@ class User {
                 });
               }
             }).catch((error) => {
-              res.status(400).send({
+              res.status(200).send({
                 message:
                 `We're sorry,${error.errors[0].message}, please try again`,
                 error
@@ -260,6 +268,10 @@ class User {
     const query = {
       offset,
       limit,
+      include: [{
+        model: db.Role,
+        attributes: ['title']
+      }],
       where: {
         roleId: { $not: 1 },
         $or: [

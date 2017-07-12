@@ -62,7 +62,7 @@ class DocumentActions {
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((error) => {
+        }).catch(() => {
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error please try again'

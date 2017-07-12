@@ -15,7 +15,6 @@ class RoleActions {
     return (dispatch) => {
       return axios.post('/roles', roleContent)
         .then((response) => {
-          debugger;
           if (response.data.message === 'Role created') {
             return dispatch({
               type: actionTypes.ROLE_CREATED,
@@ -28,7 +27,6 @@ class RoleActions {
             message: 'There was an error please try again'
           });
         }).catch(() => {
-          debugger;
           return dispatch({
             type: actionTypes.ROLE_ERROR,
             message: 'There was an error please try again'

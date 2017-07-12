@@ -20,13 +20,24 @@ const DocumentView = (props) => {
       <div className="card-action">
         <div className="row">
           <div className="col l6 m6 s12">
-            {userId === authorId && <button
-              className="waves-effect btn button-design"
-              onClick={deleteDocument}
-              value={id}
-            >
-              Delete
-      </button>
+            {userId === authorId && <Modal
+              trigger={
+                <a
+                  className="waves-effect btn button-design"
+                  data-target="passwordModal">
+                  Delete
+                </a>}
+              actions={
+                <div>
+                  <button className="btn waves-effect waves-light btn-flat modal-action modal-close" name={id} onClick={deleteDocument}>
+                    Delete
+                </button>
+                  <button className="btn waves-effect waves-light btn-flat modal-action modal-close left">Cancel</button>
+                </div>}>
+              <div >
+                <h5 className="center">Are you sure you want to delete the user</h5>
+              </div>
+            </Modal>
             }
           </div>
           <div className="col l6 m6 s12">
@@ -39,7 +50,7 @@ const DocumentView = (props) => {
           </a>
               }
             >
-              <form onSubmit={onSubmit} >
+              <div >
                 <h5>Create Document</h5>
                 <InputField
                   name="title"
@@ -62,12 +73,12 @@ const DocumentView = (props) => {
                   <Dropdown value="role" text="Role" />
                 </select>
                 <div className="input-field center">
-                  <button className="waves-effect btn button-design" type="submit">
+                  <button className="waves-effect modal-action modal-close btn button-design" type="submit" onClick={onSubmit}>
                     Update
             </button>
                 </div>
 
-              </form>
+              </div>
             </Modal>}
           </div>
         </div>

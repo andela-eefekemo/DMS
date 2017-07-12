@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import parseDate from '../../utilities/parseDate';
 
 /**
  * @param {any} props
@@ -7,21 +8,19 @@ import PropTypes from 'prop-types';
  */
 
 const UserCard = (props) => {
-  const { firstName, lastName, email, id, roleId, createdAt, onClick } = props;
+  const { firstName, lastName, email, Role, id, createdAt, onClick } = props;
   return (
     <div>
-      <h5>{firstName}</h5>
-      <h5>{lastName}</h5>
-      <h5>{email}</h5>
-      <p>{roleId}</p>
-      <p>{createdAt}</p>
-      <button
-        className="btn btn-default"
+      <a
         onClick={onClick}
-        value={id}
-      >
-        View Headlines
-      </button>
+        name={id}
+        className="truncate"
+        href="#!">{firstName} {lastName}</a>
+      <p>{email}</p>
+      {(Role.title === 'regularuser') && <p>Regular User</p>}
+      {(Role.title === 'contributor') && <p>Contributor</p>}
+      <p>Joined at: {parseDate(createdAt)}</p>
+      <div className="divider" />
     </div>
   );
 };
@@ -37,7 +36,7 @@ UserCard.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  roleId: PropTypes.number.isRequired,
+  Role: PropTypes.object.isRequired,
   createdAt: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired
