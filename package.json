@@ -1,9 +1,14 @@
 {
   "name": "document-management-system",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.10.2",
+    "npm": "3.10.10"
+  },
   "description": "Creating a Document Management System where each document defines access rights; the document defines which roles can access it.",
   "main": "server.js",
   "scripts": {
+    "start": "babel-node -- index.js",
     "test": "npm run setup:test && NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register ./server/test/**/*.js --timeout 2000000",
     "dev": "nodemon --watch server --exec babel-node -- index.js",
     "db:migrate": "sequelize db:migrate:undo:all && sequelize db:migrate",
