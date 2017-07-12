@@ -11,7 +11,7 @@ const Dropdown = ({ value, text, selected }) => (
 );
 
 Dropdown.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.node.isRequired,
   text: PropTypes.string.isRequired,
   selected: PropTypes.string
 };

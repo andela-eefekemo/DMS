@@ -7,12 +7,16 @@ const NavBar = ({ match, onClick }) => {
     return (
       <nav className="nav-extended nav-design">
         <div className="nav-wrapper">
-          <Link to="/" className="brand-logo"><img className="brand-img" src="../../img/logo2.jpg" /> ms</Link>
+          <Link to="/" className="brand-logo">
+            <img
+              className="brand-img"
+              src="../../img/logo2.jpg" alt="nav-logo" /> ms</Link>
           <Link to="" data-activates="mobile-demo" className="button-collapse">
             <i className="material-icons">menu</i>
           </Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li className="signin-button"><Link to="/auth/signin">LOG IN</Link></li>
+            <li className="signin-button">
+              <Link to="/auth/signin">LOG IN</Link></li>
             <li className="signup-button">
               <Link to="/auth/signup">GET STARTED</Link>
             </li>
@@ -29,7 +33,10 @@ const NavBar = ({ match, onClick }) => {
     return (
       <nav className="nav-extended nav-design">
         <div className="nav-wrapper">
-          <Link to="/" className="brand-logo"><img className="brand-img" src="../../img/logo2.jpg" /> ms</Link>
+          <Link to="/" className="brand-logo">
+            <img
+              className="brand-img" src="../../img/logo2.jpg" alt="nav-logo" />
+            ms</Link>
         </div>
       </nav>
     );
@@ -42,7 +49,8 @@ const NavBar = ({ match, onClick }) => {
             <i className="material-icons">menu</i>
           </Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li className="signin-button"><Link to="/signout" onClick={onClick}>LOG OUT</Link></li>
+            <li className="signin-button"><Link to="/signout" onClick={onClick}>
+              LOG OUT</Link></li>
           </ul>
           <ul className="side-nav" id="mobile-demo">
             <li><Link to="/signout" onClick={onClick}>LOG OUT</Link></li>

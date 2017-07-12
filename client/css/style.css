@@ -27,7 +27,8 @@ body {
   box-shadow: none !important; }
 
 .dashboard-nav {
-  background-color: transparent !important; }
+  background-color: transparent !important;
+  margin-bottom: 5%; }
 
 .brand-logo {
   color: black !important;
@@ -173,14 +174,16 @@ input[type=password].invalid {
   height: 100%;
   left: 0;
   top: 0;
-  overflow: auto; }
+  overflow: auto;
+  color: black !important; }
 
 @media only screen and (min-width: 996px) {
   .dashboard-margin {
     margin-left: 300px; } }
 
 .side-logo {
-  margin-top: 25px; }
+  margin-top: 25px;
+  margin-bottom: 25%; }
 
 #slide-out {
   box-shadow: none !important;
@@ -204,5 +207,50 @@ input[type=password].invalid {
     box-shadow: none !important;
     border-top-color: white;
     margin: auto; }
+
+.search {
+  margin-left: 5%;
+  border-color: black !important;
+  color: black !important; }
+
+.searchDiv input[type=text] {
+  width: 20%;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out; }
+
+.test {
+  opacity: 0; }
+
+.document-form {
+  width: 80%;
+  margin: auto !important;
+  box-shadow: 0px 0px 10px black;
+  border-radius: 5px; }
+  .document-form form {
+    padding: 3%; }
+
+.document-list .container {
+  margin: initial !important;
+  width: initial !important; }
+
+.document-list-view {
+  padding-left: 2%; }
+  .document-list-view input {
+    margin: initial !important; }
+
+.card-panel h6 {
+  color: #ab33b5;
+  font-size: 18px; }
+
+.card-panel h6, .card-panel p {
+  margin-bottom: -2%; }
+
+.divider {
+  margin-top: 5%;
+  margin-bottom: 5%; }
+
+.scrollable {
+  overflow-y: scroll !important;
+  height: 30rem !important; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuL2Nzcy9zdHlsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/

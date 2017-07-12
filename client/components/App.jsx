@@ -6,7 +6,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import LandingContainer from './access/LandingContainer';
 import Dashboard from './Dashboard';
-import Document from './documents/DocumentContainer';
 import AuthPage from './access/AuthPage';
 
 /**

@@ -19,6 +19,7 @@ class UserActions {
           if (response.data.message === 'Users found') {
             return dispatch({
               type: actionTypes.GET_USERS_LIST,
+              message: null,
               userList: response.data.userList
             });
           }
@@ -48,6 +49,7 @@ class UserActions {
           if (response.data.message === 'User found') {
             return dispatch({
               type: actionTypes.VIEW_USER,
+              message: null,
               user: response.data.user
             });
           }
@@ -72,7 +74,7 @@ class UserActions {
    * @returns {promise} -
    * @memberof UserActions
    */
-  static searchUser(searchTerm, offset, limit) {
+  static searchUsers(searchTerm, offset = 0, limit = 20) {
     return (dispatch) => {
       return axios.get(
         `/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`)
@@ -80,6 +82,7 @@ class UserActions {
           if (response.data.message === 'Users found') {
             return dispatch({
               type: actionTypes.SEARCH_USERS,
+              message: null,
               userList: response.data.userList
             });
           }
@@ -107,7 +110,6 @@ class UserActions {
     return (dispatch) => {
       return axios.put(`/users/${id}`, userDetails)
         .then((response) => {
-          setAuthorizationToken(response.data.token);
           if (response.data.message === 'Email already exists') {
             return dispatch({
               type: actionTypes.UPDATE_EMAIL_EXISTS,
@@ -118,6 +120,7 @@ class UserActions {
             return dispatch({
               type: actionTypes.UPDATE_USER_SUCCESS,
               user: response.data.updatedUser,
+              message: null,
               token: response.data.token
             });
           }
@@ -126,6 +129,7 @@ class UserActions {
             message: 'There was an error, please try again'
           });
         }).catch(() => {
+          debugger;
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error please try again'

@@ -46,6 +46,7 @@ body {
 }
 .dashboard-nav{
   background-color:transparent !important;
+  margin-bottom: 5%;
 }
 
 .brand-logo{
@@ -216,6 +217,7 @@ input[type=password].invalid{
   left: 0;
   top: 0;
   overflow: auto;
+  color: black !important;
 }
 @media only screen and (min-width: 996px) {
     .dashboard-margin{
@@ -225,6 +227,7 @@ input[type=password].invalid{
 
 .side-logo{
   margin-top: 25px;
+  margin-bottom: 25%;
 }
 #slide-out{
   box-shadow:none !important;
@@ -252,4 +255,65 @@ input[type=password].invalid{
     border-top-color: white;
     margin: auto;
   }
+}
+
+.search{
+  margin-left: 5%;
+  border-color: black !important;
+  color: black !important;
+}
+.searchDiv{
+  input[type=text] {
+    width: 20%;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+  }
+}
+
+.test{
+  opacity: 0;
+}
+
+.document-form{
+  width: 80%;
+  margin: auto !important;
+  box-shadow: 0px 0px 10px black;
+  border-radius: 5px;
+  form{
+    padding: 3%;
+  }
+}
+
+.document-list{
+  .container{
+    margin: initial !important;
+    width: initial !important;
+  }
+}
+
+.document-list-view{
+  padding-left: 2%;
+  input{
+    margin: initial !important;
+  }
+}
+
+.card-panel{
+  h6{
+    color: $primary-color2;
+    font-size: 18px;
+  }
+  h6,p{
+    margin-bottom: -2%;
+  }
+}
+
+.divider{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.scrollable{
+  overflow-y: scroll !important; 
+  height:30rem !important;
 }

@@ -18,7 +18,7 @@ class Document {
     validate.document(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(403).send({ error: validateErrors[0].msg });
+      res.status(200).send({ error: validateErrors[0].msg });
     } else {
       db.User.findById(req.user.id)
         .then((user) => {
@@ -38,7 +38,7 @@ class Document {
                   });
                 });
             }).catch((error) => {
-              return res.status(400).send({
+              return res.status(200).send({
                 message:
                 `we're sorry, document ${error.errors[0].message}, please try again`
               });
@@ -70,7 +70,8 @@ class Document {
         include: [{
           model: db.User,
           attributes: ['firstName', 'lastName', 'roleId']
-        }]
+        }],
+        order: [['createdAt', 'DESC']]
       })
         .then((documents) => {
           return res.status(200).send(
@@ -83,7 +84,7 @@ class Document {
         .catch((error) => {
           return res.status(400).send(
             {
-              message: "We're sorry, we had an error eguono, please try again",
+              message: "We're sorry, we had an error, please try again",
               error
             });
         });
@@ -105,7 +106,8 @@ class Document {
         include: [{
           model: db.User,
           attributes: ['firstName', 'lastName', 'roleId']
-        }]
+        }],
+        order: [['createdAt', 'DESC']]
       }).then((documents) => {
         return res.status(200).send(
           {
@@ -141,7 +143,7 @@ class Document {
               && document.access !== 'public') || (document.access === 'role'
                 && document.roleId === req.user.roleId)
           ) {
-            res.status(401).send(
+            res.status(200).send(
               { message: 'You are unauthorized to view this document' });
           } else {
             return res.status(200).send(
@@ -151,7 +153,7 @@ class Document {
               });
           }
         } else {
-          return res.status(404).send({ message: 'Document not found' });
+          return res.status(200).send({ message: 'Document not found' });
         }
       })
       .catch((error) => {
@@ -179,6 +181,7 @@ class Document {
         model: db.User,
         attributes: ['firstName', 'lastName', 'roleId']
       }],
+      order: [['createdAt', 'DESC']]
     })
       .then((documents) => {
         res.status(200).send({ message: 'Documents found', documents });
@@ -269,7 +272,8 @@ class Document {
           $or: [
             { title: { $iLike: `%${searchTerm}%` } }
           ]
-        }
+        },
+        order: [['createdAt', 'DESC']]
       };
     } else {
       query = {
@@ -293,17 +297,18 @@ class Document {
         include: [{
           model: db.User,
           attributes: ['firstName', 'lastName', 'roleId']
-        }]
+        }],
+        order: [['createdAt', 'DESC']]
       };
     }
 
     return db.Document.findAndCount(query)
-      .then((users) => {
+      .then((documents) => {
         return res.status(200).send(
           {
             message: 'Documents found',
-            documentList: users.rows,
-            metaData: paginate(users.count, limit, offset)
+            documentList: documents.rows,
+            metaData: paginate(documents.count, limit, offset)
           });
       })
       .catch((error) => {
@@ -329,7 +334,7 @@ class Document {
       .then((document) => {
         if (Number(document.authorId) !== req.user.id &&
           req.user.roleId !== 1) {
-          res.status(401).send(
+          res.status(200).send(
             { message: 'You are unauthorized for this action' });
         } else {
           document.destroy()

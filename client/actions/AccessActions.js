@@ -23,18 +23,19 @@ class AccessActions {
             localStorage.setItem('jwToken', token);
             dispatch({
               type: actionTypes.SIGN_UP_USER,
+              message: null,
               user: response.data.userData
             });
           } else {
             dispatch({
               type: actionTypes.ACCESS_ERROR,
-              error: 'There was an error, please try again'
+              message: 'There was an error, please try again'
             });
           }
         }).catch(() => {
           return dispatch({
             type: actionTypes.ACCESS_ERROR,
-            error: 'There was an error, please try again'
+            message: 'There was an error, please try again'
           });
         });
     };
@@ -50,25 +51,28 @@ class AccessActions {
     return (dispatch) => {
       return axios.post('/users/login', userDetails)
         .then((response) => {
-          if (response.data.message === 'login successful') {
+          if (response.data.message && response.data.message === 'login successful') {
             setAuthorizationToken(response.data.token);
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
             return dispatch({
               type: actionTypes.SIGN_IN_USER,
+              message: null,
               user: response.data.userData
             });
           }
-          if (response.data.message === 'User does not exist') {
+          if (response.data.message && response.data.message === 'User does not exist') {
             return dispatch({
               type: actionTypes.USER_DOES_NOT_EXIST,
               message: 'User does not exist'
             });
           }
-          return dispatch({
-            type: actionTypes.ACCESS_ERROR,
-            error: 'There was an error, please try again'
-          });
+          if (response.data.message) {
+            return dispatch({
+              type: actionTypes.ACCESS_ERROR,
+              message: response.data.message
+            });
+          }
         }).catch(() => {
           return dispatch({
             type: actionTypes.ACCESS_ERROR,
