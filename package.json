@@ -6,15 +6,17 @@
     "npm": "3.10.10"
   },
   "description": "Creating a Document Management System where each document defines access rights; the document defines which roles can access it.",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "babel-node -- index.js",
+    "start": "NODE_ENV=production sequelize db:seed:all && babel-node -- index.js",
     "test": "npm run setup:test && NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register ./server/test/**/*.js --timeout 2000000",
     "dev": "nodemon --watch server --exec babel-node -- index.js",
     "db:migrate": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "db:migrate:test": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
     "setup:test": "npm run db:migrate:test && NODE_ENV=test sequelize db:seed:all",
-    "build": "webpack --config ./webpack.config.js --progress --colors --watch"
+    "build": "webpack --config ./webpack.config.js --progress --colors --watch",
+    "db:seed": "sequelize db:seed:all",
+    "post-install": "npm run db:migrate && npm run db:seed"
   },
   "repository": {
     "type": "git",
