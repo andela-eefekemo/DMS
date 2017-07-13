@@ -151,7 +151,7 @@ class UserActions {
           if (response.data.message === 'User has been deleted') {
             return dispatch({
               type: actionTypes.DELETE_USER,
-              message: 'User has be deleted'
+              message: 'User has been deleted'
             });
           }
           return dispatch({

@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const accessReducer = (
-  state = { isAuthenticated: false, user: {}, error: null }, action) => {
+  state = { isAuthenticated: false, user: {}, message: null }, action) => {
   switch (action.type) {
     case actionTypes.SIGN_UP_USER:
     case actionTypes.SIGN_IN_USER:
@@ -12,6 +12,7 @@ const accessReducer = (
         message: null
       };
     case actionTypes.USER_DOES_NOT_EXIST:
+    case actionTypes.USER_ALREADY_EXISTS:
     case actionTypes.ACCESS_ERROR:
       return {
         isAuthenticated: false,
