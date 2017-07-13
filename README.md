@@ -50,9 +50,6 @@ The following features make up the Document Management System API:
 - It allows users to search for users through name or email address
 - It allows users on the same role to search through role-based documents 
 
-## Hosted App on Heroku
-[Meek-DMS](https://meek-dms-staging.herokuapp.com/)
-
 ## API Documentation
 - View API endpoints and their functions [here](https://andela-moseni.github.io/document-mgt-system/)
 
