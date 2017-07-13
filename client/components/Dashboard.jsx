@@ -9,6 +9,9 @@ import Footer from './include/Footer';
 import UserContainer from './user/UserContainer';
 import DocumentContainer from './documents/DocumentContainer';
 import RoleContainer from './role/RoleContainer';
+import DocumentList from './documents/DocumentList';
+import UserList from './user/UserList';
+import RoleList from './role/RoleList';
 
 /**
  * @class Dashboard
@@ -32,6 +35,7 @@ class Dashboard extends Component {
    * @memberof Dashboard
    */
   componentDidMount() {
+    $('.collapsible').collapsible();
     if (!this.state.isAuthenticated) {
       this.context.router.history.push('/');
       return Materialize.toast('You do not have access to view this page', 3000,
@@ -39,7 +43,7 @@ class Dashboard extends Component {
     }
   }
 
-  
+
   /**
    * @return {jsx} -
    * @memberof Dashboard
@@ -47,10 +51,9 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="dashboard">
-        <SideBar match={this.props.match} />
+        <SideBar match={this.props.match} user={this.state.user} />
         <div className="dashboard-margin">
           <Header match={this.props.match} />
-          <h1>DashBoard</h1>
           <Switch>
             <Route
               path={`${this.props.match.url}/document`}
@@ -60,6 +63,15 @@ class Dashboard extends Component {
               component={RoleContainer} />
             <Route
               exact path={this.props.match.url} component={UserContainer} />
+            <Route
+              path={`${this.props.match.url}/alldocument`}
+              component={DocumentList} />
+            <Route
+              path={`${this.props.match.url}/allusers`}
+              component={UserList} />
+            <Route
+              path={`${this.props.match.url}/allroles`}
+              component={RoleList} />
           </Switch>
           <Footer />
         </div>

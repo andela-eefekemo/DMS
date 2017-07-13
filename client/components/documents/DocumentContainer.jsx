@@ -27,6 +27,7 @@ class DocumentContainer extends Component {
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.getContent = this.getContent.bind(this);
   }
 
   /**
@@ -66,7 +67,15 @@ class DocumentContainer extends Component {
     this.setState({ [field]: e.target.value });
   }
 
-
+  /**
+  * Get the content of the TinyMCE editor
+  *
+  * @param {Object} event
+  * @returns {void} nothing
+  */
+  getContent(event) {
+    this.setState({ content: event.target.getContent() });
+  }
   /**
    * @returns {jsx} -
    * @memberof DocumentContainer
@@ -76,7 +85,8 @@ class DocumentContainer extends Component {
       <DocumentDisplay
         onSubmit={this.onSubmit}
         onChange={this.onChange}
-        document={this.state} />
+        document={this.state}
+        getContent={this.getContent} />
     );
   }
 }

@@ -1,9 +1,14 @@
 {
   "name": "document-management-system",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.10.2",
+    "npm": "3.10.10"
+  },
   "description": "Creating a Document Management System where each document defines access rights; the document defines which roles can access it.",
   "main": "server.js",
   "scripts": {
+    "start": "babel-node -- index.js",
     "test": "npm run setup:test && NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register ./server/test/**/*.js --timeout 2000000",
     "dev": "nodemon --watch server --exec babel-node -- index.js",
     "db:migrate": "sequelize db:migrate:undo:all && sequelize db:migrate",
@@ -71,11 +76,13 @@
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-html-parser": "^1.0.3",
     "react-materialize": "^1.0.3",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^4.0.8",
+    "react-tinymce": "^0.5.1",
     "redux": "^3.7.0",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",

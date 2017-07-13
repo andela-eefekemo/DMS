@@ -47,7 +47,7 @@ class Header extends Component {
    */
   render() {
     return (
-      <NavBar onClick={this.logout} match={this.props.match}/>
+      <NavBar onClick={this.logout} match={this.props.match} />
     );
   }
 }

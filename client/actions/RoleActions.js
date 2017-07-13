@@ -15,9 +15,10 @@ class RoleActions {
     return (dispatch) => {
       return axios.post('/roles', roleContent)
         .then((response) => {
-          if (response.data.message === 'Role Created') {
+          if (response.data.message === 'Role created') {
             return dispatch({
               type: actionTypes.ROLE_CREATED,
+              message: null,
               role: response.data.savedRole
             });
           }
@@ -41,11 +42,12 @@ class RoleActions {
    */
   static viewRole() {
     return (dispatch) => {
-      return axios.get('roles')
+      return axios.get('/roles')
         .then((response) => {
           if (response.data.message === 'Roles found') {
             return dispatch({
               type: actionTypes.VIEW_ROLE,
+              message: null,
               roleList: response.data.roles
             });
           }
@@ -76,6 +78,7 @@ class RoleActions {
           if (response.data.message === 'Role has been updated') {
             return dispatch({
               type: actionTypes.ROLE_UPDATED,
+              message: null,
               role: response.data.updatedRole
             });
           }

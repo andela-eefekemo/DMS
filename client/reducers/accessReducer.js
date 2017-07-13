@@ -9,7 +9,7 @@ const accessReducer = (
       return {
         isAuthenticated: true,
         user: action.user,
-        error: null
+        message: null
       };
     case actionTypes.USER_DOES_NOT_EXIST:
     case actionTypes.ACCESS_ERROR:

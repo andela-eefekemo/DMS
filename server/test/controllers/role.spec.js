@@ -29,11 +29,11 @@ describe('Role', () => {
         .set({ Authorization: adminToken })
         .send(testData.incompleteRole)
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.should.have.property('error');
-          res.body.error.should.be.a('array');
-          res.body.error[0].should.have.property('msg').eql(
+          res.body.should.have.property('message');
+          res.body.message.should.be.a('array');
+          res.body.message[0].should.have.property('msg').eql(
             'Title is Required');
           done();
         });
@@ -63,7 +63,7 @@ describe('Role', () => {
         .set({ Authorization: adminToken })
         .send(testData.roleOne)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(200);
           res.body.should.have.property('message').eql('Role already exists');
           done();
         });
@@ -107,9 +107,9 @@ describe('Role', () => {
         .set({ Authorization: adminToken })
         .send({ description: '' })
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(200);
           res.body.should.not.have.property('updatedRole');
-          res.body.error[0].should.have.property(
+          res.body.message[0].should.have.property(
             'msg').eql('Description is Required');
           done();
         });
@@ -121,7 +121,7 @@ describe('Role', () => {
         .set({ Authorization: adminToken })
         .send({ description: 'hello world' })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(200);
           res.body.should.not.have.property('updatedRole');
           res.body.should.have.property(
             'message').eql('Role not found');
@@ -148,7 +148,7 @@ describe('Role', () => {
         .set({ Authorization: adminToken })
         .send({ description: 'hello world' })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(200);
           res.body.should.have.property(
             'message').eql('Role not found');
           done();

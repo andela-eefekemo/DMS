@@ -1,4 +1,5 @@
 import React from 'react';
+import { Modal } from 'react-materialize';
 
 import InputField from '../common/InputField';
 
@@ -40,11 +41,42 @@ const UserDisplay = (
           </div>
           <div className="row user-action">
             <div className="col l6 m6 s12 input-field center">
-              <button
-                className="waves-effect btn button-design"
-                data-target="passwordModal">
-                Change Password
-            </button>
+              <Modal
+                trigger={
+                  <a
+                    className="waves-effect btn button-design"
+                    data-target="passwordModal">
+                    Change Password
+                  </a>
+                }
+              >
+                <form onSubmit={onSubmit}>
+                  <h5 className="center"> Set Password</h5>
+                  <div className="row">
+                    <div className="col l12 m12 s12">
+                      <InputField
+                        name="password"
+                        value={updatedPassword.password}
+                        placeholder="Password"
+                        className="validate form-design"
+                        type="password" onChange={changePassword} />
+                    </div>
+                    <div className="col l12 m12 s12">
+                      <InputField
+                        name="confirmPassword"
+                        value={updatedPassword.changePassword}
+                        placeholder="Re-Type Password"
+                        className="validate form-design"
+                        type="password" onChange={changePassword} />
+                    </div>
+                  </div>
+                  <div className="center">
+                    <button className="waves-effect btn button-design" type="submit">
+                      Save
+                  </button>
+                  </div>
+                </form>
+              </Modal>
             </div>
             <div className="col l6 m6 s12 input-field center">
               <button className="waves-effect btn button-design" type="submit">
@@ -54,41 +86,7 @@ const UserDisplay = (
           </div>
         </form>
       </div>
-      <div id="passwordModal" className="modal">
-        <div className="modal-content">
-          <form onSubmit={onSubmit}>
-            <h5 className="center"> Set Password</h5>
-            <div className="row">
-              <div className="col l12 m12 s12">
-                <InputField
-                  name="password"
-                  value={updatedPassword.password}
-                  placeholder="Password"
-                  className="validate form-design"
-                  type="password" onChange={changePassword} />
-              </div>
-              <div className="col l12 m12 s12">
-                <InputField
-                  name="confirmPassword"
-                  value={updatedPassword.changePassword}
-                  placeholder="Re-Type Password"
-                  className="validate form-design"
-                  type="password" onChange={changePassword} />
-              </div>
-            </div>
-            <div className="center">
-              <button className="waves-effect btn button-design" type="submit">
-                Save
-            </button>
-            </div>
-            <a
-              href="#!"
-              className="modal-action modal-close waves-effect btn-flat">
-              Cancel</a>
-          </form>
-        </div>
-      </div>
-    </div>
+    </div >
   );
 };
 

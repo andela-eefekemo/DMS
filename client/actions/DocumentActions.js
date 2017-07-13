@@ -16,7 +16,9 @@ class DocumentActions {
           if (response.data.message === 'Documents found') {
             return dispatch({
               type: actionTypes.DOCUMENTS_LIST,
-              documentList: response.data.documentList
+              documentList: response.data.documentList,
+              message: null,
+              metaData: response.data.metaData
             });
           }
           return dispatch({
@@ -40,11 +42,10 @@ class DocumentActions {
    */
   static createDocument(documentContent) {
     return (dispatch) => {
-      console.log(documentContent);
       return axios.post('/documents', documentContent)
         .then((response) => {
           if (response.data.message ===
-              "we're sorry, document title must be unique, please try again") {
+            "we're sorry, document title must be unique, please try again") {
             return dispatch({
               type: actionTypes.DOCUMENT_EXISTS,
               message: 'Document title already exists, please rename document'
@@ -53,6 +54,7 @@ class DocumentActions {
           if (response.data.message === 'Document successfully created') {
             return dispatch({
               type: actionTypes.DOCUMENT_CREATED,
+              message: null,
               document: response.data.newDocument
             });
           }
@@ -60,8 +62,7 @@ class DocumentActions {
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error, please try again'
           });
-        }).catch((error) => {
-          console.log(error);
+        }).catch(() => {
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error please try again'
@@ -83,6 +84,7 @@ class DocumentActions {
           if (response.data.message === 'Document found') {
             return dispatch({
               type: actionTypes.VIEW_DOCUMENT,
+              message: null,
               document: response.data.document
             });
           }
@@ -99,12 +101,12 @@ class DocumentActions {
     };
   }
 
-    /**
-   * @static
-   * @param {any} id -
-   * @returns {promise} -
-   * @memberof UserActions
-   */
+  /**
+ * @static
+ * @param {any} id -
+ * @returns {promise} -
+ * @memberof UserActions
+ */
   static getUserDocuments(id) {
     return (dispatch) => {
       return axios.get(`/users/${id}/documents`)
@@ -112,7 +114,8 @@ class DocumentActions {
           if (response.data.message === 'Documents found') {
             return dispatch({
               type: actionTypes.USER_DOCUMENTS,
-              documentList: response.data.documnents
+              documentList: response.data.documents,
+              message: null
             });
           }
           return dispatch({
@@ -146,9 +149,10 @@ class DocumentActions {
             });
           }
           if (response.data.message ===
-              'Document information has been updated') {
+            'Document information has been updated') {
             return dispatch({
               type: actionTypes.DOCUMENT_UPDATED,
+              message: null,
               document: response.data.updatedDocument
             });
           }
@@ -173,15 +177,17 @@ class DocumentActions {
    * @returns {promise} -
    * @memberof DocumentActions
    */
-  static searchDocuments(searchTerm, offset, limit) {
+  static searchDocuments(searchTerm, offset = 0, limit = 20) {
     return (dispatch) => {
       return axios.get(
-        `/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`)
+        `/search/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`)
         .then((response) => {
           if (response.data.message === 'Documents found') {
             return dispatch({
               type: actionTypes.SEARCH_DOCUMENTS,
-              documentList: response.data.documentList
+              documentList: response.data.documentList,
+              message: null,
+              metaData: response.data.metaData
             });
           }
           return dispatch({
@@ -209,7 +215,8 @@ class DocumentActions {
           if (response.data.message === 'Document has been deleted') {
             return dispatch({
               type: actionTypes.DELETE_DOCUMENT,
-              message: 'Document has been deleted'
+              message: null,
+              documentId: id
             });
           }
           return dispatch({
