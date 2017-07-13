@@ -25,7 +25,7 @@ class UserActions {
           }
           return dispatch({
             type: actionTypes.ERROR,
-            message: 'There was an error please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -55,7 +55,7 @@ class UserActions {
           }
           return dispatch({
             type: actionTypes.ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -88,7 +88,7 @@ class UserActions {
           }
           return dispatch({
             type: actionTypes.ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -117,16 +117,17 @@ class UserActions {
             });
           }
           if (response.data.message === 'User information has been updated') {
+            setAuthorizationToken(response.data.token);
+            localStorage.setItem('jwToken', response.data.token);
             return dispatch({
               type: actionTypes.UPDATE_USER_SUCCESS,
               user: response.data.updatedUser,
-              message: null,
-              token: response.data.token
+              message: null
             });
           }
           return dispatch({
             type: actionTypes.ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -155,7 +156,7 @@ class UserActions {
           }
           return dispatch({
             type: actionTypes.ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({

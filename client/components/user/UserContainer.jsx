@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import UserActions from '../../actions/UserActions';
 
+import validate from '../../utilities/validate';
 import UserDisplay from './UserDisplay';
+
+const updateUser = UserActions.updateUser;
 /**
  * @class UserContainer
  * @extends {Component}
@@ -16,23 +20,27 @@ class UserContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      updatedInfo: {
-        firstName: this.props.access.user.firstName,
-        lastName: this.props.access.user.lastName,
-        email: this.props.access.user.email,
-      },
-      updatedPassword: {
-        password: '',
-        confirmPassword: ''
-      }
+      firstName: '',
+      lastName: '',
+      email: '',
+      roleId: ''
     };
-
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.changePassword = this.changePassword.bind(this);
   }
 
-
+  /**
+   * @return {void}
+   * @memberof UserContainer
+   */
+  componentWillMount() {
+    this.setState({
+      firstName: this.props.user.firstName,
+      lastName: this.props.user.lastName,
+      email: this.props.user.email,
+      roleId: this.props.user.roleId
+    });
+  }
   /**
    * @return {void}
    * @memberof UserContainer
@@ -47,19 +55,25 @@ class UserContainer extends Component {
  */
   onSubmit(e) {
     e.preventDefault();
-    // try {
-    //   if (!validate(this.state)) {
-    //     throw new Error('No field should be left blank');
-    //   }
-    // this.props.signUpUser(this.state)
-    //     .then(() => {
-    //       Materialize.toast('Success!', 2000, 'indigo darken-4 white-text rounded');
-    //       this.context.router.history.push('/dashboard');
-    //     });
-    // } catch (err) {
-    //   Materialize.toast(err.message, 3000,
-    //     'indigo darken-4 white-text rounded');
-    // }
+    try {
+      if (!validate(this.state)) {
+        throw new Error('No field should be left blank');
+      }
+      this.props.updateUser(this.state, this.props.user.id)
+        .then(() => {
+          if (this.props.user.message) {
+            return Materialize.toast(
+              this.props.user.message, 2000,
+              'indigo darken-4 white-text rounded');
+          }
+          Materialize.toast(
+            'Success!', 2000, 'indigo darken-4 white-text rounded');
+          this.context.router.history.push('/dashboard');
+        });
+    } catch (err) {
+      Materialize.toast(err.message, 3000,
+        'indigo darken-4 white-text rounded');
+    }
   }
 
   /**
@@ -69,17 +83,7 @@ class UserContainer extends Component {
    */
   onChange(e) {
     const field = e.target.name;
-    this.setState({ updatedInfo: { [field]: e.target.value } });
-  }
-
-  /**
-   * @return {void}
-   * @param {any} e 
-   * @memberof UserContainer
-   */
-  changePassword(e) {
-    const field = e.target.name;
-    this.setState({ updatedPassword: { [field]: e.target.value } });
+    this.setState({ [field]: e.target.value });
   }
 
   /**
@@ -89,24 +93,29 @@ class UserContainer extends Component {
   render() {
     return (
       <UserDisplay
-        user={this.state.updatedInfo}
+        firstName={this.state.firstName}
+        lastName={this.state.lastName}
+        email={this.state.email}
         onChange={this.onChange}
-        onSubmit={this.onSubmit}
-        changePassword={this.changePassword}
-        updatedPassword={this.state.updatedPassword} />
+        onSubmit={this.onSubmit} />
     );
   }
 }
 
 const mapPropsToState = (state) => {
   return {
-    access: state.access
+    user: state.access.user
   };
 };
 
+UserContainer.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 UserContainer.propTypes = {
-  access: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired
 };
 
 
-export default connect(mapPropsToState)(UserContainer);
+export default connect(mapPropsToState, { updateUser })(UserContainer);

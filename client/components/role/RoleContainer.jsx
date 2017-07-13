@@ -41,7 +41,6 @@ class RoleContainer extends Component {
       }
       this.props.createRole(this.state)
         .then(() => {
-          console.log(this.props.role);
           if (this.props.role.message) {
             return Materialize.toast(this.props.role.message, 2000, 'indigo darken-4 white-text rounded');
           }

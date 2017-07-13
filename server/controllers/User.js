@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import db from '../models';
 import validate from '../helpers/Validate';
 import authenticate from '../helpers/Authenticate';
@@ -172,8 +173,16 @@ class User {
    * @memberof User
    */
   static update(req, res) {
-    validate.userUpdate(req);
+    validate.userUpdate(req, res);
     const validateErrors = req.validationErrors();
+    if (req.body.oldPassword) {
+      if (!bcrypt.compareSync(req.body.oldPassword, res.locals.user.password)) {
+        return res.status(200).send({ message: 'Old password is incorrect' });
+      }
+      if (req.body.oldPassword === req.body.password) {
+        return res.status(200).send({ message: 'Please change your password' });
+      }
+    }
     if (validateErrors) {
       res.status(200).send({ message: validateErrors });
     } else {
@@ -182,16 +191,11 @@ class User {
         .then((user) => {
           db.User.findAll({ where: { email: req.body.email } })
             .then((existingUser) => {
-              if (existingUser.length !== 0 &&
-                (existingUser.email !== res.locals.user.email)) {
+              if ((existingUser.length !== 0) &&
+                (existingUser[0].id !== res.locals.user.id)) {
                 res.status(200).send({ message: 'Email already exists' });
               } else {
-                user.update({
-                  firstName: req.body.firstName || res.locals.user.firstName,
-                  lastName: req.body.lastName || res.locals.user.lastName,
-                  email: req.body.email || res.locals.user.email,
-                  password: req.body.password || res.locals.user.password
-                }).then((updatedUser) => {
+                user.update(req.body).then((updatedUser) => {
                   const userInfo = authenticate.setUserInfo(updatedUser);
                   const token = authenticate.generateWebToken(userInfo);
                   res.status(200).send(

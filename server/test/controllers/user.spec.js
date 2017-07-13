@@ -319,7 +319,7 @@ describe('User', () => {
             'message').eql('User information has been updated');
           res.body.updatedUser.should.be.a('object');
           res.body.updatedUser.should.have.property(
-            'firstName').not.eql(savedUser.firstName);
+            'email').not.eql(savedUser.firstName);
           done();
         });
     });
