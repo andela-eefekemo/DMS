@@ -17,21 +17,26 @@ class AccessActions {
     return (dispatch) => {
       return axios.post('/users', userDetails)
         .then((response) => {
-          if (response.status === 200) {
+          if (response.data.message === 'Signup successful') {
             setAuthorizationToken(response.data.token);
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
-            dispatch({
+            return dispatch({
               type: actionTypes.SIGN_UP_USER,
               message: null,
               user: response.data.userData
             });
-          } else {
-            dispatch({
-              type: actionTypes.ACCESS_ERROR,
-              message: 'There was an error, please try again'
+          }
+          if (response.data.message === 'Email already exists') {
+            return dispatch({
+              type: actionTypes.USER_ALREADY_EXISTS,
+              message: response.data.message
             });
           }
+          return dispatch({
+            type: actionTypes.ACCESS_ERROR,
+            message: response.data.message
+          });
         }).catch(() => {
           return dispatch({
             type: actionTypes.ACCESS_ERROR,
