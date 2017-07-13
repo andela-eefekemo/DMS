@@ -1,38 +1,62 @@
-$primary-color: #1d32a8;
+$primary-color: white;
 $primary-color-light: lighten($primary-color, 15%);
 $primary-color-dark: darken($primary-color, 15%);
 $secondary-color: #7bc1ff;
 $primary-color2: #ab33b5;
-$secondary-color2: #f1e3ff;
+$secondary-color2: #ccc9c9
+;
 $background-color: #F5F5F6;
 $background-color2: #0F0F0F;
-$font-family: "Roboto";
+$font-family: "Gotham SSm",sans-serif;
 
 body {
-  background:linear-gradient(
-      rgba(0,0,0,0.5), 
-      rgba(0,0,0,0.5)
-    ), url('../img/dmsbackground.jpg') !important ;
-  
+  background: black;
+  height: 100%;
 }
 
 .auth-card{
   max-height: 200px;
-  max-width: 400px;
-  vertical-align: middle;
-  margin-top: 50px;
-  background: $primary-color;
+  width: 350px;
+  margin:auto !important;
+  margin-top: 23% !important;
   font-family: $font-family;
+  form{
+    p{
+      color:white;
+      margin:auto !important;
+      margin-top: 12px !important;
+      font-size: 14px;
+    }
+    h5{
+      color:white;
+    }
+  }
 }
 
 .form-design{
-  margin-bottom: -20px;
+  margin-bottom: -2px !important;
 }
 
-.nav-design{
-  background: $primary-color;
-  padding-left: 30px;
+.nav-design,
+.dashboard-nav{
+  background: #ffffff;
+  padding-left: 70px;
+  padding-right: 70px;
+  box-shadow: none !important;
+}
+.dashboard-nav{
+  background-color:transparent !important;
+  margin-bottom: 5%;
+}
+
+.brand-logo{
+  color: black !important;
   font-family: $font-family;
+  font-size: 15px;
+}
+.brand-img{
+  height:30px;
+  width:60px;
 }
 
 .tabs {
@@ -102,10 +126,194 @@ input[type=password].invalid{
 }
 
 .button-design{
-  background-color: $primary-color-light;
-  color: white;
+  background-color: #E6E6E6;
+  color: black;
+  width: 100%;
+  font-family: $font-family;
+  font-size: 12px !important;
   &:hover{
-    background-color: $primary-color-light;
+    background-color: #ccc9c9;
+    color: black;
+  }
+}
+
+.landing-page{
+  background: #ffffff !important;
+}
+.signup-button{
+  background:black;
+  height:50px !important;
+  margin-top:8px !important;
+  a{
+    padding: 0px 40px;
+    margin-top: -5px;
+    font-family: $font-family;
+    font-size: 12px !important;
+  }
+}
+.signin-button{
+  height:50px !important;
+  margin-top:8px !important;
+  margin-right:5px !important;
+  a{
+    color:black;
+    padding: 0px 40px;
+    margin-top: -5px;
+    font-family: $font-family;
+    font-size: 12px !important;
+  }
+}
+
+.section{
+  min-width: 1024px;
+  margin-left: 20px;
+  margin-right: 20px;
+  min-height: 645px;
+  margin-top: -10px !important;
+}
+
+.carousel{
+  min-height: 645px !important;
+}
+.landing-content{
+  margin-top:10%;
+  margin-right: 78%; 
+  a{
+    background:black;
+    padding: 18px 40px;
+    margin-top: -5px;
+    font-family: $font-family;
+    font-size: 15px !important;
     color: white;
   }
+}
+
+.inner-slide{
+  float: right;
+  margin-right: 4%;
+  margin-bottom: 10%; 
+  height: 300px;
+  width: 500px;
+  background: black;
+  img{
+    height: 300px;
+    width: 500px;
+  }
+}
+
+.slide-img{
+  max-height: 645px
+}
+
+.authpage{
+  background: black;
+}
+
+.dashboard{
+  background: white;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  color: black !important;
+}
+@media only screen and (min-width: 996px) {
+    .dashboard-margin{
+  margin-left: 300px;
+}
+}
+
+.side-logo{
+  margin-top: 25px;
+  margin-bottom: 25%;
+}
+#slide-out{
+  box-shadow:none !important;
+  margin: auto !important;
+}
+.user-card{
+  width:90%;
+  height: 90%;
+  background: $secondary-color2;
+  margin: auto;
+}
+.profile{
+  .row,
+  .col{
+    margin: 0 auto !important;
+    float: initial !important;
+  }
+}
+
+.user-action{
+  margin-top: 20% !important;
+  a,
+  button{
+    box-shadow: none !important;
+    border-top-color: white;
+    margin: auto;
+  }
+}
+
+.search{
+  margin-left: 5%;
+  border-color: black !important;
+  color: black !important;
+}
+.searchDiv{
+  input[type=text] {
+    width: 20%;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+  }
+}
+
+.test{
+  opacity: 0;
+}
+
+.document-form{
+  width: 80%;
+  margin: auto !important;
+  box-shadow: 0px 0px 10px black;
+  border-radius: 5px;
+  form{
+    padding: 3%;
+  }
+}
+
+.document-list{
+  .container{
+    margin: initial !important;
+    width: initial !important;
+  }
+}
+
+.document-list-view{
+  padding-left: 2%;
+  input{
+    margin: initial !important;
+  }
+}
+
+.card-panel{
+  h6{
+    color: $primary-color2;
+    font-size: 18px;
+  }
+  h6,p{
+    margin-bottom: -2%;
+  }
+}
+
+.divider{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.scrollable{
+  overflow-y: scroll !important; 
+  height:30rem !important;
 }

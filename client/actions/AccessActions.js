@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import * as actionTypes from './actionTypes';
 import setAuthorizationToken from '../utilities/setAuthorizationToken';
 
 /**
@@ -21,17 +22,21 @@ class AccessActions {
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
             dispatch({
-              type: 'SIGNUP_USER',
+              type: actionTypes.SIGN_UP_USER,
+              message: null,
               user: response.data.userData
             });
           } else {
             dispatch({
-              type: 'SIGNUP_ERROR',
-              error: response.data.message
+              type: actionTypes.ACCESS_ERROR,
+              message: 'There was an error, please try again'
             });
           }
-        }).catch((error) => {
-          throw error;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ACCESS_ERROR,
+            message: 'There was an error, please try again'
+          });
         });
     };
   }
@@ -46,22 +51,33 @@ class AccessActions {
     return (dispatch) => {
       return axios.post('/users/login', userDetails)
         .then((response) => {
-          if (!response.data.error) {
+          if (response.data.message && response.data.message === 'login successful') {
             setAuthorizationToken(response.data.token);
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
-            dispatch({
-              type: 'SIGNIN_USER',
+            return dispatch({
+              type: actionTypes.SIGN_IN_USER,
+              message: null,
               user: response.data.userData
             });
-          } else {
-            dispatch({
-              type: 'SIGNIN_ERROR',
-              error: response.data.error
+          }
+          if (response.data.message && response.data.message === 'User does not exist') {
+            return dispatch({
+              type: actionTypes.USER_DOES_NOT_EXIST,
+              message: 'User does not exist'
             });
           }
-        }).catch((error) => {
-          throw error;
+          if (response.data.message) {
+            return dispatch({
+              type: actionTypes.ACCESS_ERROR,
+              message: response.data.message
+            });
+          }
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ACCESS_ERROR,
+            message: 'There was an error, please try again'
+          });
         });
     };
   }
@@ -77,11 +93,14 @@ class AccessActions {
         .then((response) => {
           localStorage.removeItem('jwToken');
           dispatch({
-            type: 'SIGNOUT_USER',
+            type: actionTypes.SIGN_OUT_USER,
             message: response.data.message
           });
-        }).catch((error) => {
-          throw error;
+        }).catch(() => {
+          return dispatch({
+            type: actionTypes.ACCESS_ERROR,
+            error: 'There was an error, please try again'
+          });
         });
     };
   }

@@ -129,7 +129,7 @@ describe('Document', () => {
         .set({ Authorization: regularUserToken })
         .send(testData.documentFive)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(200);
           res.body.should.have.property('message').eql(
             "we're sorry, Use a valid access type, please try again");
         });
@@ -142,9 +142,9 @@ describe('Document', () => {
         .set({ Authorization: regularUserToken })
         .send(testData.documentOne)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(200);
           res.body.should.have.property('message').eql(
-            "we're sorry, title must be unique, please try again");
+            "we're sorry, document title must be unique, please try again");
         });
       done();
     });
@@ -155,7 +155,7 @@ describe('Document', () => {
         .set({ Authorization: regularUserToken })
         .send(testData.documentFour)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(200);
           res.body.should.have.property('message').eql(
             'Invalid Access Type');
         });
@@ -273,7 +273,7 @@ describe('Document', () => {
           .get(`/documents/${adminPrivate.id}`)
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(200);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -285,7 +285,7 @@ describe('Document', () => {
           .get(`/documents/${adminRole.id}`)
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(200);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -327,7 +327,7 @@ describe('Document', () => {
           .get(`/documents/${adminPrivate.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(200);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -339,7 +339,7 @@ describe('Document', () => {
           .get(`/documents/${adminRole.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(200);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -365,7 +365,7 @@ describe('Document', () => {
           .get(`/documents/${regularUserPrivate.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(200);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -377,7 +377,7 @@ describe('Document', () => {
           .get(`/documents/${regularUserRole.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(200);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -404,7 +404,7 @@ describe('Document', () => {
         .get('/documents/3000')
         .set({ Authorization: adminToken })
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(200);
           res.body.should.have.property('message').eql('Document not found');
           done();
         });
@@ -435,7 +435,7 @@ describe('Document', () => {
         .set({ Authorization: contributorToken })
         .send({ title: 'The main man' })
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(200);
           res.body.should.have.property(
             'message').eql('you are unauthorized for this action');
           res.body.should.not.have.property('updatedDocument');
@@ -465,9 +465,9 @@ describe('Document', () => {
         .set({ Authorization: adminToken })
         .send({ title: '' })
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(200);
           res.body.should.have.property(
-            'error').eql('Title is Required');
+            'message').eql('Title is Required');
           res.body.should.not.have.property('updatedDocument');
           done();
         });
@@ -479,7 +479,7 @@ describe('Document', () => {
         .set({ Authorization: adminToken })
         .send({ title: 'The main man' })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(200);
           res.body.should.have.property(
             'message').eql("we're sorry, document title must be unique");
           res.body.should.not.have.property('updatedDocument');
@@ -550,7 +550,7 @@ describe('Document', () => {
         .delete(`/documents/${regularUserPrivate.id}`)
         .set({ Authorization: contributorToken })
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(200);
           res.body.should.have.property(
             'message').eql('You are unauthorized for this action');
           done();

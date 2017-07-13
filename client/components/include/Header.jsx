@@ -16,8 +16,8 @@ class Header extends Component {
    * Creates an instance of Header.
    * @memberof Header
    */
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.logout = this.logout.bind(this);
   }
 
@@ -47,7 +47,7 @@ class Header extends Component {
    */
   render() {
     return (
-      <NavBar onClick={this.logout} />
+      <NavBar onClick={this.logout} match={this.props.match} />
     );
   }
 }

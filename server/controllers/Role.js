@@ -18,12 +18,12 @@ class Role {
     validate.role(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(403).send({ error: validateErrors });
+      res.status(200).send({ message: validateErrors });
     } else {
       db.Role.findOne({ where: { title: req.body.title } })
         .then((role) => {
           if (role !== null) {
-            res.status(400).send({ message: 'Role already exists' });
+            res.status(200).send({ message: 'Role already exists' });
           } else {
             return db.Role.create({
               title: req.body.title,
@@ -56,7 +56,7 @@ class Role {
     db.Role.findAll({ where: { id: { $not: [1, 2] } } })
       .then((roles) => {
         if (roles.length === 0) {
-          return res.status(404).send({
+          return res.status(200).send({
             message: 'There are no roles currently'
           });
         }
@@ -80,13 +80,13 @@ class Role {
     validate.roleUpdate(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(403).send({ error: validateErrors });
+      res.status(200).send({ message: validateErrors });
     } else {
       const id = Number(req.params.id);
       db.Role.findById(id)
         .then((roles) => {
           if (roles === null) {
-            return res.status(400).send({ message: 'Role not found' });
+            return res.status(200).send({ message: 'Role not found' });
           }
           roles.update({
             title: req.body.title || roles.title,
@@ -98,7 +98,7 @@ class Role {
             });
           })
             .catch((error) => {
-              res.status(401).send({
+              res.status(200).send({
                 message: `we're sorry, role ${error.errors[0].message}`
               });
             });
@@ -125,7 +125,7 @@ class Role {
     db.Role.findById(id)
       .then((roles) => {
         if (roles === null) {
-          return res.status(400).send({ message: 'Role not found' });
+          return res.status(200).send({ message: 'Role not found' });
         }
         roles.destroy()
           .then(() => {

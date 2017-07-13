@@ -32,7 +32,7 @@ module.exports = (app) => {
   app.delete(
     '/users/:id', auth, authenticate.permitUserOrAdmin, userController.remove);
   app.get('/users/:id/documents',
-    auth, authenticate.permitAdmin, documentController.getUserDocuments);
+    auth, authenticate.permitUserOrAdmin, documentController.getUserDocuments);
   app.post('/documents', auth, documentController.create);
   app.get('/documents', auth, documentController.listAll);
   app.get('/documents/:id', auth, documentController.view);
