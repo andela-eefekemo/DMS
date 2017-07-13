@@ -23,7 +23,7 @@ class DocumentActions {
           }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
-            message: 'There was an error please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -60,7 +60,7 @@ class DocumentActions {
           }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -90,7 +90,7 @@ class DocumentActions {
           }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -120,7 +120,7 @@ class DocumentActions {
           }
           return dispatch({
             type: actionTypes.ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -158,7 +158,7 @@ class DocumentActions {
           }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -192,7 +192,7 @@ class DocumentActions {
           }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({
@@ -221,7 +221,7 @@ class DocumentActions {
           }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
-            message: 'There was an error, please try again'
+            message: response.data.message
           });
         }).catch(() => {
           return dispatch({

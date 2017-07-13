@@ -44,7 +44,7 @@ class DocumentList extends Component {
    * @return {void}
    * @memberof DocumentList
    */
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAllDocuments()
       .then(() => {
         this.setState({
@@ -113,6 +113,11 @@ class DocumentList extends Component {
    */
   onClick(e) {
     this.props.viewDocument(e.target.name).then(() => {
+      if (this.props.document.message) {
+        return Materialize.toast(
+          this.props.document.message, 2000,
+          'indigo darken-4 white-text rounded');
+      }
       this.setState({
         title: this.props.document.title,
         content: this.props.document.content,
@@ -159,6 +164,10 @@ class DocumentList extends Component {
    */
   deleteDocument(e) {
     this.props.deleteDocument(e.target.name).then(() => {
+      Materialize.toast(
+        this.props.document.message, 2000,
+        'indigo darken-4 white-text rounded');
+      this.context.router.history.push('/dashboard');
       this.updateDocumentList();
       this.context.router.history.push(`${this.props.match.url}`);
     }).catch(() => {
@@ -178,6 +187,14 @@ class DocumentList extends Component {
     };
     this.props.updateDocument(this.props.document.id, updatedDocument)
       .then(() => {
+        if (this.props.document.message) {
+          return Materialize.toast(
+            this.props.document.message, 2000,
+            'indigo darken-4 white-text rounded');
+        }
+        Materialize.toast(
+          'Success!', 2000, 'indigo darken-4 white-text rounded');
+        this.context.router.history.push('/dashboard');
         this.setState({
           title: this.props.document.title,
           content: this.props.document.content,

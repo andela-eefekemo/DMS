@@ -76,16 +76,22 @@ class UserList extends Component {
    * @memberof UserList
    */
   onClick(e) {
+    e.preventDefault();
     this.props.viewUser(e.target.name).then(() => {
-      this.setState({
-        firstName: this.props.User.firstName,
-        lastName: this.props.User.lastName,
-        email: this.props.User.email,
-        roleId: this.props.User.roleId
-      });
-      this.context.router.history.push(`${this.props.match.url}/viewUser`);
+      if (this.props.User.message) {
+        return Materialize.toast(
+          this.props.user.message, 2000,
+          'indigo darken-4 white-text rounded');
+      } else {
+        this.setState({
+          firstName: this.props.User.firstName,
+          lastName: this.props.User.lastName,
+          email: this.props.User.email,
+          roleId: this.props.User.roleId
+        });
+        this.context.router.history.push(`${this.props.match.url}/viewUser`);
+      }
     }).catch(() => {
-
     });
   }
 
