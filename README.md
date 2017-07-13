@@ -60,7 +60,7 @@ The following features make up the Document Management System API:
 
 ### **Installation Steps**
 * Ensure you have `node` installed or install [Node](https://nodejs.org/en/download/)
-* Clone the project repository from your terminal `git clone https://github.com/andela-moseni/document-mgt-system.git`
+* Clone the project repository from your terminal `git clone https://github.com/andela-eefekemo/DMS.git`
 * Change directory into the `document-mgt-system` directory
 * Run `npm install` to install the dependencies in the `package.json` file
 * Run `npm run dev` to start the project
