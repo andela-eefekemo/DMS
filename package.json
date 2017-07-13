@@ -16,7 +16,6 @@
     "setup:test": "npm run db:migrate:test && NODE_ENV=test sequelize db:seed:all",
     "build": "webpack --config ./webpack.config.js --progress --colors --watch",
     "db:seed": "sequelize db:seed:all",
-    "postinstall": "npm run db:migrate && npm run db:seed",
     "client:test": "jest client/test"
   },
   "jest": {
