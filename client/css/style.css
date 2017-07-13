@@ -15,6 +15,11 @@ body {
     font-size: 14px; }
   .auth-card form h5 {
     color: white; }
+  .auth-card form input {
+    color: white !important; }
+
+input {
+  color: black !important; }
 
 .form-design {
   margin-bottom: -2px !important; }
@@ -199,6 +204,9 @@ input[type=password].invalid {
 .profile .col {
   margin: 0 auto !important;
   float: initial !important; }
+
+.profile input {
+  color: black !important; }
 
 .user-action {
   margin-top: 20% !important; }

@@ -60,7 +60,7 @@ const DocumentView = (props) => {
                   type="text" onChange={onChange} />
                 <InputField
                   name="content"
-                  value={content}
+                  value={ReactHtmlParser(content)}
                   placeholder="Document Content"
                   className="validate form-design"
                   type="text" onChange={onChange} />

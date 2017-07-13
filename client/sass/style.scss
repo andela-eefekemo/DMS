@@ -30,7 +30,14 @@ body {
     h5{
       color:white;
     }
+    input{
+      color: white !important;
+    }
   }
+}
+
+input{
+  color: black !important;
 }
 
 .form-design{
@@ -244,6 +251,9 @@ input[type=password].invalid{
   .col{
     margin: 0 auto !important;
     float: initial !important;
+  }
+  input{
+    color: black !important;
   }
 }
 
