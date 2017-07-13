@@ -76,7 +76,7 @@ The following features make up the Document Management System API:
 The limitations to the **Document Management System API** are as follows:
 * Users can only create plain textual documents and retrieve same when needed 
 * Users cannot share documents with people, but can make document `public` to make it available to other users
-* Users login and obtain a token which is verified on every request, but users cannot logout (nullify the token), however tokens become invalid when it expires (after 12 hours)
+* Users login and obtain a token which is verified on every request, but users cannot logout (nullify the token), however tokens become invalid when it expires
 
 ### How to Contribute
 Contributors are welcome to further enhance the features of this API by contributing to its development. The following guidelines should guide you in contributing to this project:
