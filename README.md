@@ -50,9 +50,6 @@ The following features make up the Document Management System API:
 - It allows users to search for users through name or email address
 - It allows users on the same role to search through role-based documents 
 
-## API Documentation
-- View API endpoints and their functions [here](https://andela-moseni.github.io/document-mgt-system/)
-
 ## Technologies Used
 - **[JavaScript ES6](http://es6-features.org/)** - Codes were written in javascript to enhance HTML pages.
 - **[ReactJS](https://facebook.github.io/react/)** - React is an open-source JavaScript library for building user interfaces.
