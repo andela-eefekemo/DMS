@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
+import initialState from './initialState';
 
-const userReducer = (state = { userList: [], user: {} }, action) => {
+const userReducer = (state = initialState.user, action) => {
   switch (action.type) {
     case actionTypes.VIEW_USER:
       return Object.assign(

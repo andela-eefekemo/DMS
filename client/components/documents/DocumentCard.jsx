@@ -26,16 +26,14 @@ const DocumentCard = (props) => {
   );
 };
 
-// Set Default Props
-DocumentCard.defaultProps = {
-  title: '',
-  content: '',
-  id: ''
-};
 // Set Props
 DocumentCard.propTypes = {
   title: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired
+  access: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  User: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  updatedAt: PropTypes.node.isRequired
 };
 
 export default DocumentCard;

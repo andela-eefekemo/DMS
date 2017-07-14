@@ -40,7 +40,8 @@ class Document {
             }).catch((error) => {
               return res.status(200).send({
                 message:
-                `we're sorry, document ${error.errors[0].message}, please try again`
+                `we're sorry,
+                document ${error.errors[0].message}, please try again`
               });
             });
         }).catch((error) => {

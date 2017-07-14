@@ -11,9 +11,10 @@ const signOutUser = accessActions.signOutUser;
  * @class Header
  * @extends {Component}
  */
-class Header extends Component {
+export class Header extends Component {
   /**
    * Creates an instance of Header.
+   * @param {any} props -
    * @memberof Header
    */
   constructor(props) {
@@ -37,8 +38,12 @@ class Header extends Component {
    */
   logout(e) {
     e.preventDefault();
-    this.props.signOutUser();
-    this.context.router.history.push('/');
+    this.props.signOutUser()
+      .then(() => {
+        this.context.router.history.push('/');
+      }).catch(() => {
+
+      });
   }
 
   /**
@@ -52,7 +57,8 @@ class Header extends Component {
   }
 }
 Header.propTypes = {
-  signOutUser: PropTypes.func.isRequired
+  signOutUser: PropTypes.func.isRequired,
+  match: PropTypes.object
 };
 
 Header.contextTypes = {

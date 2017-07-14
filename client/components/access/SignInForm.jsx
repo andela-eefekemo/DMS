@@ -12,7 +12,7 @@ const signInUser = AccessActions.signInUser;
  * @class SignInForm
  * @extends {Component}
  */
-class SignInForm extends Component {
+export class SignInForm extends Component {
   /**
  * Creates an instance of SignUpForm.
  * @param {any} props -
@@ -42,9 +42,11 @@ class SignInForm extends Component {
       this.props.signInUser(this.state)
         .then(() => {
           if (this.props.access.message) {
-            return Materialize.toast(this.props.access.message, 2000, 'indigo darken-4 white-text rounded');
+            return Materialize.toast(this.props.access.message,
+              2000, 'indigo darken-4 white-text rounded');
           }
-          Materialize.toast('Success!', 2000, 'indigo darken-4 white-text rounded');
+          Materialize.toast('Success!',
+            2000, 'indigo darken-4 white-text rounded');
           this.context.router.history.push('/dashboard');
         });
     } catch (err) {
@@ -86,7 +88,9 @@ class SignInForm extends Component {
             Sign In
           </button>
         </div>
-        <p className="center">Don't Have an account? <Link to="signup">Create an Account</Link></p>
+        <p className="center">
+          Don&#39;t Have an account? <Link to="signup">Create an Account</Link>
+        </p>
       </form>
     );
   }
@@ -99,7 +103,8 @@ const mapPropsToState = (state) => {
 };
 
 SignInForm.propTypes = {
-  signInUser: PropTypes.func.isRequired
+  signInUser: PropTypes.func.isRequired,
+  access: PropTypes.object.isRequired
 };
 
 SignInForm.contextTypes = {

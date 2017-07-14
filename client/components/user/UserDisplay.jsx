@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
+import PropTypes from 'prop-types';
 
 import InputField from '../common/InputField';
 
@@ -8,9 +9,6 @@ const UserDisplay = (
   return (
     <div>
       <div className="user-card card">
-        <div className="card-content">
-          <p></p>
-        </div>
         <h5 className="center"> User Profile </h5>
         <div className="row profile">
           <div className="col l8 m8 s12">
@@ -73,7 +71,9 @@ const UserDisplay = (
                   </div>
                 </div>
                 <div className="center">
-                  <button className="waves-effect btn button-design" type="submit" onClick={onSubmit}>
+                  <button
+                    className="waves-effect btn button-design"
+                    type="submit" onClick={onSubmit}>
                     Save
                   </button>
                 </div>
@@ -81,7 +81,9 @@ const UserDisplay = (
             </Modal>
           </div>
           <div className="col l6 m6 s12 input-field center">
-            <button className="waves-effect btn button-design" type="submit" onClick={onSubmit} >
+            <button
+              className="waves-effect btn button-design"
+              type="submit" onClick={onSubmit} >
               Save
               </button>
           </div>
@@ -89,6 +91,14 @@ const UserDisplay = (
       </div>
     </div >
   );
+};
+
+UserDisplay.propTypes = {
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default UserDisplay;

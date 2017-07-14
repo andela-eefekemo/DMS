@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 // import SignInForm from './access/SignInForm';
 // import SignUpForm from './access/SignUpForm';
 
-import LandingContainer from './access/LandingContainer';
+import LandingConnectedContainer from './access/LandingContainer';
 import Dashboard from './Dashboard';
 import AuthPage from './access/AuthPage';
 
@@ -21,7 +21,7 @@ class App extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={LandingContainer} />
+          <Route exact path="/" component={LandingConnectedContainer} />
           <Route path="/auth"component={AuthPage} />
           <Route path="/dashboard" component={Dashboard} />
           <Redirect from="/signout" to="/" />

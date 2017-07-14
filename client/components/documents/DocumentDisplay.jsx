@@ -29,7 +29,8 @@ const DocumentDisplay = ({ onChange, onSubmit, document, getContent }) => {
           config={{
             plugins: 'link image code',
             height: 200,
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+            toolbar:
+            'undo redo | bold italic | alignleft aligncenter alignright | code'
           }}
           onChange={getContent}
         />

@@ -8,15 +8,7 @@ import SectionDisplay from './SectionDisplay';
  * @class LandingContainer
  * @extends {Component}
  */
-class LandingContainer extends Component {
-  /**
-   * Creates an instance of LandingContainer.
-   * @param {any} props -
-   * @memberof LandingContainer
-   */
-  constructor(props) {
-    super(props);
-  }
+export class LandingContainer extends Component {
   /**
    * @return {void}
    * @memberof LandingContainer
@@ -50,7 +42,8 @@ const mapPropsToState = (state) => {
 };
 
 LandingContainer.propTypes = {
-  access: PropTypes.object.isRequired
+  access: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 LandingContainer.contextTypes = {

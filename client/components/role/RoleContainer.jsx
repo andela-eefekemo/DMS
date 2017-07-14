@@ -12,7 +12,7 @@ const createRole = RoleActions.createRole;
  * @class RoleContainer
  * @extends {Component}
  */
-class RoleContainer extends Component {
+export class RoleContainer extends Component {
   /**
    * Creates an instance of RoleContainer.
    * @param {any} props -
@@ -42,7 +42,9 @@ class RoleContainer extends Component {
       this.props.createRole(this.state)
         .then(() => {
           if (this.props.role.message) {
-            return Materialize.toast(this.props.role.message, 2000, 'indigo darken-4 white-text rounded');
+            return Materialize.toast(
+              this.props.role.message,
+              2000, 'indigo darken-4 white-text rounded');
           }
           Materialize.toast(
             'Success!', 2000, 'indigo darken-4 white-text rounded');
@@ -85,7 +87,8 @@ const mapPropsToState = (state) => {
 };
 
 RoleContainer.propTypes = {
-  createRole: PropTypes.func.isRequired
+  createRole: PropTypes.func.isRequired,
+  role: PropTypes.object
 };
 
 RoleContainer.contextTypes = {

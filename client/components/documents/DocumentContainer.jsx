@@ -12,7 +12,7 @@ const createDocument = DocumentActions.createDocument;
  * @class DocumentContainer
  * @extends {Component}
  */
-class DocumentContainer extends Component {
+export class DocumentContainer extends Component {
   /**
    * Creates an instance of DocumentContainer.
    * @param {any} props -
@@ -98,7 +98,8 @@ const mapPropsToState = (state) => {
 };
 
 DocumentContainer.propTypes = {
-  createDocument: PropTypes.func.isRequired
+  createDocument: PropTypes.func.isRequired,
+  document: PropTypes.object.isRequired
 };
 
 export default connect(mapPropsToState, { createDocument })(DocumentContainer);

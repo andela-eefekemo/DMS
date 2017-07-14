@@ -11,7 +11,7 @@ const updateUser = UserActions.updateUser;
  * @class UserContainer
  * @extends {Component}
  */
-class UserContainer extends Component {
+export class UserContainer extends Component {
   /**
    * Creates an instance of ProfileContainer.
    * @param {any} props -

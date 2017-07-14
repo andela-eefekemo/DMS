@@ -2,23 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import UserActions from '../../actions/UserActions';
-import RoleActions from '../../actions/RoleActions';
 import UserCard from './UserCard';
 import UserView from './UserView';
 
 const getAllUsers = UserActions.getUsers;
 const viewUser = UserActions.viewUser;
-const updateUser = UserActions.updateUser;
 const deleteUser = UserActions.deleteUser;
 const searchUsers = UserActions.searchUsers;
-const viewRoles = RoleActions.viewRole;
 
 /**
  * @class UserList
  * @extends {Component}
  */
-class UserList extends Component {
+export class UserList extends Component {
   /**
    * Creates an instance of UserList.
    * @param {any} props -
@@ -80,17 +78,16 @@ class UserList extends Component {
     this.props.viewUser(e.target.name).then(() => {
       if (this.props.User.message) {
         return Materialize.toast(
-          this.props.user.message, 2000,
+          this.props.User.message, 2000,
           'indigo darken-4 white-text rounded');
-      } else {
-        this.setState({
-          firstName: this.props.User.firstName,
-          lastName: this.props.User.lastName,
-          email: this.props.User.email,
-          roleId: this.props.User.roleId
-        });
-        this.context.router.history.push(`${this.props.match.url}/viewUser`);
       }
+      this.setState({
+        firstName: this.props.User.firstName,
+        lastName: this.props.User.lastName,
+        email: this.props.User.email,
+        roleId: this.props.User.roleId
+      });
+      this.context.router.history.push(`${this.props.match.url}/viewUser`);
     }).catch(() => {
     });
   }
@@ -104,7 +101,6 @@ class UserList extends Component {
     e.preventDefault();
     this.props.searchUsers(e.target.value)
       .then(() => {
-        console.log(this.state.searchTerm);
       }).catch(() => {
 
       });
@@ -182,14 +178,24 @@ UserList.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
+UserList.propTypes = {
+  getAllUsers: PropTypes.func,
+  viewUser: PropTypes.func,
+  deleteUser: PropTypes.func,
+  searchUsers: PropTypes.func,
+  User: PropTypes.object,
+  UserList: PropTypes.object,
+  match: PropTypes.object
+};
+
 const mapPropsToState = (state) => {
   return {
     UserList: state.user.userList,
-    User: state.user.user,
-    roles: state.role.roleList,
-    access: state.access
+    User: state.user.user
   };
 };
 
 export default connect(
-  mapPropsToState, { getAllUsers, viewUser, updateUser, deleteUser, searchUsers, viewRoles })(UserList);
+  mapPropsToState, {
+    getAllUsers, viewUser, deleteUser, searchUsers
+  })(UserList);

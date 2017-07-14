@@ -54,7 +54,8 @@ describe('Document Actions', () => {
           content: 'eguono'
         })).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -63,7 +64,8 @@ describe('Document Actions', () => {
         moxios.stubRequest('/documents', {
           status: 200,
           response: {
-            message: "we're sorry, document title must be unique, please try again"
+            message:
+            "we're sorry, document title must be unique, please try again"
           }
         });
         const store = mockStore({});
@@ -76,7 +78,8 @@ describe('Document Actions', () => {
           content: 'eguono'
         })).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -101,7 +104,9 @@ describe('Document Actions', () => {
       store.dispatch(DocumentActions.getAllDocuments()).then(() => {
         expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
         expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].documentList).toEqual(expectedAction[0].documentList);
+        expect(
+          store.getActions()[0].documentList).toEqual(
+          expectedAction[0].documentList);
       });
       done();
     });
@@ -120,7 +125,8 @@ describe('Document Actions', () => {
         }];
         store.dispatch(DocumentActions.getAllDocuments()).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -143,7 +149,8 @@ describe('Document Actions', () => {
       store.dispatch(DocumentActions.viewDocument(1)).then(() => {
         expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
         expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].document).toEqual(expectedAction[0].document);
+        expect(
+          store.getActions()[0].document).toEqual(expectedAction[0].document);
       });
       done();
     });
@@ -162,7 +169,8 @@ describe('Document Actions', () => {
         }];
         store.dispatch(DocumentActions.viewDocument(300000)).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -187,7 +195,9 @@ describe('Document Actions', () => {
       store.dispatch(DocumentActions.getUserDocuments(1)).then(() => {
         expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
         expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].documentList).toEqual(expectedAction[0].documentList);
+        expect(
+          store.getActions()[0].documentList).toEqual(
+          expectedAction[0].documentList);
       });
       done();
     });
@@ -206,7 +216,8 @@ describe('Document Actions', () => {
         }];
         store.dispatch(DocumentActions.getUserDocuments(1)).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -226,11 +237,13 @@ describe('Document Actions', () => {
         message: null,
         document: { title: 'Eguono' }
       }];
-      store.dispatch(DocumentActions.updateDocument(1, { title: 'Eguono' })).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].document).toEqual(expectedAction[0].document);
-      });
+      store.dispatch(
+        DocumentActions.updateDocument(1, { title: 'Eguono' })).then(() => {
+          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
+          expect(store.getActions()[0].message).toEqual(null);
+          expect(
+            store.getActions()[0].document).toEqual(expectedAction[0].document);
+        });
       done();
     });
     it(
@@ -248,10 +261,12 @@ describe('Document Actions', () => {
           type: actionType.DOCUMENT_EXISTS,
           message: 'Document title already exists, please rename document'
         }];
-        store.dispatch(DocumentActions.updateDocument(1, { title: 'Eguono' })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
-        });
+        store.dispatch(
+          DocumentActions.updateDocument(1, { title: 'Eguono' })).then(() => {
+            expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
+            expect(
+              store.getActions()[0].message).toEqual(expectedAction[0].message);
+          });
         done();
       });
     it("Should dispatch the appropraite action type if there's an error",
@@ -269,7 +284,8 @@ describe('Document Actions', () => {
         }];
         store.dispatch(DocumentActions.updateDocument(300000)).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -294,7 +310,9 @@ describe('Document Actions', () => {
       store.dispatch(DocumentActions.searchDocuments('e')).then(() => {
         expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
         expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].documentList).toEqual(expectedAction[0].documentList);
+        expect(
+          store.getActions()[0].documentList).toEqual(
+          expectedAction[0].documentList);
       });
       done();
     });
@@ -313,7 +331,8 @@ describe('Document Actions', () => {
         }];
         store.dispatch(DocumentActions.searchDocuments('e')).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -336,7 +355,9 @@ describe('Document Actions', () => {
       store.dispatch(DocumentActions.deleteDocument(1)).then(() => {
         expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
         expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].documentId).toEqual(expectedAction[0].documentId);
+        expect(
+          store.getActions()[0].documentId).toEqual(
+          expectedAction[0].documentId);
       });
       done();
     });
@@ -355,7 +376,8 @@ describe('Document Actions', () => {
         }];
         store.dispatch(DocumentActions.deleteDocument(300000)).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });

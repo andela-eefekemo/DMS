@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 
-import Header from './include/Header';
+import ConnectedHeader from './include/Header';
 import SideBar from './include/sideBar';
 import Footer from './include/Footer';
-import UserContainer from './user/UserContainer';
-import DocumentContainer from './documents/DocumentContainer';
-import RoleContainer from './role/RoleContainer';
-import DocumentList from './documents/DocumentList';
-import UserList from './user/UserList';
-import RoleList from './role/RoleList';
+import UserConnectedContainer from './user/UserContainer';
+import DocumentConnectedContainer from './documents/DocumentContainer';
+import RoleConnectedContainer from './role/RoleContainer';
+import DocumentConnectedList from './documents/DocumentList';
+import UserConnectedList from './user/UserList';
+import RoleConnectedList from './role/RoleList';
 
 /**
  * @class Dashboard
@@ -42,8 +42,7 @@ class Dashboard extends Component {
         'indigo darken-4 white-text rounded');
     }
   }
-
-
+  
   /**
    * @return {jsx} -
    * @memberof Dashboard
@@ -53,25 +52,25 @@ class Dashboard extends Component {
       <div className="dashboard">
         <SideBar match={this.props.match} user={this.state.user} />
         <div className="dashboard-margin">
-          <Header match={this.props.match} />
+          <ConnectedHeader match={this.props.match} />
           <Switch>
             <Route
               path={`${this.props.match.url}/document`}
-              component={DocumentContainer} />
+              component={DocumentConnectedContainer} />
             <Route
               path={`${this.props.match.url}/role`}
-              component={RoleContainer} />
+              component={RoleConnectedContainer} />
             <Route
-              exact path={this.props.match.url} component={UserContainer} />
+              exact path={this.props.match.url} component={UserConnectedContainer} />
             <Route
               path={`${this.props.match.url}/alldocument`}
-              component={DocumentList} />
+              component={DocumentConnectedList} />
             <Route
               path={`${this.props.match.url}/allusers`}
-              component={UserList} />
+              component={UserConnectedList} />
             <Route
               path={`${this.props.match.url}/allroles`}
-              component={RoleList} />
+              component={RoleConnectedList} />
           </Switch>
           <Footer />
         </div>

@@ -217,7 +217,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(10);
+          res.body.userList.length.should.be.eql(14);
           done();
         });
     });
@@ -246,7 +246,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(7);
+          res.body.userList.length.should.be.eql(11);
           done();
         });
     });
