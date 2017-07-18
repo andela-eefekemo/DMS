@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import DocumentDisplay from './DocumentDisplay';
@@ -32,11 +33,10 @@ export class DocumentContainer extends Component {
 
   /**
    * @return {void}
-   * @param {any} e -
+   * @param {any} -
    * @memberof DocumentContainer
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit() {
     try {
       if (!validate(this.state)) {
         throw new Error('No field should be left blank');
@@ -50,7 +50,7 @@ export class DocumentContainer extends Component {
           }
           Materialize.toast(
             'Success!', 2000, 'indigo darken-4 white-text rounded');
-          this.context.router.history.push('/dashboard');
+          this.props.history.push('/dashboard');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -99,7 +99,9 @@ const mapPropsToState = (state) => {
 
 DocumentContainer.propTypes = {
   createDocument: PropTypes.func.isRequired,
-  document: PropTypes.object.isRequired
+  document: PropTypes.object.isRequired,
+  history: PropTypes.object
 };
 
-export default connect(mapPropsToState, { createDocument })(DocumentContainer);
+export default connect(
+  mapPropsToState, { createDocument })(withRouter(DocumentContainer));

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from '../include/Header';
+import ConnectedHeader from '../include/Header';
 import SectionDisplay from './SectionDisplay';
 
 /**
@@ -9,15 +10,15 @@ import SectionDisplay from './SectionDisplay';
  * @extends {Component}
  */
 export class LandingContainer extends Component {
+
   /**
    * @return {void}
    * @memberof LandingContainer
    */
   componentDidMount() {
-    $('.tabs').tabs();
     $('.carousel.carousel-slider').carousel({ fullWidth: true });
     if (this.props.access.isAuthenticated === true) {
-      this.context.router.history.push('/dashboard');
+      this.props.history.push('/dashboard');
     }
   }
 
@@ -28,7 +29,7 @@ export class LandingContainer extends Component {
   render() {
     return (
       <div className="landing-page">
-        <Header match={this.props.match} />
+        <ConnectedHeader match={this.props.match} />
         <SectionDisplay />
       </div>
     );
@@ -43,12 +44,9 @@ const mapPropsToState = (state) => {
 
 LandingContainer.propTypes = {
   access: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
-};
-
-LandingContainer.contextTypes = {
-  router: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object
 };
 
 
-export default connect(mapPropsToState)(LandingContainer);
+export default connect(mapPropsToState)(withRouter(LandingContainer));

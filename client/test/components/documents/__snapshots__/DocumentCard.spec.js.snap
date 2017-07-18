@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocumentCard Component should match the document card snapshot 1`] = `
+<div>
+  <a
+    className="truncate"
+    href="#!"
+    name={3}
+    onClick={[Function]}
+  >
+    Book
+  </a>
+  <p>
+    By 
+     
+  </p>
+  <p>
+    Public
+  </p>
+  <p>
+    Last Edited: 
+    Invalid Date
+  </p>
+  <div
+    className="divider"
+  />
+</div>
+`;

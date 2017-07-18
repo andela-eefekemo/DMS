@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthPage Component should match the AuthPage snapshot 1`] = `
+<div>
+  <Connect(withRouter(Header))
+    match={
+      Object {
+        "path": "",
+      }
+    }
+  />
+  <div
+    className="container authpage"
+  >
+    <div
+      className="row auth-card"
+    >
+      <Switch>
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/signin"
+        />
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/signup"
+        />
+      </Switch>
+    </div>
+  </div>
+</div>
+`;

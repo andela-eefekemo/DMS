@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import accessActions from '../../actions/AccessActions';
@@ -33,16 +34,12 @@ export class Header extends Component {
 
   /**
    * @return {void}
-   * @param {any} e -
    * @memberof Header
    */
-  logout(e) {
-    e.preventDefault();
+  logout() {
     this.props.signOutUser()
       .then(() => {
-        this.context.router.history.push('/');
-      }).catch(() => {
-
+        this.props.history.push('/');
       });
   }
 
@@ -58,11 +55,7 @@ export class Header extends Component {
 }
 Header.propTypes = {
   signOutUser: PropTypes.func.isRequired,
-  match: PropTypes.object
+  match: PropTypes.object,
+  history: PropTypes.object
 };
-
-Header.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
-export default connect(null, { signOutUser })(Header);
+export default connect(null, { signOutUser })(withRouter(Header));

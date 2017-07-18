@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import AccessActions from '../../actions/AccessActions';
-import InputField from '../common/InputField';
 import validate from '../../utilities/validate';
 
 
@@ -35,11 +34,9 @@ export class SignUpForm extends Component {
 
   /**
    * @return {void}
-   * @param {any} e -
    * @memberof SignUpForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit() {
     try {
       if (!validate(this.state)) {
         throw new Error('No field should be left blank');
@@ -52,7 +49,7 @@ export class SignUpForm extends Component {
           }
           Materialize.toast('Success!',
             2000, 'indigo darken-4 white-text rounded');
-          this.context.router.history.push('/dashboard');
+          this.props.history.push('/dashboard');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -77,58 +74,80 @@ export class SignUpForm extends Component {
    */
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <div>
         <h5 className="center"> Create an account </h5>
         <div className="row">
           <div className="col l6 m6 s12">
-            <InputField
-              name="firstName"
-              value={this.state.firstName}
-              placeholder="First Name"
-              className="validate form-design"
-              type="text" onChange={this.onChange} />
+            <div className="input-field">
+              <input
+                className="validate form-design"
+                name="firstName"
+                value={this.state.firstName}
+                placeholder="First Name"
+                type="text" onChange={this.onChange}
+                required
+              />
+            </div>
           </div>
           <div className="col l6 m6 s12">
-            <InputField
-              name="lastName"
-              value={this.state.lastName}
-              placeholder="Last Name"
-              className="validate form-design"
-              type="text" onChange={this.onChange} />
+            <div className="input-field">
+              <input
+                name="lastName"
+                value={this.state.lastName}
+                placeholder="Last Name"
+                className="validate form-design"
+                type="text" onChange={this.onChange}
+                required
+              />
+            </div>
           </div>
           <div className="col l12 m12 s12">
-            <InputField
-              name="email"
-              value={this.state.email}
-              placeholder="Email"
-              className="validate form-design"
-              type="email" onChange={this.onChange} />
+            <div className="input-field">
+              <input
+                name="email"
+                value={this.state.email}
+                placeholder="Email"
+                className="validate form-design"
+                type="email" onChange={this.onChange}
+                required
+              />
+            </div>
           </div>
           <div className="col l12 m12 s12">
-            <InputField
-              name="password"
-              value={this.state.password}
-              placeholder="Password"
-              className="validate form-design"
-              type="password" onChange={this.onChange} />
+            <div className="input-field">
+              <input
+                name="password"
+                value={this.state.password}
+                placeholder="Password"
+                className="validate form-design"
+                type="password" onChange={this.onChange}
+                required
+              />
+            </div>
           </div>
           <div className="col l12 m12 s12">
-            <InputField
-              name="confirmPassword"
-              value={this.state.confirmPassword}
-              placeholder="Re-Type Password"
-              className="validate form-design"
-              type="password" onChange={this.onChange} />
+            <div className="input-field">
+              <input
+                name="confirmPassword"
+                value={this.state.confirmPassword}
+                placeholder="Re-Type Password"
+                className="validate form-design"
+                type="password" onChange={this.onChange}
+                required
+              />
+            </div>
           </div>
         </div>
         <div className="input-field center">
-          <button className="waves-effect btn button-design" type="submit">
+          <button
+            className="waves-effect btn button-design" id="signup-button"
+            onClick={this.onSubmit}>
             Sign Up
           </button>
         </div>
         <p className="center">Have an account? <Link to="signin">Sign In</Link>
         </p>
-      </form>
+      </div >
     );
   }
 }
@@ -140,12 +159,10 @@ const mapPropsToState = (state) => {
 };
 
 SignUpForm.propTypes = {
-  signUpUser: PropTypes.func.isRequired,
-  access: PropTypes.object.isRequired
+  signUpUser: PropTypes.func,
+  access: PropTypes.object.isRequired,
+  history: PropTypes.object
 };
 
-SignUpForm.contextTypes = {
-  router: PropTypes.object.isRequired
-};
 
-export default connect(mapPropsToState, { signUpUser })(SignUpForm);
+export default connect(mapPropsToState, { signUpUser })(withRouter(SignUpForm));

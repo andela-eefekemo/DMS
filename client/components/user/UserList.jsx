@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import UserActions from '../../actions/UserActions';
@@ -38,7 +38,7 @@ export class UserList extends Component {
    * @return {void}
    * @memberof UserList
    */
-  componentWillMount() {
+  componentDidMount() {
     this.updateUserList();
   }
 
@@ -74,7 +74,6 @@ export class UserList extends Component {
    * @memberof UserList
    */
   onClick(e) {
-    e.preventDefault();
     this.props.viewUser(e.target.name).then(() => {
       if (this.props.User.message) {
         return Materialize.toast(
@@ -87,7 +86,7 @@ export class UserList extends Component {
         email: this.props.User.email,
         roleId: this.props.User.roleId
       });
-      this.context.router.history.push(`${this.props.match.url}/viewUser`);
+      this.props.history.push(`${this.props.match.url}/viewUser`);
     }).catch(() => {
     });
   }
@@ -98,7 +97,7 @@ export class UserList extends Component {
    * @memberof UserList
    */
   onSearch(e) {
-    e.preventDefault();
+    this.setState({ searchTerm: e.target.value });
     this.props.searchUsers(e.target.value)
       .then(() => {
       }).catch(() => {
@@ -114,7 +113,7 @@ export class UserList extends Component {
   deleteUser(e) {
     this.props.deleteUser(e.target.name).then(() => {
       this.updateUserList();
-      this.context.router.history.push(`${this.props.match.url}/allusers`);
+      this.props.history.push(`${this.props.match.url}/allusers`);
     }).catch(() => {
 
     });
@@ -174,18 +173,15 @@ export class UserList extends Component {
   }
 }
 
-UserList.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
 UserList.propTypes = {
   getAllUsers: PropTypes.func,
   viewUser: PropTypes.func,
   deleteUser: PropTypes.func,
   searchUsers: PropTypes.func,
   User: PropTypes.object,
-  UserList: PropTypes.object,
-  match: PropTypes.object
+  UserList: PropTypes.array,
+  match: PropTypes.object,
+  history: PropTypes.object
 };
 
 const mapPropsToState = (state) => {
@@ -198,4 +194,4 @@ const mapPropsToState = (state) => {
 export default connect(
   mapPropsToState, {
     getAllUsers, viewUser, deleteUser, searchUsers
-  })(UserList);
+  })(withRouter(UserList));

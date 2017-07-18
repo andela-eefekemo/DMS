@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoleCard Component should match the role card snapshot 1`] = `
+<div>
+  <h5>
+    Book
+  </h5>
+  <h5>
+    Awesome
+  </h5>
+  <p>
+    today
+  </p>
+  <button
+    className="waves-effect btn button-design"
+    onClick={[Function]}
+    value={3}
+  >
+    Delete
+  </button>
+  <Modal
+    actions={
+      Array [
+        <Button
+          flat={true}
+          modal="close"
+          node="button"
+          waves="light"
+      >
+          Close
+      </Button>,
+      ]
+    }
+    bottomSheet={false}
+    fixedFooter={false}
+    modalOptions={Object {}}
+    trigger={
+      <a
+        className="waves-effect btn button-design"
+        data-target="passwordModal"
+      >
+        Update
+      </a>
+    }
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <h5>
+        Update User
+      </h5>
+      <InputField
+        className="validate form-design"
+        name="title"
+        onChange={[Function]}
+        placeholder="Document firstName"
+        type="text"
+        value="Book"
+      />
+      <InputField
+        className="validate form-design"
+        name="description"
+        onChange={[Function]}
+        placeholder="Document lastName"
+        type="text"
+        value="Awesome"
+      />
+      <div
+        className="input-field center"
+      >
+        <button
+          className="waves-effect btn button-design"
+          type="submit"
+        >
+          Update
+        </button>
+      </div>
+    </form>
+  </Modal>
+</div>
+`;

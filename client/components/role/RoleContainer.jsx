@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 import RoleDisplay from './RoleDisplay';
 import RoleActions from '../../actions/RoleActions';
@@ -30,11 +31,9 @@ export class RoleContainer extends Component {
 
   /**
    * @return {void}
-   * @param {any} e -
    * @memberof RoleContainer
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit() {
     try {
       if (!validate(this.state)) {
         throw new Error('No field should be left blank');
@@ -48,7 +47,7 @@ export class RoleContainer extends Component {
           }
           Materialize.toast(
             'Success!', 2000, 'indigo darken-4 white-text rounded');
-          this.context.router.history.push('/dashboard');
+          this.props.history.push('/dashboard');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -88,11 +87,9 @@ const mapPropsToState = (state) => {
 
 RoleContainer.propTypes = {
   createRole: PropTypes.func.isRequired,
-  role: PropTypes.object
+  role: PropTypes.object,
+  history: PropTypes.object
 };
 
-RoleContainer.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
-export default connect(mapPropsToState, { createRole })(RoleContainer);
+export default connect(
+  mapPropsToState, { createRole })(withRouter(RoleContainer));

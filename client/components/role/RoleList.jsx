@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import RoleActions from '../../actions/RoleActions';
 import RoleCard from './RoleCard';
 
@@ -71,7 +72,7 @@ export class RoleList extends Component {
    */
   deleteRole(e) {
     this.props.deleteRole(e.target.value).then(() => {
-      this.context.router.history.push(`${this.props.match.url}`);
+      this.props.history.push(`${this.props.match.url}`);
     }).catch(() => {
 
     });
@@ -128,18 +129,15 @@ const mapPropsToState = (state) => {
   };
 };
 
-RoleList.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
 RoleList.propTypes = {
   viewRole: PropTypes.func,
   updateRole: PropTypes.func,
   deleteRole: PropTypes.func,
   role: PropTypes.object,
   roleList: PropTypes.array,
-  match: PropTypes.object
+  match: PropTypes.object,
+  history: PropTypes.object
 };
 
 export default connect(
-  mapPropsToState, { viewRole, updateRole, deleteRole })(RoleList);
+  mapPropsToState, { viewRole, updateRole, deleteRole })(withRouter(RoleList));

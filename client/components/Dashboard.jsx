@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
 import ConnectedHeader from './include/Header';
 import SideBar from './include/sideBar';
@@ -37,12 +37,12 @@ class Dashboard extends Component {
   componentDidMount() {
     $('.collapsible').collapsible();
     if (!this.state.isAuthenticated) {
-      this.context.router.history.push('/');
+      this.props.history.push('/');
       return Materialize.toast('You do not have access to view this page', 3000,
         'indigo darken-4 white-text rounded');
     }
   }
-  
+
   /**
    * @return {jsx} -
    * @memberof Dashboard
@@ -61,7 +61,8 @@ class Dashboard extends Component {
               path={`${this.props.match.url}/role`}
               component={RoleConnectedContainer} />
             <Route
-              exact path={this.props.match.url} component={UserConnectedContainer} />
+              exact path={this.props.match.url}
+              component={UserConnectedContainer} />
             <Route
               path={`${this.props.match.url}/alldocument`}
               component={DocumentConnectedList} />
@@ -86,11 +87,9 @@ const mapPropsToState = (state) => {
 };
 
 Dashboard.propTypes = {
-  access: PropTypes.object.isRequired
+  access: PropTypes.object.isRequired,
+  match: PropTypes.object,
+  history: PropTypes.object
 };
 
-Dashboard.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
-export default connect(mapPropsToState)(Dashboard);
+export default connect(mapPropsToState)(withRouter(Dashboard));

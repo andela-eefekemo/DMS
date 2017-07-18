@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import DocumentActions from '../../actions/DocumentActions';
@@ -76,8 +76,6 @@ export class DocumentList extends Component {
           this.setState({
             documents: this.props.documentList
           });
-        }).catch(() => {
-
         });
     }
     if (value === 'All') {
@@ -110,9 +108,7 @@ export class DocumentList extends Component {
         content: this.props.document.content,
         access: this.props.document.access
       });
-      this.context.router.history.push(`${this.props.match.url}/viewUser`);
-    }).catch(() => {
-
+      this.props.history.push(`${this.props.match.url}/viewUser`);
     });
   }
 
@@ -122,12 +118,12 @@ export class DocumentList extends Component {
    * @memberof DocumentList
    */
   onSearch(e) {
-    e.preventDefault();
+    this.setState({
+      searchTerm: e.target.value
+    });
     this.props.searchDocuments(e.target.value)
       .then(() => {
-
-      }).catch(() => {
-
+        this.updateDocumentList();
       });
   }
 
@@ -141,8 +137,6 @@ export class DocumentList extends Component {
         this.setState({
           documents: this.props.documentList
         });
-      }).catch(() => {
-
       });
   }
   /**
@@ -156,9 +150,7 @@ export class DocumentList extends Component {
         this.props.document.message, 2000,
         'indigo darken-4 white-text rounded');
       this.updateDocumentList();
-      this.context.router.history.push(`${this.props.match.url}`);
-    }).catch(() => {
-
+      this.props.history.push(`${this.props.match.url}`);
     });
   }
 
@@ -181,17 +173,15 @@ export class DocumentList extends Component {
         }
         Materialize.toast(
           'Success!', 2000, 'indigo darken-4 white-text rounded');
-        this.context.router.history.push('/dashboard');
+        this.props.history.push('/dashboard');
         this.setState({
           title: this.props.document.title,
           content: this.props.document.content,
           access: this.props.document.access
         });
         this.updateDocumentList();
-      }).catch(() => {
-
       });
-    this.context.router.history.push('/dashboard/alldocument');
+    this.props.history.push('/dashboard/alldocument');
   }
 
   /**
@@ -199,12 +189,6 @@ export class DocumentList extends Component {
    * @memberof DocumentList
    */
   render() {
-    const singleDocument = this.state.documents.map(document => (
-      <DocumentCard
-        key={document.id} {...document}
-        onClick={this.onClick} match={this.props.match}
-      />
-    ));
     return (
       <div className="document-list">
         <div className="container">
@@ -236,7 +220,12 @@ export class DocumentList extends Component {
                   {(this.state.docquery === 'Personal')
                     && <h5>Personal Documents</h5>}
                   <div className="scrollable">
-                    {singleDocument}
+                    {this.state.documents.map(document => (
+                      <DocumentCard
+                        key={document.id} {...document}
+                        onClick={this.onClick} match={this.props.match}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -264,10 +253,6 @@ export class DocumentList extends Component {
   }
 }
 
-DocumentList.contextTypes = {
-  router: PropTypes.object.isRequired,
-};
-
 DocumentList.propTypes = {
   access: PropTypes.object,
   document: PropTypes.object,
@@ -278,7 +263,8 @@ DocumentList.propTypes = {
   match: PropTypes.object,
   searchDocuments: PropTypes.func,
   deleteDocument: PropTypes.func,
-  updateDocument: PropTypes.func
+  updateDocument: PropTypes.func,
+  history: PropTypes.object
 };
 
 const mapPropsToState = (state) => {
@@ -297,4 +283,4 @@ export default connect(
     deleteDocument,
     searchDocuments,
     getUserDocuments
-  })(DocumentList);
+  })(withRouter(DocumentList));
