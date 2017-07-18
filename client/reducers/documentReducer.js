@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
+import initialState from './initialState';
 
 const documentReducer =
-  (state = { documentList: [], document: {} }, action) => {
+  (state = initialState.document, action) => {
     switch (action.type) {
       case actionTypes.VIEW_DOCUMENT:
       case actionTypes.DOCUMENT_CREATED:
@@ -16,11 +17,9 @@ const documentReducer =
           metaData: action.metaData,
           message: action.message
         };
-      case actionTypes.DELETE_USER:
+      case actionTypes.DELETE_DOCUMENT:
         return {
           ...state,
-          documentList: state.documentList.filter(
-            item => item.id !== action.documentId),
           message: action.message
         };
       case actionTypes.DOCUMENT_ERROR:

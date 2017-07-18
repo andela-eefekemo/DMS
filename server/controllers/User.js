@@ -115,8 +115,8 @@ class User {
       include: [{
         model: db.Role,
         attributes: ['title']
-      }],
-      where: { roleId: { $not: 1 } }
+      }]
+      // where: { roleId: { $not: 1 } }
     })
       .then((users) => {
         res.status(200).send(

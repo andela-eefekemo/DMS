@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import UserActions from '../../actions/UserActions';
 
 import validate from '../../utilities/validate';
@@ -11,7 +12,7 @@ const updateUser = UserActions.updateUser;
  * @class UserContainer
  * @extends {Component}
  */
-class UserContainer extends Component {
+export class UserContainer extends Component {
   /**
    * Creates an instance of ProfileContainer.
    * @param {any} props -
@@ -50,11 +51,9 @@ class UserContainer extends Component {
   }
   /**
  * @return {void}
- * @param {any} e -
  * @memberof UserContainer
  */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit() {
     try {
       if (!validate(this.state)) {
         throw new Error('No field should be left blank');
@@ -68,7 +67,7 @@ class UserContainer extends Component {
           }
           Materialize.toast(
             'Success!', 2000, 'indigo darken-4 white-text rounded');
-          this.context.router.history.push('/dashboard');
+          this.props.history.push('/dashboard');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -108,14 +107,12 @@ const mapPropsToState = (state) => {
   };
 };
 
-UserContainer.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
 UserContainer.propTypes = {
   user: PropTypes.object.isRequired,
-  updateUser: PropTypes.func.isRequired
+  updateUser: PropTypes.func.isRequired,
+  history: PropTypes.object
 };
 
 
-export default connect(mapPropsToState, { updateUser })(UserContainer);
+export default connect(
+  mapPropsToState, { updateUser })(withRouter(UserContainer));

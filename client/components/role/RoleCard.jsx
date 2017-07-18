@@ -9,7 +9,8 @@ import InputField from '../common/InputField';
  */
 
 const RoleCard = (props) => {
-  const { title, id, description, createdAt, onChange, onSubmit, deleteRole } = props;
+  const {
+    title, id, description, createdAt, onChange, onSubmit, deleteRole } = props;
   return (
     <div>
       <h5>{title}</h5>
@@ -28,7 +29,7 @@ const RoleCard = (props) => {
             className="waves-effect btn button-design"
             data-target="passwordModal">
             Update
-                  </a>
+          </a>
         }
       >
         <form onSubmit={onSubmit} >
@@ -59,18 +60,14 @@ const RoleCard = (props) => {
   );
 };
 
-// Set Default Props
-RoleCard.defaultProps = {
-  title: '',
-  content: '',
-  id: ''
-};
 // Set Props
 RoleCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  createdAt: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  deleteRole: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired
 };
 

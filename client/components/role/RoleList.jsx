@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import RoleActions from '../../actions/RoleActions';
 import RoleCard from './RoleCard';
 
@@ -11,7 +12,7 @@ const deleteRole = RoleActions.deleteRole;
  * @class RoleList
  * @extends {Component}
  */
-class RoleList extends Component {
+export class RoleList extends Component {
   /**
    * Creates an instance of RoleList.
    * @param {any} props -
@@ -20,8 +21,8 @@ class RoleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Roles: [],
-      Role: {}
+      roles: [],
+      role: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -35,9 +36,8 @@ class RoleList extends Component {
   componentWillMount() {
     this.props.viewRole()
       .then(() => {
-        console.log(this.props);
         this.setState({
-          Roles: this.props.roles
+          roles: this.props.roleList
         });
       }).catch(() => {
 
@@ -49,9 +49,9 @@ class RoleList extends Component {
    * @memberof RoleList
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.RoleList !== nextProps.RoleList) {
+    if (this.props.roleList !== nextProps.roleList) {
       this.setState({
-        Roles: nextProps.RoleList
+        roles: nextProps.roleList
       });
     }
   }
@@ -72,8 +72,7 @@ class RoleList extends Component {
    */
   deleteRole(e) {
     this.props.deleteRole(e.target.value).then(() => {
-      console.log('Role has been deleted');
-      this.context.router.history.push(`${this.props.match.url}`);
+      this.props.history.push(`${this.props.match.url}`);
     }).catch(() => {
 
     });
@@ -88,11 +87,11 @@ class RoleList extends Component {
       title: this.state.title,
       description: this.state.description,
     };
-    this.props.updateRole(updatedRole, this.props.Role.id)
+    this.props.updateRole(updatedRole, this.props.role.id)
       .then(() => {
         this.setState({
-          title: this.props.Role.title,
-          description: this.props.Role.description,
+          title: this.props.role.title,
+          description: this.props.role.description,
         });
       }).catch(() => {
 
@@ -104,11 +103,11 @@ class RoleList extends Component {
    * @memberof RoleList
    */
   render() {
-    const singleRole = this.state.Roles.map(Role => (
+    const singleRole = this.state.roles.map(Role => (
       <RoleCard
         key={Role.id} {...Role}
-        onClick={this.onSubmit}
-        onSubmit={this.onChange}
+        onSubmit={this.onSubmit}
+        onChange={this.onChange}
         deleteRole={this.deleteRole}
         match={this.props.match} />
     ));
@@ -122,17 +121,23 @@ class RoleList extends Component {
   }
 }
 
-RoleList.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
 const mapPropsToState = (state) => {
   return {
     role: state.role.role,
-    roles: state.role.roleList,
+    roleList: state.role.roleList,
     access: state.access
   };
 };
 
+RoleList.propTypes = {
+  viewRole: PropTypes.func,
+  updateRole: PropTypes.func,
+  deleteRole: PropTypes.func,
+  role: PropTypes.object,
+  roleList: PropTypes.array,
+  match: PropTypes.object,
+  history: PropTypes.object
+};
+
 export default connect(
-  mapPropsToState, { viewRole, updateRole, deleteRole })(RoleList);
+  mapPropsToState, { viewRole, updateRole, deleteRole })(withRouter(RoleList));

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
 import ReactHtmlParser from 'react-html-parser';
+import PropTypes from 'prop-types';
+
 import InputField from '../common/InputField';
 import Dropdown from '../common/Dropdown';
 
@@ -9,7 +11,12 @@ const DocumentView = (props) => {
     id,
     title,
     content,
-    access, onSubmit, onChange, deleteDocument, userId, authorId } = props;
+    access,
+    onSubmit,
+    onChange,
+    deleteDocument,
+    userId,
+    authorId } = props;
   return (
     <div className="card blue-grey darken-1">
       <div className="card-content white-text">
@@ -29,13 +36,21 @@ const DocumentView = (props) => {
                 </a>}
               actions={
                 <div>
-                  <button className="btn waves-effect waves-light btn-flat modal-action modal-close" name={id} onClick={deleteDocument}>
+                  <button
+                    className="btn btn-flat modal-action modal-close"
+                    name={id} onClick={deleteDocument}>
                     Delete
                 </button>
-                  <button className="btn waves-effect waves-light btn-flat modal-action modal-close left">Cancel</button>
+                  <button
+                    className="btn btn-flat modal-action modal-close left">
+                    Cancel
+                  </button>
                 </div>}>
               <div >
-                <h5 className="center">Are you sure you want to delete the user</h5>
+                <h5
+                  className="center">
+                  Are you sure you want to delete the user
+                </h5>
               </div>
             </Modal>
             }
@@ -66,26 +81,40 @@ const DocumentView = (props) => {
                   type="text" onChange={onChange} />
                 <select
                   name="access"
-                  className="browser-default input-field select" onChange={onChange}>
+                  className="browser-default input-field select"
+                  onChange={onChange}>
                   <Dropdown value="" text="Select access type" />
                   <Dropdown value="public" text="Public" />
                   <Dropdown value="private" text="Private" />
                   <Dropdown value="role" text="Role" />
                 </select>
                 <div className="input-field center">
-                  <button className="waves-effect modal-action modal-close btn button-design" type="submit" onClick={onSubmit}>
+                  <button
+                    className="modal-action modal-close btn button-design"
+                    type="submit"
+                    onClick={onSubmit}>
                     Update
-            </button>
+                  </button>
                 </div>
-
               </div>
             </Modal>}
           </div>
         </div>
       </div>
     </div>
-
   );
+};
+
+DocumentView.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
+  authorId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  access: PropTypes.string.isRequired
 };
 
 export default DocumentView;

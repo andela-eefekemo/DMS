@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DropDown Component should match the dropdown snapshot 1`] = `
+<option
+  selected="active"
+  value="Hi"
+>
+  Hi
+</option>
+`;

@@ -25,7 +25,7 @@ const InputField =
 InputField.propTypes = {
   className: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.node,
   placeholder: PropTypes.string,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func,

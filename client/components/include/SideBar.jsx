@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const SideBar = ({ match, user }) => {
   return (
@@ -14,43 +15,57 @@ const SideBar = ({ match, user }) => {
       </div></li>
       <ul className="collapsible" data-collapsible="accordion">
         <li>
-          <div className="collapsible-header"><i className="material-icons">filter_drama</i>Document</div>
+          <div className="collapsible-header">
+            <i className="material-icons">filter_drama</i>Document</div>
           <div className="collapsible-body">
             <ul>
               <li><Link to={`${match.url}/document`}>
-                <i className="material-icons">perm_media</i>Create Document</Link>
+                <i className="material-icons">perm_media</i>
+                Create Document</Link>
               </li>
               <li><Link to={`${match.url}/alldocument`}>
-                <i className="material-icons">perm_media</i>All Document</Link></li>
+                <i className="material-icons">perm_media</i>
+                All Document</Link></li>
             </ul>
           </div>
         </li>
         <li>
-          <div className="collapsible-header"><i className="material-icons">filter_drama</i>Users</div>
+          <div className="collapsible-header">
+            <i className="material-icons">filter_drama</i>Users</div>
           <div className="collapsible-body">
             <ul>
               <li><Link to="/dashboard">
-                <i className="material-icons">perm_identity</i>Profile</Link></li>
+                <i className="material-icons">perm_identity</i>
+                Profile</Link></li>
               {user.roleId === 1 && <li><Link to={`${match.url}/allusers`}>
-                <i className="material-icons">perm_media</i>All Users</Link></li>}
+                <i className="material-icons">perm_media</i>
+                All Users</Link></li>}
             </ul>
           </div>
         </li>
         {user.roleId === 1 && <li>
-          <div className="collapsible-header"><i className="material-icons">filter_drama</i>Roles</div>
+          <div className="collapsible-header">
+            <i className="material-icons">filter_drama</i>Roles</div>
           <div className="collapsible-body">
             <ul>
               {user.roleId === 1 && <li><Link to={`${match.url}/role`}>
-                <i className="material-icons">supervisor_account</i>Create Role</Link>
+                <i className="material-icons">supervisor_account</i>
+                Create Role</Link>
               </li>}
               {user.roleId === 1 && <li><Link to={`${match.url}/allroles`}>
-                <i className="material-icons">perm_media</i>All Roles</Link></li>}
+                <i className="material-icons">perm_media</i>
+                All Roles</Link></li>}
             </ul>
           </div>
         </li>}
       </ul >
     </ul >
   );
+};
+
+SideBar.propTypes = {
+  match: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default SideBar;

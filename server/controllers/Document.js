@@ -40,7 +40,8 @@ class Document {
             }).catch((error) => {
               return res.status(200).send({
                 message:
-                `we're sorry, document ${error.errors[0].message}, please try again`
+                `we're sorry,
+                document ${error.errors[0].message}, please try again`
               });
             });
         }).catch((error) => {
@@ -139,9 +140,9 @@ class Document {
       .then((document) => {
         if (document) {
           if (
-            (document.authorId !== req.user.id && req.user.roleId !== 1
-              && document.access !== 'public') || (document.access === 'role'
-                && document.roleId === req.user.roleId)
+            ((document.authorId !== req.user.id) || (document.access === 'role'
+              && document.roleId === req.user.roleId)) && req.user.roleId !== 1
+            && document.access !== 'public'
           ) {
             res.status(200).send(
               { message: 'You are unauthorized to view this document' });

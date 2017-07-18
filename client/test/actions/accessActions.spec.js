@@ -58,7 +58,9 @@ describe('Access Action', () => {
           password: 'eguono'
         })).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual('There was an error, please try again');
+          expect(
+            store.getActions()[0].message).toEqual(
+              'There was an error, please try again');
         });
         done();
       });
@@ -128,11 +130,13 @@ describe('Access Action', () => {
           password: 'eguono'
         })).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual('There was an error, please try again');
+          expect(
+            store.getActions()[0].message).toEqual(
+              'There was an error, please try again');
         });
         done();
       });
-    it('Should dispatch the appropraite action type if user does not exist',
+    it('Should dispatch the appropraite action type if email already exists',
       (done) => {
         moxios.stubRequest('/users', {
           status: 200,
@@ -145,7 +149,7 @@ describe('Access Action', () => {
           type: actionType.USER_ALREADY_EXISTS,
           message: 'Email already exists'
         }];
-        store.dispatch(AccessAction.signInUser({
+        store.dispatch(AccessAction.signUpUser({
           email: 'hello@hello.com',
           password: 'eguono'
         })).then(() => {
@@ -174,5 +178,26 @@ describe('Access Action', () => {
       });
       done();
     });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest('/users', {
+          status: 400,
+          response: {
+            message: 'signup failed'
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.ACCESS_ERROR,
+          message: 'There was an error, please try again'
+        }];
+        store.dispatch(AccessAction.signOutUser()).then(() => {
+          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
+          expect(
+            store.getActions()[0].message).toEqual(
+              'There was an error, please try again');
+        });
+        done();
+      });
   });
 });

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import DocumentActions from '../../actions/DocumentActions';
 import DocumentCard from './DocumentCard';
 import DocumentView from './DocumentView';
@@ -18,7 +19,7 @@ const getUserDocuments = DocumentActions.getUserDocuments;
  * @class DocumentList
  * @extends {Component}
  */
-class DocumentList extends Component {
+export class DocumentList extends Component {
   /**
    * Creates an instance of DocumentList.
    * @param {any} props -
@@ -45,14 +46,7 @@ class DocumentList extends Component {
    * @memberof DocumentList
    */
   componentDidMount() {
-    this.props.getAllDocuments()
-      .then(() => {
-        this.setState({
-          documents: this.props.documentList
-        });
-      }).catch(() => {
-
-      });
+    this.updateDocumentList();
   }
   /**
    * @return {void}
@@ -82,19 +76,10 @@ class DocumentList extends Component {
           this.setState({
             documents: this.props.documentList
           });
-        }).catch(() => {
-
         });
     }
     if (value === 'All') {
-      this.props.getAllDocuments()
-        .then(() => {
-          this.setState({
-            documents: this.props.documentList
-          });
-        }).catch(() => {
-
-        });
+      this.updateDocumentList();
     }
   }
   /**
@@ -123,23 +108,22 @@ class DocumentList extends Component {
         content: this.props.document.content,
         access: this.props.document.access
       });
-      this.context.router.history.push(`${this.props.match.url}/viewUser`);
-    }).catch(() => {
-
+      this.props.history.push(`${this.props.match.url}/viewUser`);
     });
   }
 
   /**
+   * @param {event} e
    * @return {void}
    * @memberof DocumentList
    */
   onSearch(e) {
-    e.preventDefault();
+    this.setState({
+      searchTerm: e.target.value
+    });
     this.props.searchDocuments(e.target.value)
       .then(() => {
-        console.log('Success');
-      }).catch(() => {
-
+        this.updateDocumentList();
       });
   }
 
@@ -153,8 +137,6 @@ class DocumentList extends Component {
         this.setState({
           documents: this.props.documentList
         });
-      }).catch(() => {
-
       });
   }
   /**
@@ -167,11 +149,8 @@ class DocumentList extends Component {
       Materialize.toast(
         this.props.document.message, 2000,
         'indigo darken-4 white-text rounded');
-      this.context.router.history.push('/dashboard');
       this.updateDocumentList();
-      this.context.router.history.push(`${this.props.match.url}`);
-    }).catch(() => {
-
+      this.props.history.push(`${this.props.match.url}`);
     });
   }
 
@@ -194,17 +173,15 @@ class DocumentList extends Component {
         }
         Materialize.toast(
           'Success!', 2000, 'indigo darken-4 white-text rounded');
-        this.context.router.history.push('/dashboard');
+        this.props.history.push('/dashboard');
         this.setState({
           title: this.props.document.title,
           content: this.props.document.content,
           access: this.props.document.access
         });
         this.updateDocumentList();
-      }).catch(() => {
-
       });
-    this.context.router.history.push('/dashboard/alldocument');
+    this.props.history.push('/dashboard/alldocument');
   }
 
   /**
@@ -212,12 +189,6 @@ class DocumentList extends Component {
    * @memberof DocumentList
    */
   render() {
-    const singleDocument = this.state.documents.map(document => (
-      <DocumentCard
-        key={document.id} {...document}
-        onClick={this.onClick} match={this.props.match}
-      />
-    ));
     return (
       <div className="document-list">
         <div className="container">
@@ -234,7 +205,8 @@ class DocumentList extends Component {
               <div className="col l6 m6 s12 center">
                 <select
                   name="docquery"
-                  className="browser-default input-field select" onChange={this.changeDocument}>
+                  className="browser-default input-field select"
+                  onChange={this.changeDocument}>
                   <Dropdown value="All" text="All Documents" />
                   <Dropdown value="Personal" text="Personal" />
                 </select>
@@ -248,7 +220,12 @@ class DocumentList extends Component {
                   {(this.state.docquery === 'Personal')
                     && <h5>Personal Documents</h5>}
                   <div className="scrollable">
-                    {singleDocument}
+                    {this.state.documents.map(document => (
+                      <DocumentCard
+                        key={document.id} {...document}
+                        onClick={this.onClick} match={this.props.match}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -276,8 +253,18 @@ class DocumentList extends Component {
   }
 }
 
-DocumentList.contextTypes = {
-  router: PropTypes.object.isRequired
+DocumentList.propTypes = {
+  access: PropTypes.object,
+  document: PropTypes.object,
+  documentList: PropTypes.array,
+  getAllDocuments: PropTypes.func,
+  getUserDocuments: PropTypes.func,
+  viewDocument: PropTypes.func,
+  match: PropTypes.object,
+  searchDocuments: PropTypes.func,
+  deleteDocument: PropTypes.func,
+  updateDocument: PropTypes.func,
+  history: PropTypes.object
 };
 
 const mapPropsToState = (state) => {
@@ -289,4 +276,11 @@ const mapPropsToState = (state) => {
 };
 
 export default connect(
-  mapPropsToState, { getAllDocuments, viewDocument, updateDocument, deleteDocument, searchDocuments, getUserDocuments })(DocumentList);
+  mapPropsToState, {
+    getAllDocuments,
+    viewDocument,
+    updateDocument,
+    deleteDocument,
+    searchDocuments,
+    getUserDocuments
+  })(withRouter(DocumentList));

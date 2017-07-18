@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import AccessActions from '../../actions/AccessActions';
-import InputField from '../common/InputField';
 import validate from '../../utilities/validate';
 
 const signInUser = AccessActions.signInUser;
@@ -12,7 +11,7 @@ const signInUser = AccessActions.signInUser;
  * @class SignInForm
  * @extends {Component}
  */
-class SignInForm extends Component {
+export class SignInForm extends Component {
   /**
  * Creates an instance of SignUpForm.
  * @param {any} props -
@@ -30,11 +29,9 @@ class SignInForm extends Component {
 
   /**
    * @return {void}
-   * @param {any} e -
    * @memberof SignInForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit() {
     try {
       if (!validate(this.state)) {
         throw new Error('No field should be left blank');
@@ -42,10 +39,12 @@ class SignInForm extends Component {
       this.props.signInUser(this.state)
         .then(() => {
           if (this.props.access.message) {
-            return Materialize.toast(this.props.access.message, 2000, 'indigo darken-4 white-text rounded');
+            return Materialize.toast(this.props.access.message,
+              2000, 'indigo darken-4 white-text rounded');
           }
-          Materialize.toast('Success!', 2000, 'indigo darken-4 white-text rounded');
-          this.context.router.history.push('/dashboard');
+          Materialize.toast('Success!',
+            2000, 'indigo darken-4 white-text rounded');
+          this.props.history.push('/dashboard');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -69,25 +68,39 @@ class SignInForm extends Component {
    */
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <div>
         <h5 className="center"> Log Into Doc-ms</h5>
-        <InputField
-          name="email"
-          placeholder="Email"
-          className="validate form-design"
-          type="email" onChange={this.onChange} />
-        <InputField
-          name="password"
-          placeholder="Password"
-          className="validate form-design"
-          type="password" onChange={this.onChange} />
+        <div className="input-field">
+          <input
+            className="validate form-design"
+            type="email"
+            name="email"
+            onChange={this.onChange}
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div className="input-field">
+          <input
+            className="validate form-design"
+            type="password"
+            name="password"
+            onChange={this.onChange}
+            placeholder="password"
+            required
+          />
+        </div>
         <div className="input-field center">
-          <button className="waves-effect btn button-design" type="submit">
+          <button
+            id="submit-signin"
+            className="waves-effect btn button-design" onClick={this.onSubmit}>
             Sign In
           </button>
         </div>
-        <p className="center">Don't Have an account? <Link to="signup">Create an Account</Link></p>
-      </form>
+        <p className="center">
+          Don&#39;t Have an account? <Link to="signup">Create an Account</Link>
+        </p>
+      </div>
     );
   }
 }
@@ -99,11 +112,9 @@ const mapPropsToState = (state) => {
 };
 
 SignInForm.propTypes = {
-  signInUser: PropTypes.func.isRequired
+  signInUser: PropTypes.func.isRequired,
+  access: PropTypes.object.isRequired,
+  history: PropTypes.object
 };
 
-SignInForm.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
-export default connect(mapPropsToState, { signInUser })(SignInForm);
+export default connect(mapPropsToState, { signInUser })(withRouter(SignInForm));

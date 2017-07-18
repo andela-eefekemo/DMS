@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 // import SignInForm from './access/SignInForm';
 // import SignUpForm from './access/SignUpForm';
 
-import LandingContainer from './access/LandingContainer';
+import LandingConnectedContainer from './access/LandingContainer';
 import Dashboard from './Dashboard';
 import AuthPage from './access/AuthPage';
 
@@ -13,6 +13,7 @@ import AuthPage from './access/AuthPage';
  * @extends {Component}
  */
 class App extends Component {
+
   /**
    * @returns {jsx} -
    * @memberof App
@@ -21,8 +22,8 @@ class App extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={LandingContainer} />
-          <Route path="/auth"component={AuthPage} />
+          <Route exact path="/" component={LandingConnectedContainer} />
+          <Route path="/auth" component={AuthPage} />
           <Route path="/dashboard" component={Dashboard} />
           <Redirect from="/signout" to="/" />
         </Switch>

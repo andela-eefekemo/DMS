@@ -136,7 +136,7 @@ describe('Document', () => {
       done();
     });
 
-    it('should not create document with the same title', (done) => {
+    it('should not create document with no access t', (done) => {
       chai.request(server)
         .post('/documents')
         .set({ Authorization: regularUserToken })

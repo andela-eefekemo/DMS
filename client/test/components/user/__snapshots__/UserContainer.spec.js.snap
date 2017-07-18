@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User Container Container should match snapshot of document Container 1`] = `
+<UserDisplay
+  email="john@gmail.com"
+  firstName="Eguono"
+  lastName="Efe"
+  onChange={[Function]}
+  onSubmit={[Function]}
+/>
+`;

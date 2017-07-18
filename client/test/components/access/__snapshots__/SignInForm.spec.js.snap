@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignInForm Component should match the SignInForm snapshot 1`] = `
+<div>
+  <h5
+    className="center"
+  >
+     Log Into Doc-ms
+  </h5>
+  <div
+    className="input-field"
+  >
+    <input
+      className="validate form-design"
+      name="email"
+      onChange={[Function]}
+      placeholder="Email"
+      required={true}
+      type="email"
+    />
+  </div>
+  <div
+    className="input-field"
+  >
+    <input
+      className="validate form-design"
+      name="password"
+      onChange={[Function]}
+      placeholder="password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div
+    className="input-field center"
+  >
+    <button
+      className="waves-effect btn button-design"
+      id="submit-signin"
+      onClick={[Function]}
+    >
+      Sign In
+    </button>
+  </div>
+  <p
+    className="center"
+  >
+    Don't Have an account? 
+    <Link
+      replace={false}
+      to="signup"
+    >
+      Create an Account
+    </Link>
+  </p>
+</div>
+`;
