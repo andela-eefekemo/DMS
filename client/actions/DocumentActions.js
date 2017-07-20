@@ -6,6 +6,8 @@ import * as actionTypes from './actionTypes';
 class DocumentActions {
   /**
    * @static
+   * @param {number} [offset=0]
+   * @param {number} [limit=5]
    * @returns {promise} -
    * @memberof DocumentActions
    */
@@ -107,14 +109,15 @@ class DocumentActions {
  * @returns {promise} -
  * @memberof UserActions
  */
-  static getUserDocuments(id) {
+  static getUserDocuments(id, offset = 0, limit = 5) {
     return (dispatch) => {
-      return axios.get(`/users/${id}/documents`)
+      return axios.get(`/users/${id}/documents?offset=${offset}&limit=${limit}`)
         .then((response) => {
           if (response.data.message === 'Documents found') {
             return dispatch({
               type: actionTypes.USER_DOCUMENTS,
               documentList: response.data.documents,
+              metaData: response.data.metaData,
               message: null
             });
           }

@@ -36,7 +36,6 @@ const DocumentDisplay = ({ onChange, onSubmit, document, getContent }) => {
       <div className="input-field center">
         <button
           className="waves-effect btn button-design" onClick={onSubmit}
-          type="submit"
           id="save-document">
           Create
           </button>

@@ -62,7 +62,7 @@ describe('Document Reducer', () => {
       message: 'Documents found'
     };
     const expected = {
-      document: {}, documentList, metaData, message: 'Documents found'
+      document: {}, documentList, pagination: metaData, message: 'Documents found'
     };
     const newState = documentReducer(initialState.document, action);
 
@@ -81,7 +81,7 @@ describe('Document Reducer', () => {
       message: 'Documents found'
     };
     const expected = {
-      document: {}, documentList, metaData, message: 'Documents found'
+      document: {}, documentList, pagination: metaData, message: 'Documents found'
     };
     const newState = documentReducer(initialState.document, action);
 
@@ -100,7 +100,7 @@ describe('Document Reducer', () => {
       message: 'Documents found'
     };
     const expected = {
-      document: {}, documentList, metaData, message: 'Documents found'
+      document: {}, documentList, pagination: metaData, message: 'Documents found'
     };
     const newState = documentReducer(initialState.document, action);
 

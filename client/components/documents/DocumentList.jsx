@@ -34,7 +34,8 @@ export class DocumentList extends Component {
       offset: 0,
       pageCount: 0,
       searchTerm: '',
-      docquery: ''
+      docquery: '',
+      personal: false
     };
     this.onClick = this.onClick.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -43,6 +44,7 @@ export class DocumentList extends Component {
     this.onSearch = this.onSearch.bind(this);
     this.changeDocument = this.changeDocument.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.getContent = this.getContent.bind(this);
   }
 
   /**
@@ -77,12 +79,16 @@ export class DocumentList extends Component {
       this.props.getUserDocuments(this.props.access.user.id)
         .then(() => {
           this.setState({
-            documents: this.props.documentList
+            documents: this.props.documentList,
+            personal: true
           });
         });
     }
     if (value === 'All') {
       this.updateDocumentList();
+      this.setState({
+        personal: false
+      });
     }
   }
   /**
@@ -142,6 +148,15 @@ export class DocumentList extends Component {
       });
   }
   /**
+  * Get the content of the TinyMCE editor
+  *
+  * @param {Object} event
+  * @returns {void} nothing
+  */
+  getContent(event) {
+    this.setState({ content: event.target.getContent() });
+  }
+  /**
    * @return {void}
    * @param {any} e -
    * @memberof DocumentList
@@ -166,11 +181,22 @@ export class DocumentList extends Component {
     const limit = 5;
     const offset = Math.ceil(selected * limit);
     this.setState({ offset });
-    this.props.getAllDocuments(offset, limit).then(() => {
-      this.setState({
-        documents: this.props.documentList
+    if (this.state.personal) {
+      this.props.getUserDocuments(
+        this.props.access.user.id, offset, limit).then(() => {
+          this.setState({
+            documents: this.props.documentList,
+            pageCount: this.props.pagination.pageCount
+          });
+        });
+    } else {
+      this.props.getAllDocuments(offset, limit).then(() => {
+        this.setState({
+          documents: this.props.documentList,
+          pageCount: this.props.pagination.pageCount
+        });
       });
-    });
+    }
   }
   /**
    * @return {void}
@@ -280,6 +306,7 @@ export class DocumentList extends Component {
                         access={this.state.access}
                         onChange={this.onChange}
                         onSubmit={this.onSubmit}
+                        getContent={this.getContent}
                         deleteDocument={this.deleteDocument}
                         userId={this.props.access.user.id} />);
                   }} />

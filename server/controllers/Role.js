@@ -53,7 +53,10 @@ class Role {
    * @memberof Role
    */
   static view(req, res) {
-    db.Role.findAll({ where: { id: { $not: [1, 2] } } })
+    db.Role.findAll({
+      where: { id: { $not: [1, 2] } },
+      order: [['createdAt', 'DESC']]
+    })
       .then((roles) => {
         if (roles.length === 0) {
           return res.status(200).send({

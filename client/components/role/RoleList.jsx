@@ -98,6 +98,12 @@ export class RoleList extends Component {
     };
     this.props.updateRole(updatedRole, e.target.name)
       .then(() => {
+        if (this.props.role.message) {
+          return Materialize.toast(this.props.role.message,
+            2000, 'indigo darken-4 white-text rounded');
+        }
+        Materialize.toast('Role successfully updated',
+          2000, 'indigo darken-4 white-text rounded');
         this.updateRoleList();
         this.props.history.push(`${this.props.match.url}`);
       });

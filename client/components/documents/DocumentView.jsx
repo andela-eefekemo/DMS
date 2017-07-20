@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
 import ReactHtmlParser from 'react-html-parser';
+import TinyMCE from 'react-tinymce';
 import PropTypes from 'prop-types';
 
 import InputField from '../common/InputField';
@@ -14,6 +15,7 @@ const DocumentView = (props) => {
     access,
     onSubmit,
     onChange,
+    getContent,
     deleteDocument,
     userId,
     authorId } = props;
@@ -62,27 +64,46 @@ const DocumentView = (props) => {
                 <a
                   className="waves-effect btn button-design"
                   data-target="passwordModal"
-                  id="update-document">
+                  id="update-document"
+                >
                   Update
-          </a>
+                </a>
               }
-            >
+              actions={
+                <div>
+                  <button
+                    id="save-update"
+                    className="modal-action modal-close btn btn-flat"
+                    onClick={onSubmit}>
+                    Update
+                      </button>
+                  <button
+                    className="btn btn-flat modal-action modal-close left">
+                    Cancel
+                      </button>
+                </div>
+              }>
               <div >
-                <h5>Create Document</h5>
+                <h5>Update Document</h5>
                 <InputField
                   name="title"
                   value={title}
                   placeholder="Document Title"
                   className="validate form-design"
                   type="text" onChange={onChange} />
-                <InputField
-                  name="content"
-                  value={ReactHtmlParser(content)}
-                  placeholder="Document Content"
-                  className="validate form-design"
-                  type="text" onChange={onChange} />
+                <TinyMCE
+                  content={content}
+                  config={{
+                    plugins: 'link image code',
+                    height: 200,
+                    toolbar:
+                    'undo redo | bold italic | alignleft aligncenter alignright | code'
+                  }}
+                  onChange={getContent}
+                />
                 <select
                   name="access"
+                  value={access}
                   className="browser-default input-field select"
                   onChange={onChange}>
                   <Dropdown value="" text="Select access type" />
@@ -90,15 +111,6 @@ const DocumentView = (props) => {
                   <Dropdown value="private" text="Private" />
                   <Dropdown value="role" text="Role" />
                 </select>
-                <div className="input-field center">
-                  <button
-                    id="save-update"
-                    className="modal-action modal-close btn button-design"
-                    type="submit"
-                    onClick={onSubmit}>
-                    Update
-                  </button>
-                </div>
               </div>
             </Modal>}
           </div>
@@ -111,6 +123,7 @@ const DocumentView = (props) => {
 DocumentView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  getContent: PropTypes.func.isRequired,
   deleteDocument: PropTypes.func.isRequired,
   id: PropTypes.number,
   userId: PropTypes.number,

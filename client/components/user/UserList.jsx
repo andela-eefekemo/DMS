@@ -188,14 +188,19 @@ export class UserList extends Component {
             <div className="col l6 m6 s12">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewUser`} render={() => (
-                    <UserView
-                      id={this.props.User.id}
-                      firstName={this.state.firstName}
-                      lastName={this.state.lastName}
-                      email={this.state.email}
-                      roleId={this.state.roleId}
-                      deleteUser={this.deleteUser} />)} />
+                  path={`${this.props.match.url}/viewUser`} render={() => {
+                    if (!this.props.User.id) {
+                      this.props.history.push(`${this.props.match.url}`);
+                    }
+                    return (
+                      <UserView
+                        id={this.props.User.id}
+                        firstName={this.state.firstName}
+                        lastName={this.state.lastName}
+                        email={this.state.email}
+                        roleId={this.state.roleId}
+                        deleteUser={this.deleteUser} />);
+                  }} />
               </Switch>
             </div>
           </div>

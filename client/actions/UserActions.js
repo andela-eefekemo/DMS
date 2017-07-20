@@ -84,6 +84,7 @@ class UserActions {
             return dispatch({
               type: actionTypes.SEARCH_USERS,
               message: null,
+              metaData: response.data.metaData,
               userList: response.data.userList
             });
           }

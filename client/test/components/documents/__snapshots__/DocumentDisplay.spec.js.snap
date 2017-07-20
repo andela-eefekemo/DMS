@@ -55,7 +55,6 @@ exports[`DocumentDisplay Component should match the document Display snapshot 1`
       className="waves-effect btn button-design"
       id="save-document"
       onClick={[Function]}
-      type="submit"
     >
       Create
     </button>

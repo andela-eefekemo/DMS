@@ -22,7 +22,7 @@ const RoleDisplay = ({ onChange, onSubmit, role }) => {
           type="text" onChange={onChange} />
         <button
           className="waves-effect btn button-design"
-          type="submit" onClick={onSubmit}>
+          type="submit" onClick={onSubmit} id="save-role">
           Save
         </button>
       </div>

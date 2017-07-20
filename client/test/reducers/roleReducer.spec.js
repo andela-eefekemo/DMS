@@ -39,7 +39,9 @@ describe('Document Reducer', () => {
       type: actionTypes.ROLE_DELETED, message: 'Role deleted'
     };
     const expected = {
-      role: {}, roleList: []
+      message: 'Role deleted',
+      role: {},
+      roleList: []
     };
     const newState = roleReducer(initialState.role, action);
 

@@ -47,7 +47,7 @@ export class RoleContainer extends Component {
               2000, 'indigo darken-4 white-text rounded');
           }
           Materialize.toast(
-            'Success!', 2000, 'indigo darken-4 white-text rounded');
+            'Role created', 2000, 'indigo darken-4 white-text rounded');
           this.props.history.push('/dashboard/allroles');
         });
     } catch (err) {

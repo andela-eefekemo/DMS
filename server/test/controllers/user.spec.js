@@ -215,7 +215,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(14);
+          res.body.userList.length.should.be.eql(5);
           done();
         });
     });
@@ -244,7 +244,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(11);
+          res.body.userList.length.should.be.eql(5);
           done();
         });
     });
@@ -373,7 +373,7 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('userList');
-          res.body.userList.length.should.eql(9);
+          res.body.userList.length.should.eql(5);
           done();
         });
     });
@@ -391,7 +391,7 @@ describe('User', () => {
 
     it('should return empty if no searchterm was provided', (done) => {
       chai.request(server)
-        .get('/search/users?')
+        .get('/search/users?q=""')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
