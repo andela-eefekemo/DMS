@@ -35,7 +35,8 @@ export class RoleContainer extends Component {
    */
   onSubmit() {
     try {
-      if (!validate(this.state)) {
+      const { valid } = validate.validateSaveRole(this.state);
+      if (!valid) {
         throw new Error('No field should be left blank');
       }
       this.props.createRole(this.state)

@@ -108,7 +108,7 @@ export class DocumentList extends Component {
         content: this.props.document.content,
         access: this.props.document.access
       });
-      this.props.history.push(`${this.props.match.url}/viewUser`);
+      this.props.history.push(`${this.props.match.url}/viewDocument`);
     });
   }
 
@@ -181,7 +181,7 @@ export class DocumentList extends Component {
         });
         this.updateDocumentList();
       });
-    this.props.history.push('/dashboard/alldocument');
+    this.props.history.push('/dashboard');
   }
 
   /**
@@ -233,17 +233,22 @@ export class DocumentList extends Component {
             <div className="col l6 m6 s12">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewUser`} render={() => (
-                    <DocumentView
-                      id={this.props.document.id}
-                      authorId={this.props.document.authorId}
-                      title={this.state.title}
-                      content={this.state.content}
-                      access={this.state.access}
-                      onChange={this.onChange}
-                      onSubmit={this.onSubmit}
-                      deleteDocument={this.deleteDocument}
-                      userId={this.props.access.user.id} />)} />
+                  path={`${this.props.match.url}/viewDocument`} render={() => {
+                    if (!this.props.document.id) {
+                      this.props.history.push(`${this.props.match.url}`);
+                    }
+                    return (
+                      <DocumentView
+                        id={this.props.document.id}
+                        authorId={this.props.document.authorId}
+                        title={this.state.title}
+                        content={this.state.content}
+                        access={this.state.access}
+                        onChange={this.onChange}
+                        onSubmit={this.onSubmit}
+                        deleteDocument={this.deleteDocument}
+                        userId={this.props.access.user.id} />);
+                  }} />
               </Switch>
             </div>
           </div>

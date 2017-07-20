@@ -19,7 +19,7 @@ class User {
     validate.user(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       db.User.findOne({ where: { email: req.body.email } })
         .then((user) => {
@@ -69,7 +69,7 @@ class User {
     validate.user(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       db.User.findOne({ where: { email: req.body.email } })
         .then((user) => {
@@ -86,7 +86,9 @@ class User {
               token
             });
           } else {
-            res.status(200).send({ message: 'Invalid password' });
+            res.status(200).send({
+              message: 'Wrong password, Please input correct password'
+            });
           }
         })
         .catch((error) => {
@@ -184,7 +186,7 @@ class User {
       }
     }
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       const id = Number(req.params.id);
       db.User.findById(id)

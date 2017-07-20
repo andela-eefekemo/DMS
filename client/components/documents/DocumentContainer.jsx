@@ -33,12 +33,12 @@ export class DocumentContainer extends Component {
 
   /**
    * @return {void}
-   * @param {any} -
    * @memberof DocumentContainer
    */
   onSubmit() {
     try {
-      if (!validate(this.state)) {
+      const { valid } = validate.validateSaveDocument(this.state);
+      if (!valid) {
         throw new Error('No field should be left blank');
       }
       this.props.createDocument(this.state)

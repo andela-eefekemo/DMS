@@ -41,6 +41,7 @@ const UserDisplay = (
             <Modal
               trigger={
                 <a
+                  id="update-password"
                   className="waves-effect btn button-design"
                   data-target="passwordModal">
                   Change Password
@@ -72,7 +73,8 @@ const UserDisplay = (
                 </div>
                 <div className="center">
                   <button
-                    className="waves-effect btn button-design"
+                    id="password-button"
+                    className="btn button-design modal-action modal-close"
                     type="submit" onClick={onSubmit}>
                     Save
                   </button>
@@ -82,6 +84,7 @@ const UserDisplay = (
           </div>
           <div className="col l6 m6 s12 input-field center">
             <button
+              id="update-button"
               className="waves-effect btn button-design"
               type="submit" onClick={onSubmit} >
               Save

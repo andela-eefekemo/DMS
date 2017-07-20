@@ -18,7 +18,7 @@ class Role {
     validate.role(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       db.Role.findOne({ where: { title: req.body.title } })
         .then((role) => {
@@ -80,7 +80,7 @@ class Role {
     validate.roleUpdate(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       const id = Number(req.params.id);
       db.Role.findById(id)

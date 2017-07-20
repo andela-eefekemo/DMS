@@ -2,9 +2,9 @@
 
 exports[`User Container Container should match snapshot of document Container 1`] = `
 <UserDisplay
-  email="john@gmail.com"
-  firstName="Eguono"
-  lastName="Efe"
+  email=""
+  firstName=""
+  lastName=""
   onChange={[Function]}
   onSubmit={[Function]}
 />

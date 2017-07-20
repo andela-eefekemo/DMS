@@ -17,6 +17,14 @@ describe('User Container', () => {
     updateUser: jest.fn(() => {
       return Promise.resolve();
     }),
+    viewUser: jest.fn(() => {
+      return Promise.resolve();
+    }),
+    access: {
+      user: {
+        id: 1
+      }
+    },
     history: {
       push: jest.fn()
     },
@@ -40,6 +48,20 @@ describe('User Container', () => {
         { target: { value: 'efe', name: 'description' } });
       expect(component.state('title')).toEqual('eguono');
       expect(component.state('description')).toEqual('efe');
+      const spy = jest.spyOn(component.instance(), 'onSubmit');
+      component.instance().onSubmit();
+      expect(spy).toHaveBeenCalled();
+    });
+    test('update Profile of user', () => {
+      component.instance().onChange(
+        { target: { value: 'eguono', name: 'firstName' } });
+      component.instance().onChange(
+        { target: { value: 'efe', name: 'lastName' } });
+      component.instance().onChange(
+        { target: { value: 'efe@gmail.com', name: 'email' } });
+      expect(component.state('firstName')).toEqual('eguono');
+      expect(component.state('lastName')).toEqual('efe');
+      expect(component.state('email')).toEqual('efe@gmail.com');
       const spy = jest.spyOn(component.instance(), 'onSubmit');
       component.instance().onSubmit();
       expect(spy).toHaveBeenCalled();

@@ -44,6 +44,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
       </div>
       <div
         className="collapsible-body"
+        id="document"
       >
         <ul>
           <li>
@@ -62,7 +63,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
           <li>
             <Link
               replace={false}
-              to="//alldocument"
+              to="//alldocuments"
             >
               <i
                 className="material-icons"
@@ -78,6 +79,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
     <li>
       <div
         className="collapsible-header"
+        id="user-header"
       >
         <i
           className="material-icons"
@@ -88,12 +90,14 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
       </div>
       <div
         className="collapsible-body"
+        id="user"
       >
         <ul>
           <li>
             <Link
+              id="profile"
               replace={false}
-              to="/dashboard"
+              to="//profile"
             >
               <i
                 className="material-icons"

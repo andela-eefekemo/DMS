@@ -109,12 +109,12 @@ DocumentView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   deleteDocument: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired,
-  userId: PropTypes.number.isRequired,
-  authorId: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  access: PropTypes.string.isRequired
+  id: PropTypes.number,
+  userId: PropTypes.number,
+  authorId: PropTypes.number,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  access: PropTypes.string
 };
 
 export default DocumentView;

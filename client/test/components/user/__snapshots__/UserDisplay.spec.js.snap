@@ -76,6 +76,7 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
             <a
               className="waves-effect btn button-design"
               data-target="passwordModal"
+              id="update-password"
             >
               Change Password
             </a>
@@ -124,7 +125,8 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
               className="center"
             >
               <button
-                className="waves-effect btn button-design"
+                className="btn button-design modal-action modal-close"
+                id="password-button"
                 onClick={[Function]}
                 type="submit"
               >
@@ -139,6 +141,7 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
       >
         <button
           className="waves-effect btn button-design"
+          id="update-button"
           onClick={[Function]}
           type="submit"
         >

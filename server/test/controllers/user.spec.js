@@ -67,8 +67,7 @@ describe('User', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
-          res.body.message.should.be.a('array');
-          res.body.message[0].should.have.property('msg').eql(
+          res.body.should.have.property('message').eql(
             'Email is Required');
           done();
         });
@@ -157,8 +156,7 @@ describe('User', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
-          res.body.message.should.be.a('array');
-          res.body.message[0].should.have.property('msg').eql(
+          res.body.should.have.property('message').eql(
             'Please Input Valid Email');
           done();
         });
@@ -172,7 +170,7 @@ describe('User', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message').eql(
-            'Invalid password');
+            'Wrong password, Please input correct password');
           done();
         });
     });

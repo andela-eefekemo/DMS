@@ -17,9 +17,9 @@ const userReducer = (state = initialState.user, action) => {
       return Object.assign({}, state, { user: {} });
     case actionTypes.UPDATE_EMAIL_EXISTS:
     case actionTypes.ERROR:
-      return {
-        message: action.message
-      };
+      return Object.assign(
+        {}, state, { message: action.message });
+
     default:
       return state;
   }

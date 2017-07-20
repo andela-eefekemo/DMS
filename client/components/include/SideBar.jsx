@@ -17,24 +17,24 @@ const SideBar = ({ match, user }) => {
         <li>
           <div className="collapsible-header">
             <i className="material-icons">filter_drama</i>Document</div>
-          <div className="collapsible-body">
+          <div className="collapsible-body" id="document">
             <ul>
               <li><Link to={`${match.url}/document`}>
                 <i className="material-icons">perm_media</i>
                 Create Document</Link>
               </li>
-              <li><Link to={`${match.url}/alldocument`}>
+              <li><Link to={`${match.url}/alldocuments`}>
                 <i className="material-icons">perm_media</i>
                 All Document</Link></li>
             </ul>
           </div>
         </li>
         <li>
-          <div className="collapsible-header">
+          <div className="collapsible-header" id="user-header">
             <i className="material-icons">filter_drama</i>Users</div>
-          <div className="collapsible-body">
+          <div className="collapsible-body" id="user">
             <ul>
-              <li><Link to="/dashboard">
+              <li><Link to={`${match.url}/profile`} id="profile">
                 <i className="material-icons">perm_identity</i>
                 Profile</Link></li>
               {user.roleId === 1 && <li><Link to={`${match.url}/allusers`}>

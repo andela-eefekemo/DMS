@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 
 import ConnectedHeader from './include/Header';
 import SideBar from './include/sideBar';
@@ -61,10 +61,14 @@ class Dashboard extends Component {
               path={`${this.props.match.url}/role`}
               component={RoleConnectedContainer} />
             <Route
-              exact path={this.props.match.url}
+              exact path={`${this.props.match.url}`}
+              render={() => (
+                <Redirect to={`${this.props.match.url}/alldocuments`} />)} />
+            <Route
+              path={`${this.props.match.url}/profile`}
               component={UserConnectedContainer} />
             <Route
-              path={`${this.props.match.url}/alldocument`}
+              path={`${this.props.match.url}/alldocuments`}
               component={DocumentConnectedList} />
             <Route
               path={`${this.props.match.url}/allusers`}
