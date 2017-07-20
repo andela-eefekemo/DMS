@@ -14,6 +14,7 @@ export const DELETE_DOCUMENT = 'DELETE_DOCUMENT';
 
 export const ROLE_CREATED = 'ROLE_CREATED';
 export const ROLE_ERROR = 'ROLE_ERROR';
+export const NO_ROLES = 'NO_ROLES';
 export const VIEW_ROLE = 'VIEW_ROLE';
 export const ROLE_UPDATED = 'ROLE_UPDATED';
 export const ROLE_UPDATE_ERROR = 'ROLE_UPDATE_ERROR';

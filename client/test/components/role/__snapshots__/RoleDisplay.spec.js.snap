@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoleDisplay Component should match the role Display snapshot 1`] = `
+<div>
+  <div>
+    <h5>
+      Create Role
+    </h5>
+    <InputField
+      className="validate form-design"
+      name="title"
+      onChange={[Function]}
+      placeholder="role Title"
+      type="text"
+      value=""
+    />
+    <InputField
+      className="validate form-design"
+      name="description"
+      onChange={[Function]}
+      placeholder="role Content"
+      type="text"
+    />
+    <button
+      className="waves-effect btn button-design"
+      onClick={[Function]}
+      type="submit"
+    >
+      Save
+    </button>
+  </div>
+</div>
+`;

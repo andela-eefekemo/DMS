@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoleCard Component should match the role card snapshot 1`] = `
+<div>
+  <div>
+    <h5>
+      Book
+    </h5>
+    <p>
+      Awesome
+    </p>
+    <p>
+      Last Edited: 
+      Invalid Date
+    </p>
+    <p />
+    <p />
+    <div
+      className="col l6 m6 s12 left"
+    >
+      <Modal
+        actions={
+          <div>
+            <button
+              className="btn btn-flat modal-action modal-close"
+              id="delete"
+              name={3}
+              onClick={[Function]}
+            >
+              Delete
+            </button>
+            <button
+              className="btn btn-flat modal-action modal-close left"
+            >
+              Cancel
+            </button>
+          </div>
+        }
+        bottomSheet={false}
+        fixedFooter={false}
+        modalOptions={Object {}}
+        trigger={
+          <a
+            className="waves-effect btn button-design"
+            data-target="passwordModal"
+            id="delete-role"
+          >
+            Delete
+          </a>
+        }
+      >
+        <div>
+          <h5
+            className="center"
+          >
+            Are you sure you want to delete the user
+          </h5>
+        </div>
+      </Modal>
+    </div>
+    <div
+      className="col l6 m6 s12 right"
+    >
+      <Modal
+        actions={
+          Array [
+            <Button
+              flat={true}
+              modal="close"
+              node="button"
+              waves="light"
+          >
+              Close
+          </Button>,
+          ]
+        }
+        bottomSheet={false}
+        fixedFooter={false}
+        modalOptions={Object {}}
+        trigger={
+          <a
+            className="waves-effect btn button-design"
+            data-target="passwordModal"
+          >
+            Update
+          </a>
+        }
+      >
+        <div>
+          <h5>
+            Update Role
+          </h5>
+          <InputField
+            className="validate form-design"
+            name="title"
+            onChange={[Function]}
+            placeholder="Book"
+            type="text"
+          />
+          <InputField
+            className="validate form-design"
+            name="description"
+            onChange={[Function]}
+            placeholder="Awesome"
+            type="text"
+          />
+          <div
+            className="input-field center"
+          >
+            <button
+              className="btn button-design modal-action modal-close"
+              name={3}
+              onClick={[Function]}
+              type="submit"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  </div>
+</div>
+`;

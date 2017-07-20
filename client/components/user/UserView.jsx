@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
+import PropTypes from 'prop-types';
 
 const UserView = ({ id, firstName, lastName, email, deleteUser }) => {
   return (
@@ -20,13 +21,20 @@ const UserView = ({ id, firstName, lastName, email, deleteUser }) => {
                 </a>}
               actions={
                 <div>
-                  <button className="btn waves-effect waves-light btn-flat modal-action modal-close" name={id} onClick={deleteUser}>
+                  <button
+                    className="btn btn-flat modal-action modal-close"
+                    name={id}
+                    onClick={deleteUser}>
                     Delete
-                </button>
-                  <button className="btn waves-effect waves-light btn-flat modal-action modal-close left">Cancel</button>
+                  </button>
+                  <button
+                    className="btn btn-flat modal-action modal-close left">
+                    Cancel
+                  </button>
                 </div>}>
               <div >
-                <h5 className="center">Are you sure you want to delete the user</h5>
+                <h5 className="center">
+                  Are you sure you want to delete the user</h5>
               </div>
             </Modal>
           </div>
@@ -34,6 +42,14 @@ const UserView = ({ id, firstName, lastName, email, deleteUser }) => {
       </div>
     </div>
   );
+};
+
+UserView.propTypes = {
+  id: PropTypes.number.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  deleteUser: PropTypes.func.isRequired,
 };
 
 export default UserView;

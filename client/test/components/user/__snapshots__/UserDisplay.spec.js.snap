@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserDisplay Component should match the user Display snapshot 1`] = `
+<div>
+  <div
+    className="user-card card"
+  >
+    <h5
+      className="center"
+    >
+       User Profile 
+    </h5>
+    <div
+      className="row profile"
+    >
+      <div
+        className="col l8 m8 s12"
+      >
+        <InputField
+          className="validate form-design"
+          name="firstName"
+          onChange={[Function]}
+          placeholder="First Name"
+          type="text"
+          value="Efe"
+        />
+      </div>
+      <div
+        className="col l8 m8 s12"
+      >
+        <InputField
+          className="validate form-design"
+          name="lastName"
+          onChange={[Function]}
+          placeholder="Last Name"
+          type="text"
+          value="Eguono"
+        />
+      </div>
+      <div
+        className="col l8 m8 s12"
+      >
+        <InputField
+          className="validate form-design"
+          name="email"
+          onChange={[Function]}
+          placeholder="Email"
+          type="email"
+          value="email"
+        />
+      </div>
+    </div>
+    <div
+      className="row user-action"
+    >
+      <div
+        className="col l6 m6 s12 input-field center"
+      >
+        <Modal
+          actions={
+            Array [
+              <Button
+                flat={true}
+                modal="close"
+                node="button"
+                waves="light"
+            >
+                Close
+            </Button>,
+            ]
+          }
+          bottomSheet={false}
+          fixedFooter={false}
+          modalOptions={Object {}}
+          trigger={
+            <a
+              className="waves-effect btn button-design"
+              data-target="passwordModal"
+              id="update-password"
+            >
+              Change Password
+            </a>
+          }
+        >
+          <div>
+            <h5
+              className="center"
+            >
+               Set Password
+            </h5>
+            <div
+              className="row"
+            >
+              <div
+                className="col l12 m12 s12"
+              >
+                <InputField
+                  className="validate form-design"
+                  name="oldPassword"
+                  onChange={[Function]}
+                  placeholder="Old Password"
+                  type="password"
+                />
+                <InputField
+                  className="validate form-design"
+                  name="password"
+                  onChange={[Function]}
+                  placeholder="Password"
+                  type="password"
+                />
+              </div>
+              <div
+                className="col l12 m12 s12"
+              >
+                <InputField
+                  className="validate form-design"
+                  name="confirmPassword"
+                  onChange={[Function]}
+                  placeholder="Re-Type Password"
+                  type="password"
+                />
+              </div>
+            </div>
+            <div
+              className="center"
+            >
+              <button
+                className="btn button-design modal-action modal-close"
+                id="password-button"
+                onClick={[Function]}
+                type="submit"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </Modal>
+      </div>
+      <div
+        className="col l6 m6 s12 input-field center"
+      >
+        <button
+          className="waves-effect btn button-design"
+          id="update-button"
+          onClick={[Function]}
+          type="submit"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

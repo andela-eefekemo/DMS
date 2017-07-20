@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Container Container should match snapshot of document Container 1`] = `
+<NavBar
+  match={
+    Object {
+      "url": "",
+    }
+  }
+  onClick={[Function]}
+/>
+`;

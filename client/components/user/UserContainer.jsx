@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import UserActions from '../../actions/UserActions';
 
 import validate from '../../utilities/validate';
 import UserDisplay from './UserDisplay';
 
 const updateUser = UserActions.updateUser;
+const viewUser = UserActions.viewUser;
 /**
  * @class UserContainer
  * @extends {Component}
  */
-class UserContainer extends Component {
+export class UserContainer extends Component {
   /**
    * Creates an instance of ProfileContainer.
    * @param {any} props -
@@ -33,33 +35,29 @@ class UserContainer extends Component {
    * @return {void}
    * @memberof UserContainer
    */
-  componentWillMount() {
-    this.setState({
-      firstName: this.props.user.firstName,
-      lastName: this.props.user.lastName,
-      email: this.props.user.email,
-      roleId: this.props.user.roleId
-    });
-  }
-  /**
-   * @return {void}
-   * @memberof UserContainer
-   */
   componentDidMount() {
+    this.props.viewUser(this.props.access.user.id)
+      .then(() => {
+        this.setState({
+          firstName: this.props.user.user.firstName,
+          lastName: this.props.user.user.lastName,
+          email: this.props.user.user.email,
+          roleId: this.props.user.user.roleId
+        });
+      });
     $('.modal').modal();
   }
   /**
  * @return {void}
- * @param {any} e -
  * @memberof UserContainer
  */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit() {
     try {
-      if (!validate(this.state)) {
+      const { valid } = validate.validateUpdateUser(this.state);
+      if (!valid) {
         throw new Error('No field should be left blank');
       }
-      this.props.updateUser(this.state, this.props.user.id)
+      this.props.updateUser(this.state, this.props.access.user.id)
         .then(() => {
           if (this.props.user.message) {
             return Materialize.toast(
@@ -67,8 +65,8 @@ class UserContainer extends Component {
               'indigo darken-4 white-text rounded');
           }
           Materialize.toast(
-            'Success!', 2000, 'indigo darken-4 white-text rounded');
-          this.context.router.history.push('/dashboard');
+            'Profile updated!', 2000, 'indigo darken-4 white-text rounded');
+          this.props.history.push('/dashboard/allusers');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -104,7 +102,8 @@ class UserContainer extends Component {
 
 const mapPropsToState = (state) => {
   return {
-    user: state.access.user
+    access: state.access,
+    user: state.user
   };
 };
 
@@ -114,8 +113,12 @@ UserContainer.contextTypes = {
 
 UserContainer.propTypes = {
   user: PropTypes.object.isRequired,
-  updateUser: PropTypes.func.isRequired
+  access: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  viewUser: PropTypes.func.isRequired,
+  history: PropTypes.object
 };
 
 
-export default connect(mapPropsToState, { updateUser })(UserContainer);
+export default connect(
+  mapPropsToState, { updateUser, viewUser })(withRouter(UserContainer));

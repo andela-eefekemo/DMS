@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
+import initialState from './initialState';
 
 const accessReducer = (
-  state = { isAuthenticated: false, user: {}, message: null }, action) => {
+  state = initialState.access, action) => {
   switch (action.type) {
     case actionTypes.SIGN_UP_USER:
     case actionTypes.SIGN_IN_USER:
@@ -20,7 +21,7 @@ const accessReducer = (
       };
     case actionTypes.SIGN_OUT_USER:
       return Object.assign({},
-        state, { isAuthenticated: false, user: {}, error: null });
+        state, { isAuthenticated: false, message: null });
     default:
       return state;
   }

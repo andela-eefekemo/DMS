@@ -50,12 +50,6 @@ The following features make up the Document Management System API:
 - It allows users to search for users through name or email address
 - It allows users on the same role to search through role-based documents 
 
-## Hosted App on Heroku
-[Meek-DMS](https://meek-dms-staging.herokuapp.com/)
-
-## API Documentation
-- View API endpoints and their functions [here](https://andela-moseni.github.io/document-mgt-system/)
-
 ## Technologies Used
 - **[JavaScript ES6](http://es6-features.org/)** - Codes were written in javascript to enhance HTML pages.
 - **[ReactJS](https://facebook.github.io/react/)** - React is an open-source JavaScript library for building user interfaces.
@@ -66,7 +60,7 @@ The following features make up the Document Management System API:
 
 ### **Installation Steps**
 * Ensure you have `node` installed or install [Node](https://nodejs.org/en/download/)
-* Clone the project repository from your terminal `git clone https://github.com/andela-moseni/document-mgt-system.git`
+* Clone the project repository from your terminal `git clone https://github.com/andela-eefekemo/DMS.git`
 * Change directory into the `document-mgt-system` directory
 * Run `npm install` to install the dependencies in the `package.json` file
 * Run `npm run dev` to start the project
@@ -82,7 +76,7 @@ The following features make up the Document Management System API:
 The limitations to the **Document Management System API** are as follows:
 * Users can only create plain textual documents and retrieve same when needed 
 * Users cannot share documents with people, but can make document `public` to make it available to other users
-* Users login and obtain a token which is verified on every request, but users cannot logout (nullify the token), however tokens become invalid when it expires (after 12 hours)
+* Users login and obtain a token which is verified on every request, but users cannot logout (nullify the token), however tokens become invalid when it expires
 
 ### How to Contribute
 Contributors are welcome to further enhance the features of this API by contributing to its development. The following guidelines should guide you in contributing to this project:

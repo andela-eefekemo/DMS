@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Document List Container should match snapshot of user list 1`] = `
+<div
+  className="document-list"
+>
+  <div
+    className="container"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col l12 m12 s12"
+      >
+        <div
+          className="col l5 m5 s12"
+        >
+          <input
+            className="search"
+            name="searchTerm"
+            onChange={[Function]}
+            placeholder="Search.."
+            type="text"
+          />
+        </div>
+      </div>
+      <div
+        className="document-list-view"
+      >
+        <div
+          className="col l5 m5 s12"
+        >
+          <div
+            className=" card-panel hoverable"
+          >
+            <h5>
+              All Users
+            </h5>
+            <div
+              className="scrollable"
+            >
+              <PaginationBoxView
+                activeClassName="active"
+                breakClassName="break-me"
+                breakLabel={
+                  <a
+                    href=""
+                  >
+                    ...
+                  </a>
+                }
+                containerClassName="pagination"
+                disableInitialCallback={false}
+                disabledClassName="disabled"
+                marginPagesDisplayed={2}
+                nextClassName="next"
+                nextLabel="next"
+                onPageChange={[Function]}
+                pageCount={0}
+                pageRangeDisplayed={1}
+                previousClassName="previous"
+                previousLabel="previous"
+                subContainerClassName="pages pagination"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="col l6 m6 s12"
+      >
+        <Switch>
+          <Route
+            path="/viewUser"
+            render={[Function]}
+          />
+        </Switch>
+      </div>
+    </div>
+  </div>
+</div>
+`;

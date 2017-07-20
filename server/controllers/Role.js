@@ -18,7 +18,7 @@ class Role {
     validate.role(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       db.Role.findOne({ where: { title: req.body.title } })
         .then((role) => {
@@ -53,16 +53,19 @@ class Role {
    * @memberof Role
    */
   static view(req, res) {
-    db.Role.findAll({ where: { id: { $not: [1, 2] } } })
+    db.Role.findAll({
+      where: { id: { $not: [1, 2] } },
+      order: [['createdAt', 'DESC']]
+    })
       .then((roles) => {
         if (roles.length === 0) {
           return res.status(200).send({
             message: 'There are no roles currently'
           });
         }
-        res.status(200).send({ message: 'Roles found', roles });
+        return res.status(200).send({ message: 'Roles found', roles });
       }).catch((error) => {
-        res.status(400).send({
+        return res.status(400).send({
           message: "we're sorry, there was an error please try again",
           error
         });
@@ -80,7 +83,7 @@ class Role {
     validate.roleUpdate(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       const id = Number(req.params.id);
       db.Role.findById(id)

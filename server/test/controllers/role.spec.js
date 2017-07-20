@@ -32,8 +32,7 @@ describe('Role', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
-          res.body.message.should.be.a('array');
-          res.body.message[0].should.have.property('msg').eql(
+          res.body.should.have.property('message').eql(
             'Title is Required');
           done();
         });
@@ -109,8 +108,8 @@ describe('Role', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.not.have.property('updatedRole');
-          res.body.message[0].should.have.property(
-            'msg').eql('Description is Required');
+          res.body.should.have.property(
+            'message').eql('Description is Required');
           done();
         });
     });

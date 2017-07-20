@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 
-import Header from './include/Header';
+import ConnectedHeader from './include/Header';
 import SideBar from './include/sideBar';
 import Footer from './include/Footer';
-import UserContainer from './user/UserContainer';
-import DocumentContainer from './documents/DocumentContainer';
-import RoleContainer from './role/RoleContainer';
-import DocumentList from './documents/DocumentList';
-import UserList from './user/UserList';
-import RoleList from './role/RoleList';
+import UserConnectedContainer from './user/UserContainer';
+import DocumentConnectedContainer from './documents/DocumentContainer';
+import RoleConnectedContainer from './role/RoleContainer';
+import DocumentConnectedList from './documents/DocumentList';
+import UserConnectedList from './user/UserList';
+import RoleConnectedList from './role/RoleList';
 
 /**
  * @class Dashboard
@@ -37,12 +37,11 @@ class Dashboard extends Component {
   componentDidMount() {
     $('.collapsible').collapsible();
     if (!this.state.isAuthenticated) {
-      this.context.router.history.push('/');
+      this.props.history.push('/');
       return Materialize.toast('You do not have access to view this page', 3000,
         'indigo darken-4 white-text rounded');
     }
   }
-
 
   /**
    * @return {jsx} -
@@ -53,25 +52,30 @@ class Dashboard extends Component {
       <div className="dashboard">
         <SideBar match={this.props.match} user={this.state.user} />
         <div className="dashboard-margin">
-          <Header match={this.props.match} />
+          <ConnectedHeader match={this.props.match} />
           <Switch>
             <Route
               path={`${this.props.match.url}/document`}
-              component={DocumentContainer} />
+              component={DocumentConnectedContainer} />
             <Route
               path={`${this.props.match.url}/role`}
-              component={RoleContainer} />
+              component={RoleConnectedContainer} />
             <Route
-              exact path={this.props.match.url} component={UserContainer} />
+              exact path={`${this.props.match.url}`}
+              render={() => (
+                <Redirect to={`${this.props.match.url}/alldocuments`} />)} />
             <Route
-              path={`${this.props.match.url}/alldocument`}
-              component={DocumentList} />
+              path={`${this.props.match.url}/profile`}
+              component={UserConnectedContainer} />
+            <Route
+              path={`${this.props.match.url}/alldocuments`}
+              component={DocumentConnectedList} />
             <Route
               path={`${this.props.match.url}/allusers`}
-              component={UserList} />
+              component={UserConnectedList} />
             <Route
               path={`${this.props.match.url}/allroles`}
-              component={RoleList} />
+              component={RoleConnectedList} />
           </Switch>
           <Footer />
         </div>
@@ -87,11 +91,9 @@ const mapPropsToState = (state) => {
 };
 
 Dashboard.propTypes = {
-  access: PropTypes.object.isRequired
+  access: PropTypes.object.isRequired,
+  match: PropTypes.object,
+  history: PropTypes.object
 };
 
-Dashboard.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
-export default connect(mapPropsToState)(Dashboard);
+export default connect(mapPropsToState)(withRouter(Dashboard));

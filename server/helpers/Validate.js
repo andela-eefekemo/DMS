@@ -45,7 +45,7 @@ class Validate {
    */
   static user(req) {
     let firstName, lastName, email, password, confirmPassword;
-    if (!req.body.firstName || !req.body.firstName) {
+    if (!req.body.firstName || !req.body.lastName) {
       email = req.body.email;
       password = req.body.password;
       req.checkBody('email', 'Please Input Valid Email').isEmail().notEmpty();
@@ -56,14 +56,15 @@ class Validate {
       email = req.body.email;
       password = req.body.password;
       confirmPassword = req.body.confirmPassword;
-      req.checkBody('firstName', 'Last Name is Required').notEmpty();
+      req.checkBody('firstName', 'First Name is Required').notEmpty();
       req.checkBody('firstName', 'Must be alphabets').isAlpha();
       req.checkBody('lastName', 'Last Name is Required').notEmpty();
       req.checkBody('lastName', 'Must be alphabets').isAlpha();
       req.checkBody('email', 'Email is Required').notEmpty();
       req.checkBody('email', 'Email is not valid').isEmail();
       req.checkBody('password', 'Password is Required').notEmpty();
-      req.checkBody('confirmPassword', 'Passwords do not match').equals(password);
+      req.checkBody(
+        'confirmPassword', 'Passwords do not match').equals(password);
     }
   }
 

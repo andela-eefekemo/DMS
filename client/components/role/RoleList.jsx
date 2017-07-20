@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import RoleActions from '../../actions/RoleActions';
 import RoleCard from './RoleCard';
 
@@ -11,7 +12,7 @@ const deleteRole = RoleActions.deleteRole;
  * @class RoleList
  * @extends {Component}
  */
-class RoleList extends Component {
+export class RoleList extends Component {
   /**
    * Creates an instance of RoleList.
    * @param {any} props -
@@ -20,8 +21,8 @@ class RoleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Roles: [],
-      Role: {}
+      roles: [],
+      role: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -33,15 +34,7 @@ class RoleList extends Component {
    * @memberof RoleList
    */
   componentWillMount() {
-    this.props.viewRole()
-      .then(() => {
-        console.log(this.props);
-        this.setState({
-          Roles: this.props.roles
-        });
-      }).catch(() => {
-
-      });
+    this.updateRoleList();
   }
   /**
    * @return {void}
@@ -49,9 +42,9 @@ class RoleList extends Component {
    * @memberof RoleList
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.RoleList !== nextProps.RoleList) {
+    if (this.props.roleList !== nextProps.roleList) {
       this.setState({
-        Roles: nextProps.RoleList
+        roles: nextProps.roleList
       });
     }
   }
@@ -67,35 +60,52 @@ class RoleList extends Component {
 
   /**
    * @return {void}
+   * @memberof RoleList
+   */
+  updateRoleList() {
+    this.props.viewRole()
+      .then(() => {
+        if (this.props.role.message) {
+          return Materialize.toast(this.props.role.message,
+            2000, 'indigo darken-4 white-text rounded');
+        }
+        this.setState({
+          roles: this.props.roleList
+        });
+      });
+  }
+  /**
+   * @return {void}
    * @param {any} e -
    * @memberof RoleList
    */
   deleteRole(e) {
-    this.props.deleteRole(e.target.value).then(() => {
-      console.log('Role has been deleted');
-      this.context.router.history.push(`${this.props.match.url}`);
-    }).catch(() => {
-
+    this.props.deleteRole(e.target.name).then(() => {
+      this.updateRoleList();
+      this.props.history.push(`${this.props.match.url}`);
     });
   }
 
   /**
    * @return {void}
+   * @param {any} e
    * @memberof RoleList
    */
-  onSubmit() {
+  onSubmit(e) {
     const updatedRole = {
       title: this.state.title,
       description: this.state.description,
     };
-    this.props.updateRole(updatedRole, this.props.Role.id)
+    this.props.updateRole(updatedRole, e.target.name)
       .then(() => {
-        this.setState({
-          title: this.props.Role.title,
-          description: this.props.Role.description,
-        });
-      }).catch(() => {
-
+        if (this.props.role.message) {
+          return Materialize.toast(this.props.role.message,
+            2000, 'indigo darken-4 white-text rounded');
+        }
+        Materialize.toast('Role successfully updated',
+          2000, 'indigo darken-4 white-text rounded');
+        this.updateRoleList();
+        this.props.history.push(`${this.props.match.url}`);
       });
   }
 
@@ -104,35 +114,52 @@ class RoleList extends Component {
    * @memberof RoleList
    */
   render() {
-    const singleRole = this.state.Roles.map(Role => (
-      <RoleCard
-        key={Role.id} {...Role}
-        onClick={this.onSubmit}
-        onSubmit={this.onChange}
-        deleteRole={this.deleteRole}
-        match={this.props.match} />
-    ));
     return (
-      <div className="container">
-        <div className="row">
-          {singleRole}
+      <div className="document-list">
+        <div className="container">
+          <div className="row">
+            <div className="document-list-view">
+              <div className="col l6 m6 s12">
+                <div className=" card-panel hoverable">
+                  <h5>All Roles</h5>
+                  <div className="divider" />
+                  <div className="scrollable">
+                    {this.state.roles.map(Role => (
+                      <RoleCard
+                        key={Role.id} {...Role}
+                        onSubmit={this.onSubmit}
+                        onChange={this.onChange}
+                        deleteRole={this.deleteRole}
+                        match={this.props.match} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-RoleList.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
 const mapPropsToState = (state) => {
   return {
-    role: state.role.role,
-    roles: state.role.roleList,
+    role: state.role,
+    roleList: state.role.roleList,
     access: state.access
   };
 };
 
+RoleList.propTypes = {
+  viewRole: PropTypes.func,
+  updateRole: PropTypes.func,
+  deleteRole: PropTypes.func,
+  roleList: PropTypes.array,
+  role: PropTypes.object,
+  match: PropTypes.object,
+  history: PropTypes.object
+};
+
 export default connect(
-  mapPropsToState, { viewRole, updateRole, deleteRole })(RoleList);
+  mapPropsToState, { viewRole, updateRole, deleteRole })(withRouter(RoleList));

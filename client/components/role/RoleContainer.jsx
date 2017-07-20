@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 import RoleDisplay from './RoleDisplay';
 import RoleActions from '../../actions/RoleActions';
@@ -12,7 +13,7 @@ const createRole = RoleActions.createRole;
  * @class RoleContainer
  * @extends {Component}
  */
-class RoleContainer extends Component {
+export class RoleContainer extends Component {
   /**
    * Creates an instance of RoleContainer.
    * @param {any} props -
@@ -30,23 +31,24 @@ class RoleContainer extends Component {
 
   /**
    * @return {void}
-   * @param {any} e -
    * @memberof RoleContainer
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit() {
     try {
-      if (!validate(this.state)) {
+      const { valid } = validate.validateSaveRole(this.state);
+      if (!valid) {
         throw new Error('No field should be left blank');
       }
       this.props.createRole(this.state)
         .then(() => {
           if (this.props.role.message) {
-            return Materialize.toast(this.props.role.message, 2000, 'indigo darken-4 white-text rounded');
+            return Materialize.toast(
+              this.props.role.message,
+              2000, 'indigo darken-4 white-text rounded');
           }
           Materialize.toast(
-            'Success!', 2000, 'indigo darken-4 white-text rounded');
-          this.context.router.history.push('/dashboard');
+            'Role created', 2000, 'indigo darken-4 white-text rounded');
+          this.props.history.push('/dashboard/allroles');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -85,11 +87,10 @@ const mapPropsToState = (state) => {
 };
 
 RoleContainer.propTypes = {
-  createRole: PropTypes.func.isRequired
+  createRole: PropTypes.func.isRequired,
+  role: PropTypes.object,
+  history: PropTypes.object
 };
 
-RoleContainer.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
-export default connect(mapPropsToState, { createRole })(RoleContainer);
+export default connect(
+  mapPropsToState, { createRole })(withRouter(RoleContainer));

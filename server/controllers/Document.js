@@ -40,7 +40,8 @@ class Document {
             }).catch((error) => {
               return res.status(200).send({
                 message:
-                `we're sorry, document ${error.errors[0].message}, please try again`
+                `we're sorry,
+                document ${error.errors[0].message}, please try again`
               });
             });
         }).catch((error) => {
@@ -59,98 +60,26 @@ class Document {
    * @return {void}
    * @memberof Document
    */
-  static listAll(req, res) {
-    const offset = authenticate.verify(req.query.offset) || 0;
-    const limit = authenticate.verify(req.query.limit) || 20;
-
-    if (Number(req.user.roleId) === 1) {
-      db.Document.findAndCount({
-        offset,
-        limit,
-        include: [{
-          model: db.User,
-          attributes: ['firstName', 'lastName', 'roleId']
-        }],
-        order: [['createdAt', 'DESC']]
-      })
-        .then((documents) => {
-          return res.status(200).send(
-            {
-              message: 'Documents found',
-              documentList: documents.rows,
-              metaData: paginate(documents.count, limit, offset)
-            });
-        })
-        .catch((error) => {
-          return res.status(400).send(
-            {
-              message: "We're sorry, we had an error, please try again",
-              error
-            });
-        });
-    } else {
-      db.Document.findAndCount({
-        offset,
-        limit,
-        where: {
-          $or: [
-            {
-              $or: [{ access: 'public' }, {
-                $and: [
-                  { access: 'role' }, { roleId: req.user.roleId }]
-              }]
-            },
-            { authorId: req.user.id }
-          ]
-        },
-        include: [{
-          model: db.User,
-          attributes: ['firstName', 'lastName', 'roleId']
-        }],
-        order: [['createdAt', 'DESC']]
-      }).then((documents) => {
-        return res.status(200).send(
-          {
-            message: 'Documents found',
-            documentList: documents.rows,
-            metaData: paginate(documents.count, limit, offset)
-          });
-      })
-        .catch((error) => {
-          return res.status(400).send(
-            {
-              message: "We're sorry, we had an error, please try again",
-              error
-            });
-        });
-    }
-  }
-
-  /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @return {void}
-   * @memberof Document
-   */
   static view(req, res) {
     const id = authenticate.verify(req.params.id);
     db.Document.findOne({ where: { id } })
       .then((document) => {
         if (document) {
           if (
-            (document.authorId !== req.user.id && req.user.roleId !== 1
-              && document.access !== 'public') || (document.access === 'role'
-                && document.roleId === req.user.roleId)
+            ((Number(document.authorId) === Number(req.user.id))
+              || (document.access === 'role'
+                && Number(document.roleId) === Number(req.user.roleId)))
+            || Number(req.user.roleId) === 1
+            || document.access === 'public'
           ) {
             res.status(200).send(
-              { message: 'You are unauthorized to view this document' });
-          } else {
-            return res.status(200).send(
               {
                 message: 'Document found',
                 document
               });
+          } else {
+            return res.status(200).send(
+              { message: 'You are unauthorized to view this document' });
           }
         } else {
           return res.status(200).send({ message: 'Document not found' });
@@ -174,8 +103,11 @@ class Document {
   * @returns {Response} response object
   */
   static getUserDocuments(req, res) {
-    // write test for method
-    return db.Document.findAll({
+    const offset = authenticate.verify(req.query.offset) || 0;
+    const limit = authenticate.verify(req.query.limit) || 5;
+    return db.Document.findAndCount({
+      offset,
+      limit,
       where: { authorId: req.params.id },
       include: [{
         model: db.User,
@@ -184,7 +116,11 @@ class Document {
       order: [['createdAt', 'DESC']]
     })
       .then((documents) => {
-        res.status(200).send({ message: 'Documents found', documents });
+        res.status(200).send({
+          message: 'Documents found',
+          documents: documents.rows,
+          metaData: paginate(documents.count, limit, offset)
+        });
       })
       .catch(error => error, res);
   }
@@ -259,9 +195,12 @@ class Document {
    * @memberof Document
    */
   static search(req, res) {
-    const searchTerm = req.query.q;
+    let searchTerm = '%%';
+    if (req.query.q) {
+      searchTerm = `%${req.query.q}%`;
+    }
     const offset = req.query.offset || 0;
-    const limit = req.query.limit || 20;
+    const limit = req.query.limit || 5;
 
     let query;
     if (req.user.roleId === 1) {

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Header from '../include/Header';
+import PropTypes from 'prop-types';
+import ConnectedHeader from '../include/Header';
 
-import SignInForm from './SignInForm';
-import SignUpForm from './SignUpForm';
+import SignInConnectedForm from './SignInForm';
+import SignUpConnectedForm from './SignUpForm';
 
 
 /**
@@ -11,9 +12,6 @@ import SignUpForm from './SignUpForm';
  * @extends {Component}
  */
 class AuthPage extends Component {
-  constructor(props) {
-    super(props);
-  }
   /**
    * @returns {jsx} -
    * @memberof LandingContainer
@@ -21,12 +19,16 @@ class AuthPage extends Component {
   render() {
     return (
       <div>
-        <Header match={this.props.match} />
+        <ConnectedHeader match={this.props.match} />
         <div className="container authpage">
           <div className="row auth-card">
             <Switch>
-              <Route exact path={`${this.props.match.path}/signin`} component={SignInForm} />
-              <Route exact path={`${this.props.match.path}/signup`} component={SignUpForm} />
+              <Route
+                exact path={`${this.props.match.path}/signin`}
+                component={SignInConnectedForm} />
+              <Route
+                exact path={`${this.props.match.path}/signup`}
+                component={SignUpConnectedForm} />
             </Switch>
           </div>
         </div>
@@ -34,5 +36,9 @@ class AuthPage extends Component {
     );
   }
 }
+
+AuthPage.propTypes = {
+  match: PropTypes.object.isRequired
+};
 
 export default AuthPage;

@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
+
 import UserActions from '../../actions/UserActions';
-import RoleActions from '../../actions/RoleActions';
 import UserCard from './UserCard';
 import UserView from './UserView';
 
 const getAllUsers = UserActions.getUsers;
 const viewUser = UserActions.viewUser;
-const updateUser = UserActions.updateUser;
 const deleteUser = UserActions.deleteUser;
 const searchUsers = UserActions.searchUsers;
-const viewRoles = RoleActions.viewRole;
 
 /**
  * @class UserList
  * @extends {Component}
  */
-class UserList extends Component {
+export class UserList extends Component {
   /**
    * Creates an instance of UserList.
    * @param {any} props -
@@ -29,18 +28,21 @@ class UserList extends Component {
     this.state = {
       Users: [],
       User: {},
+      offset: 0,
+      pageCount: 0,
       searchTerm: ''
     };
     this.onClick = this.onClick.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   /**
    * @return {void}
    * @memberof UserList
    */
-  componentWillMount() {
+  componentDidMount() {
     this.updateUserList();
   }
 
@@ -64,11 +66,10 @@ class UserList extends Component {
    * @memberof UserList
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.UserList !== nextProps.UserList) {
-      this.setState({
-        Users: nextProps.UserList
-      });
-    }
+    this.setState({
+      Users: nextProps.UserList,
+      pageCount: nextProps.pagination.pageCount
+    });
   }
   /**
    * @param {any} e -
@@ -80,17 +81,16 @@ class UserList extends Component {
     this.props.viewUser(e.target.name).then(() => {
       if (this.props.User.message) {
         return Materialize.toast(
-          this.props.user.message, 2000,
+          this.props.User.message, 2000,
           'indigo darken-4 white-text rounded');
-      } else {
-        this.setState({
-          firstName: this.props.User.firstName,
-          lastName: this.props.User.lastName,
-          email: this.props.User.email,
-          roleId: this.props.User.roleId
-        });
-        this.context.router.history.push(`${this.props.match.url}/viewUser`);
       }
+      this.setState({
+        firstName: this.props.User.firstName,
+        lastName: this.props.User.lastName,
+        email: this.props.User.email,
+        roleId: this.props.User.roleId
+      });
+      this.props.history.push(`${this.props.match.url}/viewUser`);
     }).catch(() => {
     });
   }
@@ -101,10 +101,9 @@ class UserList extends Component {
    * @memberof UserList
    */
   onSearch(e) {
-    e.preventDefault();
+    this.setState({ searchTerm: e.target.value });
     this.props.searchUsers(e.target.value)
       .then(() => {
-        console.log(this.state.searchTerm);
       }).catch(() => {
 
       });
@@ -118,9 +117,25 @@ class UserList extends Component {
   deleteUser(e) {
     this.props.deleteUser(e.target.name).then(() => {
       this.updateUserList();
-      this.context.router.history.push(`${this.props.match.url}/allusers`);
+      this.props.history.push(`${this.props.match.url}/allusers`);
     }).catch(() => {
 
+    });
+  }
+  /**
+   * @return {void}
+   * @param {any} data
+   * @memberof UserList
+   */
+  handlePageClick(data) {
+    const selected = data.selected;
+    const limit = 5;
+    const offset = Math.ceil(selected * limit);
+    this.setState({ offset });
+    this.props.getAllUsers(offset, limit).then(() => {
+      this.setState({
+        Users: this.props.UserList
+      });
     });
   }
 
@@ -154,6 +169,19 @@ class UserList extends Component {
                   <h5>All Users</h5>
                   <div className="scrollable">
                     {singleUser}
+                    <ReactPaginate
+                      previousLabel={'previous'}
+                      nextLabel={'next'}
+                      breakLabel={<a href="">...</a>}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={1}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
                   </div>
                 </div>
               </div>
@@ -161,14 +189,19 @@ class UserList extends Component {
             <div className="col l6 m6 s12">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewUser`} render={() => (
-                    <UserView
-                      id={this.props.User.id}
-                      firstName={this.state.firstName}
-                      lastName={this.state.lastName}
-                      email={this.state.email}
-                      roleId={this.state.roleId}
-                      deleteUser={this.deleteUser} />)} />
+                  path={`${this.props.match.url}/viewUser`} render={() => {
+                    if (!this.props.User.id) {
+                      this.props.history.push(`${this.props.match.url}`);
+                    }
+                    return (
+                      <UserView
+                        id={this.props.User.id}
+                        firstName={this.state.firstName}
+                        lastName={this.state.lastName}
+                        email={this.state.email}
+                        roleId={this.state.roleId}
+                        deleteUser={this.deleteUser} />);
+                  }} />
               </Switch>
             </div>
           </div>
@@ -178,18 +211,27 @@ class UserList extends Component {
   }
 }
 
-UserList.contextTypes = {
-  router: PropTypes.object.isRequired
+UserList.propTypes = {
+  getAllUsers: PropTypes.func,
+  viewUser: PropTypes.func,
+  deleteUser: PropTypes.func,
+  searchUsers: PropTypes.func,
+  User: PropTypes.object,
+  UserList: PropTypes.array,
+  match: PropTypes.object,
+  pagination: PropTypes.object,
+  history: PropTypes.object
 };
 
 const mapPropsToState = (state) => {
   return {
     UserList: state.user.userList,
-    User: state.user.user,
-    roles: state.role.roleList,
-    access: state.access
+    pagination: state.user.pagination,
+    User: state.user.user
   };
 };
 
 export default connect(
-  mapPropsToState, { getAllUsers, viewUser, updateUser, deleteUser, searchUsers, viewRoles })(UserList);
+  mapPropsToState, {
+    getAllUsers, viewUser, deleteUser, searchUsers
+  })(withRouter(UserList));

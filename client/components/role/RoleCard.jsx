@@ -2,75 +2,105 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import InputField from '../common/InputField';
+import parseDate from '../../utilities/parseDate';
 
 /**
  * @param {any} props
  * @returns
  */
 
-const RoleCard = (props) => {
-  const { title, id, description, createdAt, onChange, onSubmit, deleteRole } = props;
+const RoleCard = ({
+    title, id, description, updatedAt, onChange, onSubmit, deleteRole }) => {
   return (
     <div>
       <h5>{title}</h5>
-      <h5>{description}</h5>
-      <p>{createdAt}</p>
-      <button
-        className="waves-effect btn button-design"
-        onClick={deleteRole}
-        value={id}
-      >
-        Delete
-      </button>
-      <Modal
-        trigger={
-          <a
-            className="waves-effect btn button-design"
-            data-target="passwordModal">
-            Update
-                  </a>
-        }
-      >
-        <form onSubmit={onSubmit} >
-          <h5>Update User</h5>
-          <InputField
-            name="title"
-            value={title}
-            placeholder="Document firstName"
-            className="validate form-design"
-            type="text"
-            onChange={onChange} />
-          <InputField
-            name="description"
-            value={description}
-            placeholder="Document lastName"
-            className="validate form-design"
-            type="text"
-            onChange={onChange} />
-          <div className="input-field center">
-            <button className="waves-effect btn button-design" type="submit">
-              Update
-            </button>
+      <p>{description}</p>
+      <p>Last Edited: {parseDate(updatedAt)}</p>
+      <p />
+      <p />
+      <div className="col l6 m6 s12 left">
+        <Modal
+          trigger={
+            <a
+              className="waves-effect btn button-design"
+              data-target="passwordModal" id="delete-role">
+              Delete
+                </a>}
+          actions={
+            <div>
+              <button
+                className="btn btn-flat modal-action modal-close"
+                name={id} onClick={deleteRole}
+                id="delete">
+                Delete
+                </button>
+              <button
+                className="btn btn-flat modal-action modal-close left">
+                Cancel
+                  </button>
+            </div>}>
+          <div >
+            <h5
+              className="center">
+              Are you sure you want to delete the user
+                </h5>
           </div>
-
-        </form>
-      </Modal>
+        </Modal>
+      </div>
+      <div className="col l6 m6 s12 right">
+        <Modal
+          trigger={
+            <a
+              className="waves-effect btn button-design"
+              data-target="passwordModal"
+              id="update-role">
+              Update
+          </a>
+          }
+          actions={
+            <div>
+              <button
+                className="btn btn-flat modal-action modal-close"
+                type="submit"
+                onClick={onSubmit}
+                name={id}
+                id="update">
+                Update
+                </button>
+              <button
+                className="btn btn-flat modal-action modal-close left">
+                Cancel
+                  </button>
+            </div>}>
+          <div>
+            <h5>Update Role</h5>
+            <InputField
+              name="title"
+              placeholder={title}
+              className="validate form-design"
+              type="text"
+              onChange={onChange} />
+            <InputField
+              name="description"
+              placeholder={description}
+              className="validate form-design"
+              type="text"
+              onChange={onChange} />
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 };
 
-// Set Default Props
-RoleCard.defaultProps = {
-  title: '',
-  content: '',
-  id: ''
-};
 // Set Props
 RoleCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  createdAt: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  deleteRole: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired
 };
 

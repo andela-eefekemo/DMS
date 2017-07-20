@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
+
 import DocumentActions from '../../actions/DocumentActions';
 import DocumentCard from './DocumentCard';
 import DocumentView from './DocumentView';
@@ -18,7 +20,7 @@ const getUserDocuments = DocumentActions.getUserDocuments;
  * @class DocumentList
  * @extends {Component}
  */
-class DocumentList extends Component {
+export class DocumentList extends Component {
   /**
    * Creates an instance of DocumentList.
    * @param {any} props -
@@ -29,8 +31,11 @@ class DocumentList extends Component {
     this.state = {
       documents: [],
       document: {},
+      offset: 0,
+      pageCount: 0,
       searchTerm: '',
-      docquery: ''
+      docquery: '',
+      personal: false
     };
     this.onClick = this.onClick.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -38,6 +43,8 @@ class DocumentList extends Component {
     this.deleteDocument = this.deleteDocument.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.changeDocument = this.changeDocument.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this.getContent = this.getContent.bind(this);
   }
 
   /**
@@ -45,14 +52,7 @@ class DocumentList extends Component {
    * @memberof DocumentList
    */
   componentDidMount() {
-    this.props.getAllDocuments()
-      .then(() => {
-        this.setState({
-          documents: this.props.documentList
-        });
-      }).catch(() => {
-
-      });
+    this.updateDocumentList();
   }
   /**
    * @return {void}
@@ -60,11 +60,10 @@ class DocumentList extends Component {
    * @memberof DocumentList
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.documentList !== nextProps.documentList) {
-      this.setState({
-        documents: nextProps.documentList
-      });
-    }
+    this.setState({
+      documents: nextProps.documentList,
+      pageCount: nextProps.pagination.pageCount
+    });
   }
   /**
    * @return {void}
@@ -80,21 +79,16 @@ class DocumentList extends Component {
       this.props.getUserDocuments(this.props.access.user.id)
         .then(() => {
           this.setState({
-            documents: this.props.documentList
+            documents: this.props.documentList,
+            personal: true
           });
-        }).catch(() => {
-
         });
     }
     if (value === 'All') {
-      this.props.getAllDocuments()
-        .then(() => {
-          this.setState({
-            documents: this.props.documentList
-          });
-        }).catch(() => {
-
-        });
+      this.updateDocumentList();
+      this.setState({
+        personal: false
+      });
     }
   }
   /**
@@ -123,23 +117,21 @@ class DocumentList extends Component {
         content: this.props.document.content,
         access: this.props.document.access
       });
-      this.context.router.history.push(`${this.props.match.url}/viewUser`);
-    }).catch(() => {
-
+      this.props.history.push(`${this.props.match.url}/viewDocument`);
     });
   }
 
   /**
+   * @param {event} e
    * @return {void}
    * @memberof DocumentList
    */
   onSearch(e) {
-    e.preventDefault();
+    this.setState({
+      searchTerm: e.target.value
+    });
     this.props.searchDocuments(e.target.value)
       .then(() => {
-        console.log('Success');
-      }).catch(() => {
-
       });
   }
 
@@ -153,9 +145,16 @@ class DocumentList extends Component {
         this.setState({
           documents: this.props.documentList
         });
-      }).catch(() => {
-
       });
+  }
+  /**
+  * Get the content of the TinyMCE editor
+  *
+  * @param {Object} event
+  * @returns {void} nothing
+  */
+  getContent(event) {
+    this.setState({ content: event.target.getContent() });
   }
   /**
    * @return {void}
@@ -167,14 +166,38 @@ class DocumentList extends Component {
       Materialize.toast(
         this.props.document.message, 2000,
         'indigo darken-4 white-text rounded');
-      this.context.router.history.push('/dashboard');
       this.updateDocumentList();
-      this.context.router.history.push(`${this.props.match.url}`);
-    }).catch(() => {
-
+      this.props.history.push(`${this.props.match.url}`);
     });
   }
 
+  /**
+   * @return {void}
+   * @param {any} data -
+   * @memberof DocumentList
+   */
+  handlePageClick(data) {
+    const selected = data.selected;
+    const limit = 5;
+    const offset = Math.ceil(selected * limit);
+    this.setState({ offset });
+    if (this.state.personal) {
+      this.props.getUserDocuments(
+        this.props.access.user.id, offset, limit).then(() => {
+          this.setState({
+            documents: this.props.documentList,
+            pageCount: this.props.pagination.pageCount
+          });
+        });
+    } else {
+      this.props.getAllDocuments(offset, limit).then(() => {
+        this.setState({
+          documents: this.props.documentList,
+          pageCount: this.props.pagination.pageCount
+        });
+      });
+    }
+  }
   /**
    * @return {void}
    * @memberof DocumentList
@@ -193,18 +216,18 @@ class DocumentList extends Component {
             'indigo darken-4 white-text rounded');
         }
         Materialize.toast(
-          'Success!', 2000, 'indigo darken-4 white-text rounded');
-        this.context.router.history.push('/dashboard');
+          'Document has been updated',
+          2000, 'indigo darken-4 white-text rounded'
+        );
+        this.props.history.push('/dashboard');
         this.setState({
           title: this.props.document.title,
           content: this.props.document.content,
           access: this.props.document.access
         });
         this.updateDocumentList();
-      }).catch(() => {
-
       });
-    this.context.router.history.push('/dashboard/alldocument');
+    this.props.history.push('/dashboard');
   }
 
   /**
@@ -212,12 +235,6 @@ class DocumentList extends Component {
    * @memberof DocumentList
    */
   render() {
-    const singleDocument = this.state.documents.map(document => (
-      <DocumentCard
-        key={document.id} {...document}
-        onClick={this.onClick} match={this.props.match}
-      />
-    ));
     return (
       <div className="document-list">
         <div className="container">
@@ -228,13 +245,15 @@ class DocumentList extends Component {
                   className="search"
                   type="text"
                   name="searchTerm"
+                  id="documentSearch"
                   placeholder="Search.."
                   onChange={this.onSearch} />
               </div>
               <div className="col l6 m6 s12 center">
                 <select
                   name="docquery"
-                  className="browser-default input-field select" onChange={this.changeDocument}>
+                  className="browser-default input-field select"
+                  onChange={this.changeDocument}>
                   <Dropdown value="All" text="All Documents" />
                   <Dropdown value="Personal" text="Personal" />
                 </select>
@@ -248,7 +267,25 @@ class DocumentList extends Component {
                   {(this.state.docquery === 'Personal')
                     && <h5>Personal Documents</h5>}
                   <div className="scrollable">
-                    {singleDocument}
+                    {this.state.documents.map(document => (
+                      <DocumentCard
+                        key={document.id} {...document}
+                        onClick={this.onClick} match={this.props.match}
+                      />
+                    ))}
+                    <ReactPaginate
+                      previousLabel={'previous'}
+                      nextLabel={'next'}
+                      breakLabel={<a href="">...</a>}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={1}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
                   </div>
                 </div>
               </div>
@@ -256,17 +293,23 @@ class DocumentList extends Component {
             <div className="col l6 m6 s12">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewUser`} render={() => (
-                    <DocumentView
-                      id={this.props.document.id}
-                      authorId={this.props.document.authorId}
-                      title={this.state.title}
-                      content={this.state.content}
-                      access={this.state.access}
-                      onChange={this.onChange}
-                      onSubmit={this.onSubmit}
-                      deleteDocument={this.deleteDocument}
-                      userId={this.props.access.user.id} />)} />
+                  path={`${this.props.match.url}/viewDocument`} render={() => {
+                    if (!this.props.document.id) {
+                      this.props.history.push(`${this.props.match.url}`);
+                    }
+                    return (
+                      <DocumentView
+                        id={this.props.document.id}
+                        authorId={this.props.document.authorId}
+                        title={this.state.title}
+                        content={this.state.content}
+                        access={this.state.access}
+                        onChange={this.onChange}
+                        onSubmit={this.onSubmit}
+                        getContent={this.getContent}
+                        deleteDocument={this.deleteDocument}
+                        userId={this.props.access.user.id} />);
+                  }} />
               </Switch>
             </div>
           </div>
@@ -276,17 +319,36 @@ class DocumentList extends Component {
   }
 }
 
-DocumentList.contextTypes = {
-  router: PropTypes.object.isRequired
+DocumentList.propTypes = {
+  access: PropTypes.object,
+  document: PropTypes.object,
+  documentList: PropTypes.array,
+  getAllDocuments: PropTypes.func,
+  getUserDocuments: PropTypes.func,
+  viewDocument: PropTypes.func,
+  match: PropTypes.object,
+  searchDocuments: PropTypes.func,
+  deleteDocument: PropTypes.func,
+  updateDocument: PropTypes.func,
+  pagination: PropTypes.object,
+  history: PropTypes.object
 };
 
 const mapPropsToState = (state) => {
   return {
     documentList: state.document.documentList,
     document: state.document.document,
+    pagination: state.document.pagination,
     access: state.access
   };
 };
 
 export default connect(
-  mapPropsToState, { getAllDocuments, viewDocument, updateDocument, deleteDocument, searchDocuments, getUserDocuments })(DocumentList);
+  mapPropsToState, {
+    getAllDocuments,
+    viewDocument,
+    updateDocument,
+    deleteDocument,
+    searchDocuments,
+    getUserDocuments
+  })(withRouter(DocumentList));

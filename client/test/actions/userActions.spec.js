@@ -37,7 +37,8 @@ describe('User Actions', () => {
       store.dispatch(UserActions.getUsers()).then(() => {
         expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
         expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].userList).toEqual(expectedAction[0].userList);
+        expect(
+          store.getActions()[0].userList).toEqual(expectedAction[0].userList);
       });
       done();
     });
@@ -56,7 +57,8 @@ describe('User Actions', () => {
         }];
         store.dispatch(UserActions.getUsers()).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -81,7 +83,8 @@ describe('User Actions', () => {
       store.dispatch(UserActions.searchUsers('e')).then(() => {
         expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
         expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].userList).toEqual(expectedAction[0].userList);
+        expect(
+          store.getActions()[0].userList).toEqual(expectedAction[0].userList);
       });
       done();
     });
@@ -100,7 +103,8 @@ describe('User Actions', () => {
         }];
         store.dispatch(UserActions.searchUsers('e')).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -142,7 +146,8 @@ describe('User Actions', () => {
         }];
         store.dispatch(UserActions.viewUser(300000)).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -162,7 +167,8 @@ describe('User Actions', () => {
       }];
       store.dispatch(UserActions.deleteUser(1)).then(() => {
         expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+        expect(
+          store.getActions()[0].message).toEqual(expectedAction[0].message);
         expect(store.getActions()[0].user).toEqual(expectedAction[0].user);
       });
       done();
@@ -182,7 +188,8 @@ describe('User Actions', () => {
         }];
         store.dispatch(UserActions.deleteUser(300000)).then(() => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(
+            store.getActions()[0].message).toEqual(expectedAction[0].message);
         });
         done();
       });
@@ -203,11 +210,13 @@ describe('User Actions', () => {
         message: null,
         user: { firstName: 'Eguono' }
       }];
-      store.dispatch(UserActions.updateUser({ firstName: 'Eguono' }, 1)).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].user).toEqual(expectedAction[0].user);
-      });
+      store.dispatch(
+        UserActions.updateUser({ firstName: 'Eguono' }, 1)).then(() => {
+          expect(
+            store.getActions()[0].type).toEqual(expectedAction[0].type);
+          expect(store.getActions()[0].message).toEqual(null);
+          expect(store.getActions()[0].user).toEqual(expectedAction[0].user);
+        });
       done();
     });
     it(
@@ -225,10 +234,12 @@ describe('User Actions', () => {
           type: actionType.UPDATE_EMAIL_EXISTS,
           message: 'User Email Already Exists'
         }];
-        store.dispatch(UserActions.updateUser({ firstName: 'Eguono' }, 1)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
-        });
+        store.dispatch(
+          UserActions.updateUser({ firstName: 'Eguono' }, 1)).then(() => {
+            expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
+            expect(
+              store.getActions()[0].message).toEqual(expectedAction[0].message);
+          });
         done();
       });
     it("Should dispatch the appropraite action type if there's an error",
@@ -244,10 +255,12 @@ describe('User Actions', () => {
           type: actionType.ERROR,
           message: 'There was an error please try again'
         }];
-        store.dispatch(UserActions.updateUser({ firstName: 'eguono' }, 300000)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(expectedAction[0].message);
-        });
+        store.dispatch(
+          UserActions.updateUser({ firstName: 'eguono' }, 300000)).then(() => {
+            expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
+            expect(
+              store.getActions()[0].message).toEqual(expectedAction[0].message);
+          });
         done();
       });
   });

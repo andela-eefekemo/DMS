@@ -9,7 +9,7 @@ import app from './server';
 
 import config from './webpack.config';
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 7000;
 let homepage = `${__dirname}/client/index.html`;
 
 if (process.env.NODE_ENV === 'development') {

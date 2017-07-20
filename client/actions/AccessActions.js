@@ -56,7 +56,9 @@ class AccessActions {
     return (dispatch) => {
       return axios.post('/users/login', userDetails)
         .then((response) => {
-          if (response.data.message && response.data.message === 'login successful') {
+          if (
+            response.data.message && response.data.message ===
+            'login successful') {
             setAuthorizationToken(response.data.token);
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
@@ -66,7 +68,9 @@ class AccessActions {
               user: response.data.userData
             });
           }
-          if (response.data.message && response.data.message === 'User does not exist') {
+          if (
+            response.data.message && response.data.message ===
+            'User does not exist') {
             return dispatch({
               type: actionTypes.USER_DOES_NOT_EXIST,
               message: 'User does not exist'
@@ -97,7 +101,7 @@ class AccessActions {
       return axios.post('/users/logout')
         .then((response) => {
           localStorage.removeItem('jwToken');
-          dispatch({
+          return dispatch({
             type: actionTypes.SIGN_OUT_USER,
             message: response.data.message
           });
