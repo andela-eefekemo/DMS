@@ -35,6 +35,26 @@ describe('Role Actions', () => {
       });
       done();
     });
+    it('Should make an AJAX call to view Role', (done) => {
+      moxios.stubRequest('/roles', {
+        status: 200,
+        response: {
+          roles: [],
+          message: 'There are no roles currently'
+        }
+      });
+      const store = mockStore({});
+      const expectedAction = [{
+        type: actionType.ROLE_ERROR,
+        message: 'There are no roles currently'
+      }];
+      store.dispatch(RoleActions.viewRole()).then(() => {
+        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
+        expect(
+          store.getActions()[0].message).toEqual(expectedAction[0].message);
+      });
+      done();
+    });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
         moxios.stubRequest('/roles', {

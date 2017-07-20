@@ -123,7 +123,6 @@ export class DocumentList extends Component {
     });
     this.props.searchDocuments(e.target.value)
       .then(() => {
-        this.updateDocumentList();
       });
   }
 
@@ -172,7 +171,9 @@ export class DocumentList extends Component {
             'indigo darken-4 white-text rounded');
         }
         Materialize.toast(
-          'Success!', 2000, 'indigo darken-4 white-text rounded');
+          'Document has been updated',
+          2000, 'indigo darken-4 white-text rounded'
+        );
         this.props.history.push('/dashboard');
         this.setState({
           title: this.props.document.title,
@@ -199,6 +200,7 @@ export class DocumentList extends Component {
                   className="search"
                   type="text"
                   name="searchTerm"
+                  id="documentSearch"
                   placeholder="Search.."
                   onChange={this.onSearch} />
               </div>

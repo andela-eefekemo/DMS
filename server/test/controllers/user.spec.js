@@ -373,7 +373,7 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('userList');
-          res.body.userList.length.should.eql(7);
+          res.body.userList.length.should.eql(9);
           done();
         });
     });

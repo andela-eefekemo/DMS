@@ -60,9 +60,9 @@ class Role {
             message: 'There are no roles currently'
           });
         }
-        res.status(200).send({ message: 'Roles found', roles });
+        return res.status(200).send({ message: 'Roles found', roles });
       }).catch((error) => {
-        res.status(400).send({
+        return res.status(400).send({
           message: "we're sorry, there was an error please try again",
           error
         });

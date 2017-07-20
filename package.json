@@ -85,6 +85,7 @@
     "express": "^4.15.3",
     "express-validator": "^3.2.0",
     "extract-text-webpack-plugin": "^2.1.2",
+    "faker": "^4.1.0",
     "file-loader": "^0.11.2",
     "istanbul": "^0.4.5",
     "jest-cli": "^20.0.4",

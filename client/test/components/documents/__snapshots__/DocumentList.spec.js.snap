@@ -18,6 +18,7 @@ exports[`Document List Container should match snapshot of document list 1`] = `
         >
           <input
             className="search"
+            id="documentSearch"
             name="searchTerm"
             onChange={[Function]}
             placeholder="Search.."

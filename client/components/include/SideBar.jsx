@@ -15,11 +15,11 @@ const SideBar = ({ match, user }) => {
       </div></li>
       <ul className="collapsible" data-collapsible="accordion">
         <li>
-          <div className="collapsible-header">
+          <div className="collapsible-header" id="document-header">
             <i className="material-icons">filter_drama</i>Document</div>
           <div className="collapsible-body" id="document">
             <ul>
-              <li><Link to={`${match.url}/document`}>
+              <li><Link to={`${match.url}/document`} id="create-document">
                 <i className="material-icons">perm_media</i>
                 Create Document</Link>
               </li>
@@ -37,7 +37,7 @@ const SideBar = ({ match, user }) => {
               <li><Link to={`${match.url}/profile`} id="profile">
                 <i className="material-icons">perm_identity</i>
                 Profile</Link></li>
-              {user.roleId === 1 && <li><Link to={`${match.url}/allusers`}>
+              {user.roleId === 1 && <li><Link to={`${match.url}/allusers`} id="userList">
                 <i className="material-icons">perm_media</i>
                 All Users</Link></li>}
             </ul>

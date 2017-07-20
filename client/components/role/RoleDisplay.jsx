@@ -6,7 +6,7 @@ import InputField from '../common/InputField';
 const RoleDisplay = ({ onChange, onSubmit, role }) => {
   return (
     <div>
-      <form onSubmit={onSubmit} >
+      <div>
         <h5>Create Role</h5>
         <InputField
           name="title"
@@ -20,10 +20,12 @@ const RoleDisplay = ({ onChange, onSubmit, role }) => {
           placeholder="role Content"
           className="validate form-design"
           type="text" onChange={onChange} />
-        <button className="waves-effect btn button-design" type="submit">
+        <button
+          className="waves-effect btn button-design"
+          type="submit" onClick={onSubmit}>
           Save
         </button>
-      </form>
+      </div>
     </div>
   );
 };

@@ -33,6 +33,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             <div>
               <button
                 className="btn btn-flat modal-action modal-close"
+                id="delete"
                 name={3}
                 onClick={[Function]}
               >
@@ -52,6 +53,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             <a
               className="waves-effect btn button-design"
               data-target="passwordModal"
+              id="delete-document"
             >
               Delete
             </a>
@@ -89,6 +91,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             <a
               className="waves-effect btn button-design"
               data-target="passwordModal"
+              id="update-document"
             >
               Update
             </a>
@@ -145,6 +148,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             >
               <button
                 className="modal-action modal-close btn button-design"
+                id="save-update"
                 onClick={[Function]}
                 type="submit"
               >

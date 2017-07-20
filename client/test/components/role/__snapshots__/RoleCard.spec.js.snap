@@ -2,80 +2,123 @@
 
 exports[`RoleCard Component should match the role card snapshot 1`] = `
 <div>
-  <h5>
-    Book
-  </h5>
-  <h5>
-    Awesome
-  </h5>
-  <p>
-    today
-  </p>
-  <button
-    className="waves-effect btn button-design"
-    onClick={[Function]}
-    value={3}
-  >
-    Delete
-  </button>
-  <Modal
-    actions={
-      Array [
-        <Button
-          flat={true}
-          modal="close"
-          node="button"
-          waves="light"
-      >
-          Close
-      </Button>,
-      ]
-    }
-    bottomSheet={false}
-    fixedFooter={false}
-    modalOptions={Object {}}
-    trigger={
-      <a
-        className="waves-effect btn button-design"
-        data-target="passwordModal"
-      >
-        Update
-      </a>
-    }
-  >
-    <form
-      onSubmit={[Function]}
+  <div>
+    <h5>
+      Book
+    </h5>
+    <p>
+      Awesome
+    </p>
+    <p>
+      Last Edited: 
+      Invalid Date
+    </p>
+    <p />
+    <p />
+    <div
+      className="col l6 m6 s12 left"
     >
-      <h5>
-        Update User
-      </h5>
-      <InputField
-        className="validate form-design"
-        name="title"
-        onChange={[Function]}
-        placeholder="Document firstName"
-        type="text"
-        value="Book"
-      />
-      <InputField
-        className="validate form-design"
-        name="description"
-        onChange={[Function]}
-        placeholder="Document lastName"
-        type="text"
-        value="Awesome"
-      />
-      <div
-        className="input-field center"
+      <Modal
+        actions={
+          <div>
+            <button
+              className="btn btn-flat modal-action modal-close"
+              id="delete"
+              name={3}
+              onClick={[Function]}
+            >
+              Delete
+            </button>
+            <button
+              className="btn btn-flat modal-action modal-close left"
+            >
+              Cancel
+            </button>
+          </div>
+        }
+        bottomSheet={false}
+        fixedFooter={false}
+        modalOptions={Object {}}
+        trigger={
+          <a
+            className="waves-effect btn button-design"
+            data-target="passwordModal"
+            id="delete-role"
+          >
+            Delete
+          </a>
+        }
       >
-        <button
-          className="waves-effect btn button-design"
-          type="submit"
-        >
-          Update
-        </button>
-      </div>
-    </form>
-  </Modal>
+        <div>
+          <h5
+            className="center"
+          >
+            Are you sure you want to delete the user
+          </h5>
+        </div>
+      </Modal>
+    </div>
+    <div
+      className="col l6 m6 s12 right"
+    >
+      <Modal
+        actions={
+          Array [
+            <Button
+              flat={true}
+              modal="close"
+              node="button"
+              waves="light"
+          >
+              Close
+          </Button>,
+          ]
+        }
+        bottomSheet={false}
+        fixedFooter={false}
+        modalOptions={Object {}}
+        trigger={
+          <a
+            className="waves-effect btn button-design"
+            data-target="passwordModal"
+          >
+            Update
+          </a>
+        }
+      >
+        <div>
+          <h5>
+            Update Role
+          </h5>
+          <InputField
+            className="validate form-design"
+            name="title"
+            onChange={[Function]}
+            placeholder="Book"
+            type="text"
+          />
+          <InputField
+            className="validate form-design"
+            name="description"
+            onChange={[Function]}
+            placeholder="Awesome"
+            type="text"
+          />
+          <div
+            className="input-field center"
+          >
+            <button
+              className="btn button-design modal-action modal-close"
+              name={3}
+              onClick={[Function]}
+              type="submit"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  </div>
 </div>
 `;

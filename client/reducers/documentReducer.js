@@ -25,6 +25,7 @@ const documentReducer =
       case actionTypes.DOCUMENT_ERROR:
       case actionTypes.DOCUMENT_EXISTS:
         return {
+          ...state,
           message: action.message
         };
       default:

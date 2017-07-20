@@ -48,7 +48,9 @@ describe('Role List', () => {
       expect(component.state('title')).toEqual('eguono');
       expect(component.state('description')).toEqual('efe');
       const spy = jest.spyOn(component.instance(), 'onSubmit');
-      component.instance().onSubmit();
+      component.instance().onSubmit({
+        target: { name: 2 }
+      });
       expect(spy).toHaveBeenCalled();
     });
     test('deleteDocument function should run when called', () => {

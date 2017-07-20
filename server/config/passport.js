@@ -13,9 +13,12 @@ module.exports = (passport) => {
   const strategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
     return db.User.findOne({ where: { email: jwtPayload.email } })
       .then((user) => {
-        return next(null, user);
+        if (user) {
+          return next(null, user);
+        }
+        return next(null, false);
       })
-      .catch(() => next(null, false));
+      .catch(err => next(err, false));
   });
   passport.use(strategy);
 };

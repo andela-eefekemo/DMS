@@ -49,7 +49,7 @@ export class DocumentContainer extends Component {
               'indigo darken-4 white-text rounded');
           }
           Materialize.toast(
-            'Success!', 2000, 'indigo darken-4 white-text rounded');
+            'Document Created', 2000, 'indigo darken-4 white-text rounded');
           this.props.history.push('/dashboard');
         });
     } catch (err) {

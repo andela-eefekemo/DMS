@@ -51,6 +51,12 @@ class RoleActions {
               roleList: response.data.roles
             });
           }
+          if (response.data.message === 'There are no roles currently') {
+            return dispatch({
+              type: actionTypes.ROLE_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ROLE_ERROR,
             message: response.data.message

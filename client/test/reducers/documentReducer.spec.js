@@ -124,7 +124,7 @@ describe('Document Reducer', () => {
       message: 'Document already exist'
     };
     const expected = {
-      message: 'Document already exist'
+      document: {}, documentList: [], message: 'Document already exist'
     };
     const newState = documentReducer(initialState.document, action);
 
@@ -136,7 +136,7 @@ describe('Document Reducer', () => {
       message: 'Document error'
     };
     const expected = {
-      message: 'Document error'
+      document: {}, documentList: [], message: 'Document error'
     };
     const newState = documentReducer(initialState.document, action);
 

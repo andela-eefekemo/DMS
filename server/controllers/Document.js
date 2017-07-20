@@ -141,7 +141,7 @@ class Document {
         if (document) {
           if (
             ((document.authorId !== req.user.id) || (document.access === 'role'
-              && document.roleId === req.user.roleId)) && req.user.roleId !== 1
+              && document.roleId !== req.user.roleId)) && req.user.roleId !== 1
             && document.access !== 'public'
           ) {
             res.status(200).send(

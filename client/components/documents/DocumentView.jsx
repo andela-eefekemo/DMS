@@ -31,14 +31,15 @@ const DocumentView = (props) => {
               trigger={
                 <a
                   className="waves-effect btn button-design"
-                  data-target="passwordModal">
+                  data-target="passwordModal" id="delete-document">
                   Delete
                 </a>}
               actions={
                 <div>
                   <button
                     className="btn btn-flat modal-action modal-close"
-                    name={id} onClick={deleteDocument}>
+                    name={id} onClick={deleteDocument}
+                    id="delete">
                     Delete
                 </button>
                   <button
@@ -60,7 +61,8 @@ const DocumentView = (props) => {
               trigger={
                 <a
                   className="waves-effect btn button-design"
-                  data-target="passwordModal">
+                  data-target="passwordModal"
+                  id="update-document">
                   Update
           </a>
               }
@@ -90,6 +92,7 @@ const DocumentView = (props) => {
                 </select>
                 <div className="input-field center">
                   <button
+                    id="save-update"
                     className="modal-action modal-close btn button-design"
                     type="submit"
                     onClick={onSubmit}>

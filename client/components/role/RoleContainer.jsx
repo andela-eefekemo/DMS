@@ -48,7 +48,7 @@ export class RoleContainer extends Component {
           }
           Materialize.toast(
             'Success!', 2000, 'indigo darken-4 white-text rounded');
-          this.props.history.push('/dashboard');
+          this.props.history.push('/dashboard/allroles');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,

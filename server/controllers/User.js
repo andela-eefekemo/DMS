@@ -279,7 +279,6 @@ class User {
         attributes: ['title']
       }],
       where: {
-        roleId: { $not: 1 },
         $or: [
           { firstName: { $iLike: `%${searchTerm}%` } },
           { lastName: { $iLike: `%${searchTerm}%` } }
