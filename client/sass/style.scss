@@ -3,8 +3,8 @@ $primary-color-light: lighten($primary-color, 15%);
 $primary-color-dark: darken($primary-color, 15%);
 $secondary-color: #7bc1ff;
 $primary-color2: #ab33b5;
-$secondary-color2: #ccc9c9
-;
+$secondary-color2: #ccc9c9;
+$secondary-color3: lighten($secondary-color2, 20%);;
 $background-color: #F5F5F6;
 $background-color2: #0F0F0F;
 $font-family: "Gotham SSm",sans-serif;
@@ -243,7 +243,7 @@ input[type=password].invalid{
 .user-card{
   width:90%;
   height: 90%;
-  background: $secondary-color2;
+  background: $secondary-color3;
   margin: auto;
 }
 .profile{
@@ -285,13 +285,18 @@ input[type=password].invalid{
 }
 
 .document-form{
-  width: 80%;
+  width: 80% !important;
   margin: auto !important;
   box-shadow: 0px 0px 10px black;
   border-radius: 5px;
-  div{
+  background: #546e7a;
+  .hover{
     padding: 3%;
   }
+}
+
+.card {
+  background: #546e7a !important;
 }
 
 .document-list{
