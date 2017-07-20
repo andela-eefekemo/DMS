@@ -110,7 +110,7 @@ class User {
   static listAll(req, res) {
     // Make this accessible to only admin role users
     const offset = authenticate.verify(req.query.offset) || 0;
-    const limit = authenticate.verify(req.query.limit) || 20;
+    const limit = authenticate.verify(req.query.limit) || 5;
     db.User.findAndCount({
       offset,
       limit,
@@ -269,7 +269,7 @@ class User {
   static search(req, res) {
     const searchTerm = req.query.q;
     const offset = req.query.offset || 0;
-    const limit = req.query.limit || 20;
+    const limit = req.query.limit || 5;
 
     const query = {
       offset,

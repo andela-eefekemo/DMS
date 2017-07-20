@@ -12,15 +12,16 @@ class UserActions {
    * @returns {promise} -
    * @memberof UserActions
    */
-  static getUsers() {
+  static getUsers(offset = 0, limit = 5) {
     return (dispatch) => {
-      return axios.get('/users')
+      return axios.get(`/users?offset=${offset}&limit=${limit}`)
         .then((response) => {
           if (response.data.message === 'Users found') {
             return dispatch({
               type: actionTypes.GET_USERS_LIST,
               message: null,
-              userList: response.data.userList
+              userList: response.data.userList,
+              metaData: response.data.metaData
             });
           }
           return dispatch({
@@ -74,7 +75,7 @@ class UserActions {
    * @returns {promise} -
    * @memberof UserActions
    */
-  static searchUsers(searchTerm, offset = 0, limit = 20) {
+  static searchUsers(searchTerm, offset = 0, limit = 5) {
     return (dispatch) => {
       return axios.get(
         `/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`)

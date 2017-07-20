@@ -62,7 +62,7 @@ class Document {
    */
   static listAll(req, res) {
     const offset = authenticate.verify(req.query.offset) || 0;
-    const limit = authenticate.verify(req.query.limit) || 20;
+    const limit = authenticate.verify(req.query.limit) || 5;
 
     if (Number(req.user.roleId) === 1) {
       db.Document.findAndCount({
@@ -262,7 +262,7 @@ class Document {
   static search(req, res) {
     const searchTerm = req.query.q;
     const offset = req.query.offset || 0;
-    const limit = req.query.limit || 20;
+    const limit = req.query.limit || 5;
 
     let query;
     if (req.user.roleId === 1) {

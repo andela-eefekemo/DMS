@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 
 import UserActions from '../../actions/UserActions';
 import UserCard from './UserCard';
@@ -27,11 +28,14 @@ export class UserList extends Component {
     this.state = {
       Users: [],
       User: {},
+      offset: 0,
+      pageCount: 0,
       searchTerm: ''
     };
     this.onClick = this.onClick.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   /**
@@ -62,11 +66,10 @@ export class UserList extends Component {
    * @memberof UserList
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.UserList !== nextProps.UserList) {
-      this.setState({
-        Users: nextProps.UserList
-      });
-    }
+    this.setState({
+      Users: nextProps.UserList,
+      pageCount: nextProps.pagination.pageCount
+    });
   }
   /**
    * @param {any} e -
@@ -118,6 +121,22 @@ export class UserList extends Component {
 
     });
   }
+  /**
+   * @return {void}
+   * @param {any} data
+   * @memberof UserList
+   */
+  handlePageClick(data) {
+    const selected = data.selected;
+    const limit = 5;
+    const offset = Math.ceil(selected * limit);
+    this.setState({ offset });
+    this.props.getAllUsers(offset, limit).then(() => {
+      this.setState({
+        Users: this.props.UserList
+      });
+    });
+  }
 
   /**
    * @returns {jsx} -
@@ -149,6 +168,19 @@ export class UserList extends Component {
                   <h5>All Users</h5>
                   <div className="scrollable">
                     {singleUser}
+                    <ReactPaginate
+                      previousLabel={'previous'}
+                      nextLabel={'next'}
+                      breakLabel={<a href="">...</a>}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={1}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
                   </div>
                 </div>
               </div>
@@ -181,12 +213,14 @@ UserList.propTypes = {
   User: PropTypes.object,
   UserList: PropTypes.array,
   match: PropTypes.object,
+  pagination: PropTypes.object,
   history: PropTypes.object
 };
 
 const mapPropsToState = (state) => {
   return {
     UserList: state.user.userList,
+    pagination: state.user.pagination,
     User: state.user.user
   };
 };

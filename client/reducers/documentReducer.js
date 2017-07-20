@@ -14,7 +14,7 @@ const documentReducer =
         return {
           ...state,
           documentList: action.documentList,
-          metaData: action.metaData,
+          pagination: action.metaData,
           message: action.message
         };
       case actionTypes.DELETE_DOCUMENT:

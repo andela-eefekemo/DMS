@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 
 import DocumentActions from '../../actions/DocumentActions';
 import DocumentCard from './DocumentCard';
@@ -30,6 +31,8 @@ export class DocumentList extends Component {
     this.state = {
       documents: [],
       document: {},
+      offset: 0,
+      pageCount: 0,
       searchTerm: '',
       docquery: ''
     };
@@ -39,6 +42,7 @@ export class DocumentList extends Component {
     this.deleteDocument = this.deleteDocument.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.changeDocument = this.changeDocument.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   /**
@@ -54,11 +58,10 @@ export class DocumentList extends Component {
    * @memberof DocumentList
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.documentList !== nextProps.documentList) {
-      this.setState({
-        documents: nextProps.documentList
-      });
-    }
+    this.setState({
+      documents: nextProps.documentList,
+      pageCount: nextProps.pagination.pageCount
+    });
   }
   /**
    * @return {void}
@@ -155,6 +158,22 @@ export class DocumentList extends Component {
 
   /**
    * @return {void}
+   * @param {any} data -
+   * @memberof DocumentList
+   */
+  handlePageClick(data) {
+    const selected = data.selected;
+    const limit = 5;
+    const offset = Math.ceil(selected * limit);
+    this.setState({ offset });
+    this.props.getAllDocuments(offset, limit).then(() => {
+      this.setState({
+        documents: this.props.documentList
+      });
+    });
+  }
+  /**
+   * @return {void}
    * @memberof DocumentList
    */
   onSubmit() {
@@ -228,6 +247,19 @@ export class DocumentList extends Component {
                         onClick={this.onClick} match={this.props.match}
                       />
                     ))}
+                    <ReactPaginate
+                      previousLabel={'previous'}
+                      nextLabel={'next'}
+                      breakLabel={<a href="">...</a>}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={1}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
                   </div>
                 </div>
               </div>
@@ -271,6 +303,7 @@ DocumentList.propTypes = {
   searchDocuments: PropTypes.func,
   deleteDocument: PropTypes.func,
   updateDocument: PropTypes.func,
+  pagination: PropTypes.object,
   history: PropTypes.object
 };
 
@@ -278,6 +311,7 @@ const mapPropsToState = (state) => {
   return {
     documentList: state.document.documentList,
     document: state.document.document,
+    pagination: state.document.pagination,
     access: state.access
   };
 };

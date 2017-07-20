@@ -9,9 +9,9 @@ class DocumentActions {
    * @returns {promise} -
    * @memberof DocumentActions
    */
-  static getAllDocuments() {
+  static getAllDocuments(offset = 0, limit = 5) {
     return (dispatch) => {
-      return axios.get('/documents')
+      return axios.get(`/documents?offset=${offset}&limit=${limit}`)
         .then((response) => {
           if (response.data.message === 'Documents found') {
             return dispatch({
@@ -177,7 +177,7 @@ class DocumentActions {
    * @returns {promise} -
    * @memberof DocumentActions
    */
-  static searchDocuments(searchTerm, offset = 0, limit = 20) {
+  static searchDocuments(searchTerm, offset = 0, limit = 10) {
     return (dispatch) => {
       return axios.get(
         `/search/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`)
