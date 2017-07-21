@@ -23,6 +23,7 @@ exports[`RoleDisplay Component should match the role Display snapshot 1`] = `
     />
     <button
       className="waves-effect btn button-design"
+      id="save-role"
       onClick={[Function]}
       type="submit"
     >
