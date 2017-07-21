@@ -33,12 +33,12 @@ export class DocumentContainer extends Component {
 
   /**
    * @return {void}
-   * @param {any} -
    * @memberof DocumentContainer
    */
   onSubmit() {
     try {
-      if (!validate(this.state)) {
+      const { valid } = validate.validateSaveDocument(this.state);
+      if (!valid) {
         throw new Error('No field should be left blank');
       }
       this.props.createDocument(this.state)
@@ -49,7 +49,7 @@ export class DocumentContainer extends Component {
               'indigo darken-4 white-text rounded');
           }
           Materialize.toast(
-            'Success!', 2000, 'indigo darken-4 white-text rounded');
+            'Document Created', 2000, 'indigo darken-4 white-text rounded');
           this.props.history.push('/dashboard');
         });
     } catch (err) {

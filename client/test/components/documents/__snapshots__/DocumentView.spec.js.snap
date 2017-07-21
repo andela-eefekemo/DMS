@@ -33,6 +33,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             <div>
               <button
                 className="btn btn-flat modal-action modal-close"
+                id="delete"
                 name={3}
                 onClick={[Function]}
               >
@@ -52,6 +53,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             <a
               className="waves-effect btn button-design"
               data-target="passwordModal"
+              id="delete-document"
             >
               Delete
             </a>
@@ -71,16 +73,20 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
       >
         <Modal
           actions={
-            Array [
-              <Button
-                flat={true}
-                modal="close"
-                node="button"
-                waves="light"
-            >
-                Close
-            </Button>,
-            ]
+            <div>
+              <button
+                className="modal-action modal-close btn btn-flat"
+                id="save-update"
+                onClick={[Function]}
+              >
+                Update
+              </button>
+              <button
+                className="btn btn-flat modal-action modal-close left"
+              >
+                Cancel
+              </button>
+            </div>
           }
           bottomSheet={false}
           fixedFooter={false}
@@ -89,6 +95,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             <a
               className="waves-effect btn button-design"
               data-target="passwordModal"
+              id="update-document"
             >
               Update
             </a>
@@ -96,7 +103,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
         >
           <div>
             <h5>
-              Create Document
+              Update Document
             </h5>
             <InputField
               className="validate form-design"
@@ -106,22 +113,21 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
               type="text"
               value="Book"
             />
-            <InputField
-              className="validate form-design"
-              name="content"
-              onChange={[Function]}
-              placeholder="Document Content"
-              type="text"
-              value={
-                Array [
-                  "Awesome",
-                ]
+            <TinyMCE
+              config={
+                Object {
+                  "height": 200,
+                  "plugins": "link image code",
+                  "toolbar": "undo redo | bold italic | alignleft aligncenter alignright | code",
+                }
               }
+              content="Awesome"
             />
             <select
               className="browser-default input-field select"
               name="access"
               onChange={[Function]}
+              value="public"
             >
               <Dropdown
                 text="Select access type"
@@ -140,17 +146,6 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
                 value="role"
               />
             </select>
-            <div
-              className="input-field center"
-            >
-              <button
-                className="modal-action modal-close btn button-design"
-                onClick={[Function]}
-                type="submit"
-              >
-                Update
-              </button>
-            </div>
           </div>
         </Modal>
       </div>

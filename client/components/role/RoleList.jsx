@@ -34,14 +34,7 @@ export class RoleList extends Component {
    * @memberof RoleList
    */
   componentWillMount() {
-    this.props.viewRole()
-      .then(() => {
-        this.setState({
-          roles: this.props.roleList
-        });
-      }).catch(() => {
-
-      });
+    this.updateRoleList();
   }
   /**
    * @return {void}
@@ -67,34 +60,52 @@ export class RoleList extends Component {
 
   /**
    * @return {void}
+   * @memberof RoleList
+   */
+  updateRoleList() {
+    this.props.viewRole()
+      .then(() => {
+        if (this.props.role.message) {
+          return Materialize.toast(this.props.role.message,
+            2000, 'indigo darken-4 white-text rounded');
+        }
+        this.setState({
+          roles: this.props.roleList
+        });
+      });
+  }
+  /**
+   * @return {void}
    * @param {any} e -
    * @memberof RoleList
    */
   deleteRole(e) {
-    this.props.deleteRole(e.target.value).then(() => {
+    this.props.deleteRole(e.target.name).then(() => {
+      this.updateRoleList();
       this.props.history.push(`${this.props.match.url}`);
-    }).catch(() => {
-
     });
   }
 
   /**
    * @return {void}
+   * @param {any} e
    * @memberof RoleList
    */
-  onSubmit() {
+  onSubmit(e) {
     const updatedRole = {
       title: this.state.title,
       description: this.state.description,
     };
-    this.props.updateRole(updatedRole, this.props.role.id)
+    this.props.updateRole(updatedRole, e.target.name)
       .then(() => {
-        this.setState({
-          title: this.props.role.title,
-          description: this.props.role.description,
-        });
-      }).catch(() => {
-
+        if (this.props.role.message) {
+          return Materialize.toast(this.props.role.message,
+            2000, 'indigo darken-4 white-text rounded');
+        }
+        Materialize.toast('Role successfully updated',
+          2000, 'indigo darken-4 white-text rounded');
+        this.updateRoleList();
+        this.props.history.push(`${this.props.match.url}`);
       });
   }
 
@@ -103,18 +114,29 @@ export class RoleList extends Component {
    * @memberof RoleList
    */
   render() {
-    const singleRole = this.state.roles.map(Role => (
-      <RoleCard
-        key={Role.id} {...Role}
-        onSubmit={this.onSubmit}
-        onChange={this.onChange}
-        deleteRole={this.deleteRole}
-        match={this.props.match} />
-    ));
     return (
-      <div className="container">
-        <div className="row">
-          {singleRole}
+      <div className="document-list">
+        <div className="container">
+          <div className="row">
+            <div className="document-list-view">
+              <div className="col l6 m6 s12">
+                <div className=" card-panel hoverable">
+                  <h5>All Roles</h5>
+                  <div className="divider" />
+                  <div className="scrollable">
+                    {this.state.roles.map(Role => (
+                      <RoleCard
+                        key={Role.id} {...Role}
+                        onSubmit={this.onSubmit}
+                        onChange={this.onChange}
+                        deleteRole={this.deleteRole}
+                        match={this.props.match} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -123,7 +145,7 @@ export class RoleList extends Component {
 
 const mapPropsToState = (state) => {
   return {
-    role: state.role.role,
+    role: state.role,
     roleList: state.role.roleList,
     access: state.access
   };
@@ -133,8 +155,8 @@ RoleList.propTypes = {
   viewRole: PropTypes.func,
   updateRole: PropTypes.func,
   deleteRole: PropTypes.func,
-  role: PropTypes.object,
   roleList: PropTypes.array,
+  role: PropTypes.object,
   match: PropTypes.object,
   history: PropTypes.object
 };

@@ -14,7 +14,7 @@ const documentReducer =
         return {
           ...state,
           documentList: action.documentList,
-          metaData: action.metaData,
+          pagination: action.metaData,
           message: action.message
         };
       case actionTypes.DELETE_DOCUMENT:
@@ -25,6 +25,7 @@ const documentReducer =
       case actionTypes.DOCUMENT_ERROR:
       case actionTypes.DOCUMENT_EXISTS:
         return {
+          ...state,
           message: action.message
         };
       default:

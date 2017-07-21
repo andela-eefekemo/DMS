@@ -39,7 +39,9 @@ describe('Document Reducer', () => {
       type: actionTypes.ROLE_DELETED, message: 'Role deleted'
     };
     const expected = {
-      role: {}, roleList: []
+      message: 'Role deleted',
+      role: {},
+      roleList: []
     };
     const newState = roleReducer(initialState.role, action);
 
@@ -49,9 +51,7 @@ describe('Document Reducer', () => {
     const action = {
       type: actionTypes.ROLE_UPDATE_ERROR, message: 'Role update error'
     };
-    const expected = {
-      message: 'Role update error'
-    };
+    const expected = { message: 'Role update error', role: {}, roleList: [] };
     const newState = roleReducer(initialState.role, action);
 
     expect(newState).toEqual(expected);
@@ -60,9 +60,7 @@ describe('Document Reducer', () => {
     const action = {
       type: actionTypes.ROLE_ERROR, message: 'Role error'
     };
-    const expected = {
-      message: 'Role error'
-    };
+    const expected = { message: 'Role error', role: {}, roleList: [] };
     const newState = roleReducer(initialState.role, action);
 
     expect(newState).toEqual(expected);
@@ -83,7 +81,7 @@ describe('Document Reducer', () => {
       roleList
     };
     const expected = {
-      roleList
+      role: {}, roleList
     };
     const newState = roleReducer(initialState.role, action);
 

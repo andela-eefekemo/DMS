@@ -4,20 +4,17 @@ import initialState from './initialState';
 const roleReducer = (state = initialState.role, action) => {
   switch (action.type) {
     case actionTypes.VIEW_ROLE:
-      return { roleList: action.roleList };
+    case actionTypes.NO_ROLES:
+      return { ...state, roleList: action.roleList };
     case actionTypes.ROLE_UPDATED:
-      return Object.assign(
-        {}, state, { role: action.role, message: action.message });
+      return { ...state, role: action.role, message: action.message };
     case actionTypes.ROLE_CREATED:
-      return Object.assign(
-        {}, state, { role: action.role, message: action.message });
+      return { ...state, role: action.role, message: action.message };
     case actionTypes.ROLE_DELETED:
-      return Object.assign({}, state, { role: {} });
+      return { ...state, message: action.message };
     case actionTypes.ROLE_UPDATE_ERROR:
     case actionTypes.ROLE_ERROR:
-      return {
-        message: action.message
-      };
+      return { ...state, message: action.message };
     default:
       return state;
   }

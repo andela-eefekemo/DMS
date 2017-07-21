@@ -51,6 +51,12 @@ class RoleActions {
               roleList: response.data.roles
             });
           }
+          if (response.data.message === 'There are no roles currently') {
+            return dispatch({
+              type: actionTypes.NO_ROLES,
+              roleList: []
+            });
+          }
           return dispatch({
             type: actionTypes.ROLE_ERROR,
             message: response.data.message
@@ -73,7 +79,7 @@ class RoleActions {
    */
   static updateRole(roleContent, id) {
     return (dispatch) => {
-      return axios.put(`/roles/${id}`)
+      return axios.put(`/roles/${id}`, roleContent)
         .then((response) => {
           if (response.data.message === 'Role has been updated') {
             return dispatch({

@@ -49,6 +49,9 @@ describe('SignUpForm Component', () => {
     expect(component.state('firstName')).toEqual('eguono');
     expect(component.state('lastName')).toEqual('eguono');
     expect(component.state('confirmPassword')).toEqual('eguono');
+    const newspy = jest.spyOn(component.instance(), 'onSubmit');
+    component.instance().onSubmit();
+    expect(newspy).toHaveBeenCalled();
   });
   test(
     'it should submit fields in state when onSubmit function is called', () => {
@@ -59,6 +62,6 @@ describe('SignUpForm Component', () => {
         { target: { value: 'eguono', name: 'password' } });
       component.find('#signup-button').simulate('click');
       expect(component.find('#signup-button').length).toEqual(1);
-      expect(component.instance().onSubmit.mock.calls.length).toEqual(1);
+      expect(component.instance().onSubmit.mock.calls.length).toEqual(2);
     });
 });

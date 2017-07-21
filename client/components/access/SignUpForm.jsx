@@ -38,7 +38,8 @@ export class SignUpForm extends Component {
    */
   onSubmit() {
     try {
-      if (!validate(this.state)) {
+      const { valid } = validate.validateSignUp(this.state);
+      if (!valid) {
         throw new Error('No field should be left blank');
       }
       this.props.signUpUser(this.state)
@@ -47,7 +48,7 @@ export class SignUpForm extends Component {
             return Materialize.toast(this.props.access.message,
               2000, 'indigo darken-4 white-text rounded');
           }
-          Materialize.toast('Success!',
+          Materialize.toast('Welcome!',
             2000, 'indigo darken-4 white-text rounded');
           this.props.history.push('/dashboard');
         });

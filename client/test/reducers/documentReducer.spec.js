@@ -62,7 +62,7 @@ describe('Document Reducer', () => {
       message: 'Documents found'
     };
     const expected = {
-      document: {}, documentList, metaData, message: 'Documents found'
+      document: {}, documentList, pagination: metaData, message: 'Documents found'
     };
     const newState = documentReducer(initialState.document, action);
 
@@ -81,7 +81,7 @@ describe('Document Reducer', () => {
       message: 'Documents found'
     };
     const expected = {
-      document: {}, documentList, metaData, message: 'Documents found'
+      document: {}, documentList, pagination: metaData, message: 'Documents found'
     };
     const newState = documentReducer(initialState.document, action);
 
@@ -100,7 +100,7 @@ describe('Document Reducer', () => {
       message: 'Documents found'
     };
     const expected = {
-      document: {}, documentList, metaData, message: 'Documents found'
+      document: {}, documentList, pagination: metaData, message: 'Documents found'
     };
     const newState = documentReducer(initialState.document, action);
 
@@ -124,7 +124,7 @@ describe('Document Reducer', () => {
       message: 'Document already exist'
     };
     const expected = {
-      message: 'Document already exist'
+      document: {}, documentList: [], message: 'Document already exist'
     };
     const newState = documentReducer(initialState.document, action);
 
@@ -136,7 +136,7 @@ describe('Document Reducer', () => {
       message: 'Document error'
     };
     const expected = {
-      message: 'Document error'
+      document: {}, documentList: [], message: 'Document error'
     };
     const newState = documentReducer(initialState.document, action);
 

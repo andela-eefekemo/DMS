@@ -24,7 +24,7 @@ module.exports = (app) => {
     auth, authenticate.permitAdmin, roleController.delete);
   app.post('/users/login', userController.login);
   app.post('/users/logout', userController.logout);
-  app.get('/users', auth, authenticate.permitAdmin, userController.listAll);
+  app.get('/users', auth, authenticate.permitAdmin, userController.search);
   app.get(
     '/users/:id', auth, authenticate.permitUserOrAdmin, userController.view);
   app.put(
@@ -34,7 +34,7 @@ module.exports = (app) => {
   app.get('/users/:id/documents',
     auth, authenticate.permitUserOrAdmin, documentController.getUserDocuments);
   app.post('/documents', auth, documentController.create);
-  app.get('/documents', auth, documentController.listAll);
+  app.get('/documents', auth, documentController.search);
   app.get('/documents/:id', auth, documentController.view);
   app.put('/documents/:id',
     auth, documentController.update);

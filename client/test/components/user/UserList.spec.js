@@ -60,7 +60,8 @@ describe('Document List', () => {
     test('componentWillRecieveProps will run if new props are added', () => {
       const spy = jest.spyOn(component.instance(), 'componentWillReceiveProps');
       const userList = [{ firstName: 'john' }];
-      component.setProps({ userList });
+      const pagination = { pageCount: '' };
+      component.setProps({ userList, pagination });
       expect(spy).toHaveBeenCalled();
     });
     test('changeDocument function should run when called', () => {

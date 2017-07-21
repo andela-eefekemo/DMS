@@ -19,7 +19,7 @@ class User {
     validate.user(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       db.User.findOne({ where: { email: req.body.email } })
         .then((user) => {
@@ -69,7 +69,7 @@ class User {
     validate.user(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       db.User.findOne({ where: { email: req.body.email } })
         .then((user) => {
@@ -86,7 +86,9 @@ class User {
               token
             });
           } else {
-            res.status(200).send({ message: 'Invalid password' });
+            res.status(200).send({
+              message: 'Wrong password, Please input correct password'
+            });
           }
         })
         .catch((error) => {
@@ -96,43 +98,6 @@ class User {
           });
         });
     }
-  }
-
-  /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @return {void}
-   * @memberof User
-   */
-  static listAll(req, res) {
-    // Make this accessible to only admin role users
-    const offset = authenticate.verify(req.query.offset) || 0;
-    const limit = authenticate.verify(req.query.limit) || 20;
-    db.User.findAndCount({
-      offset,
-      limit,
-      include: [{
-        model: db.Role,
-        attributes: ['title']
-      }]
-      // where: { roleId: { $not: 1 } }
-    })
-      .then((users) => {
-        res.status(200).send(
-          {
-            message: 'Users found',
-            userList: users.rows,
-            metaData: paginate(users.count, limit, offset)
-          });
-      })
-      .catch((error) => {
-        res.status(400).send(
-          {
-            message: "We're sorry, we had an error, please try again",
-            error
-          });
-      });
   }
 
   /**
@@ -184,7 +149,7 @@ class User {
       }
     }
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors });
+      res.status(200).send({ message: validateErrors[0].msg });
     } else {
       const id = Number(req.params.id);
       db.User.findById(id)
@@ -265,9 +230,12 @@ class User {
    * @memberof User
    */
   static search(req, res) {
-    const searchTerm = req.query.q;
+    let searchTerm = '%%';
+    if (req.query.q) {
+      searchTerm = `%${req.query.q}%`;
+    }
     const offset = req.query.offset || 0;
-    const limit = req.query.limit || 20;
+    const limit = req.query.limit || 5;
 
     const query = {
       offset,
@@ -277,7 +245,6 @@ class User {
         attributes: ['title']
       }],
       where: {
-        roleId: { $not: 1 },
         $or: [
           { firstName: { $iLike: `%${searchTerm}%` } },
           { lastName: { $iLike: `%${searchTerm}%` } }

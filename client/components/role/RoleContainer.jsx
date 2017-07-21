@@ -35,7 +35,8 @@ export class RoleContainer extends Component {
    */
   onSubmit() {
     try {
-      if (!validate(this.state)) {
+      const { valid } = validate.validateSaveRole(this.state);
+      if (!valid) {
         throw new Error('No field should be left blank');
       }
       this.props.createRole(this.state)
@@ -46,8 +47,8 @@ export class RoleContainer extends Component {
               2000, 'indigo darken-4 white-text rounded');
           }
           Materialize.toast(
-            'Success!', 2000, 'indigo darken-4 white-text rounded');
-          this.props.history.push('/dashboard');
+            'Role created', 2000, 'indigo darken-4 white-text rounded');
+          this.props.history.push('/dashboard/allroles');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,

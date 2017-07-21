@@ -18,6 +18,7 @@ exports[`Document List Container should match snapshot of document list 1`] = `
         >
           <input
             className="search"
+            id="documentSearch"
             name="searchTerm"
             onChange={[Function]}
             placeholder="Search.."
@@ -57,7 +58,31 @@ exports[`Document List Container should match snapshot of document list 1`] = `
             </h5>
             <div
               className="scrollable"
-            />
+            >
+              <PaginationBoxView
+                activeClassName="active"
+                breakClassName="break-me"
+                breakLabel={
+                  <a
+                    href=""
+                  >
+                    ...
+                  </a>
+                }
+                containerClassName="pagination"
+                disableInitialCallback={false}
+                disabledClassName="disabled"
+                marginPagesDisplayed={2}
+                nextClassName="next"
+                nextLabel="next"
+                onPageChange={[Function]}
+                pageCount={0}
+                pageRangeDisplayed={1}
+                previousClassName="previous"
+                previousLabel="previous"
+                subContainerClassName="pages pagination"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -66,7 +91,7 @@ exports[`Document List Container should match snapshot of document list 1`] = `
       >
         <Switch>
           <Route
-            path="/viewUser"
+            path="/viewDocument"
             render={[Function]}
           />
         </Switch>

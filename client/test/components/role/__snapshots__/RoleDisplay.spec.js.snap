@@ -2,9 +2,7 @@
 
 exports[`RoleDisplay Component should match the role Display snapshot 1`] = `
 <div>
-  <form
-    onSubmit={[Function]}
-  >
+  <div>
     <h5>
       Create Role
     </h5>
@@ -25,10 +23,12 @@ exports[`RoleDisplay Component should match the role Display snapshot 1`] = `
     />
     <button
       className="waves-effect btn button-design"
+      id="save-role"
+      onClick={[Function]}
       type="submit"
     >
       Save
     </button>
-  </form>
+  </div>
 </div>
 `;

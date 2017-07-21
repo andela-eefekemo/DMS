@@ -67,8 +67,7 @@ describe('User', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
-          res.body.message.should.be.a('array');
-          res.body.message[0].should.have.property('msg').eql(
+          res.body.should.have.property('message').eql(
             'Email is Required');
           done();
         });
@@ -157,8 +156,7 @@ describe('User', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
-          res.body.message.should.be.a('array');
-          res.body.message[0].should.have.property('msg').eql(
+          res.body.should.have.property('message').eql(
             'Please Input Valid Email');
           done();
         });
@@ -172,7 +170,7 @@ describe('User', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message').eql(
-            'Invalid password');
+            'Wrong password, Please input correct password');
           done();
         });
     });
@@ -217,7 +215,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(14);
+          res.body.userList.length.should.be.eql(5);
           done();
         });
     });
@@ -246,7 +244,7 @@ describe('User', () => {
           res.body.should.have.property('message').eql('Users found');
           res.body.should.have.property('metaData');
           res.body.metaData.should.be.a('object');
-          res.body.userList.length.should.be.eql(11);
+          res.body.userList.length.should.be.eql(5);
           done();
         });
     });
@@ -375,7 +373,7 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('userList');
-          res.body.userList.length.should.eql(7);
+          res.body.userList.length.should.eql(5);
           done();
         });
     });
@@ -393,7 +391,7 @@ describe('User', () => {
 
     it('should return empty if no searchterm was provided', (done) => {
       chai.request(server)
-        .get('/search/users?')
+        .get('/search/users?q=""')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);

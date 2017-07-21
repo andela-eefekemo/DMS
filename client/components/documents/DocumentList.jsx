@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 
 import DocumentActions from '../../actions/DocumentActions';
 import DocumentCard from './DocumentCard';
@@ -30,8 +31,11 @@ export class DocumentList extends Component {
     this.state = {
       documents: [],
       document: {},
+      offset: 0,
+      pageCount: 0,
       searchTerm: '',
-      docquery: ''
+      docquery: '',
+      personal: false
     };
     this.onClick = this.onClick.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -39,6 +43,8 @@ export class DocumentList extends Component {
     this.deleteDocument = this.deleteDocument.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.changeDocument = this.changeDocument.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this.getContent = this.getContent.bind(this);
   }
 
   /**
@@ -54,11 +60,10 @@ export class DocumentList extends Component {
    * @memberof DocumentList
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.documentList !== nextProps.documentList) {
-      this.setState({
-        documents: nextProps.documentList
-      });
-    }
+    this.setState({
+      documents: nextProps.documentList,
+      pageCount: nextProps.pagination.pageCount
+    });
   }
   /**
    * @return {void}
@@ -74,12 +79,16 @@ export class DocumentList extends Component {
       this.props.getUserDocuments(this.props.access.user.id)
         .then(() => {
           this.setState({
-            documents: this.props.documentList
+            documents: this.props.documentList,
+            personal: true
           });
         });
     }
     if (value === 'All') {
       this.updateDocumentList();
+      this.setState({
+        personal: false
+      });
     }
   }
   /**
@@ -108,7 +117,7 @@ export class DocumentList extends Component {
         content: this.props.document.content,
         access: this.props.document.access
       });
-      this.props.history.push(`${this.props.match.url}/viewUser`);
+      this.props.history.push(`${this.props.match.url}/viewDocument`);
     });
   }
 
@@ -123,7 +132,6 @@ export class DocumentList extends Component {
     });
     this.props.searchDocuments(e.target.value)
       .then(() => {
-        this.updateDocumentList();
       });
   }
 
@@ -138,6 +146,15 @@ export class DocumentList extends Component {
           documents: this.props.documentList
         });
       });
+  }
+  /**
+  * Get the content of the TinyMCE editor
+  *
+  * @param {Object} event
+  * @returns {void} nothing
+  */
+  getContent(event) {
+    this.setState({ content: event.target.getContent() });
   }
   /**
    * @return {void}
@@ -156,6 +173,33 @@ export class DocumentList extends Component {
 
   /**
    * @return {void}
+   * @param {any} data -
+   * @memberof DocumentList
+   */
+  handlePageClick(data) {
+    const selected = data.selected;
+    const limit = 5;
+    const offset = Math.ceil(selected * limit);
+    this.setState({ offset });
+    if (this.state.personal) {
+      this.props.getUserDocuments(
+        this.props.access.user.id, offset, limit).then(() => {
+          this.setState({
+            documents: this.props.documentList,
+            pageCount: this.props.pagination.pageCount
+          });
+        });
+    } else {
+      this.props.getAllDocuments(offset, limit).then(() => {
+        this.setState({
+          documents: this.props.documentList,
+          pageCount: this.props.pagination.pageCount
+        });
+      });
+    }
+  }
+  /**
+   * @return {void}
    * @memberof DocumentList
    */
   onSubmit() {
@@ -172,7 +216,9 @@ export class DocumentList extends Component {
             'indigo darken-4 white-text rounded');
         }
         Materialize.toast(
-          'Success!', 2000, 'indigo darken-4 white-text rounded');
+          'Document has been updated',
+          2000, 'indigo darken-4 white-text rounded'
+        );
         this.props.history.push('/dashboard');
         this.setState({
           title: this.props.document.title,
@@ -181,7 +227,7 @@ export class DocumentList extends Component {
         });
         this.updateDocumentList();
       });
-    this.props.history.push('/dashboard/alldocument');
+    this.props.history.push('/dashboard');
   }
 
   /**
@@ -199,6 +245,7 @@ export class DocumentList extends Component {
                   className="search"
                   type="text"
                   name="searchTerm"
+                  id="documentSearch"
                   placeholder="Search.."
                   onChange={this.onSearch} />
               </div>
@@ -226,6 +273,19 @@ export class DocumentList extends Component {
                         onClick={this.onClick} match={this.props.match}
                       />
                     ))}
+                    <ReactPaginate
+                      previousLabel={'previous'}
+                      nextLabel={'next'}
+                      breakLabel={<a href="">...</a>}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={1}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
                   </div>
                 </div>
               </div>
@@ -233,17 +293,23 @@ export class DocumentList extends Component {
             <div className="col l6 m6 s12">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewUser`} render={() => (
-                    <DocumentView
-                      id={this.props.document.id}
-                      authorId={this.props.document.authorId}
-                      title={this.state.title}
-                      content={this.state.content}
-                      access={this.state.access}
-                      onChange={this.onChange}
-                      onSubmit={this.onSubmit}
-                      deleteDocument={this.deleteDocument}
-                      userId={this.props.access.user.id} />)} />
+                  path={`${this.props.match.url}/viewDocument`} render={() => {
+                    if (!this.props.document.id) {
+                      this.props.history.push(`${this.props.match.url}`);
+                    }
+                    return (
+                      <DocumentView
+                        id={this.props.document.id}
+                        authorId={this.props.document.authorId}
+                        title={this.state.title}
+                        content={this.state.content}
+                        access={this.state.access}
+                        onChange={this.onChange}
+                        onSubmit={this.onSubmit}
+                        getContent={this.getContent}
+                        deleteDocument={this.deleteDocument}
+                        userId={this.props.access.user.id} />);
+                  }} />
               </Switch>
             </div>
           </div>
@@ -264,6 +330,7 @@ DocumentList.propTypes = {
   searchDocuments: PropTypes.func,
   deleteDocument: PropTypes.func,
   updateDocument: PropTypes.func,
+  pagination: PropTypes.object,
   history: PropTypes.object
 };
 
@@ -271,6 +338,7 @@ const mapPropsToState = (state) => {
   return {
     documentList: state.document.documentList,
     document: state.document.document,
+    pagination: state.document.pagination,
     access: state.access
   };
 };

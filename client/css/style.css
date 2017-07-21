@@ -8,14 +8,14 @@ body {
   margin: auto !important;
   margin-top: 23% !important;
   font-family: "Gotham SSm", sans-serif; }
-  .auth-card form p {
+  .auth-card div p {
     color: white;
     margin: auto !important;
     margin-top: 12px !important;
     font-size: 14px; }
-  .auth-card form h5 {
+  .auth-card div h5 {
     color: white; }
-  .auth-card form input {
+  .auth-card div input {
     color: white !important; }
 
 input {
@@ -197,7 +197,7 @@ input[type=password].invalid {
 .user-card {
   width: 90%;
   height: 90%;
-  background: #ccc9c9;
+  background: #fefdfd;
   margin: auto; }
 
 .profile .row,
@@ -230,12 +230,16 @@ input[type=password].invalid {
   opacity: 0; }
 
 .document-form {
-  width: 80%;
+  width: 80% !important;
   margin: auto !important;
   box-shadow: 0px 0px 10px black;
-  border-radius: 5px; }
-  .document-form form {
+  border-radius: 5px;
+  background: #546e7a; }
+  .document-form .hover {
     padding: 3%; }
+
+.card {
+  background: #546e7a !important; }
 
 .document-list .container {
   margin: initial !important;

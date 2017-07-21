@@ -60,7 +60,7 @@ describe('Access Action', () => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
           expect(
             store.getActions()[0].message).toEqual(
-              'There was an error, please try again');
+            'There was an error, please try again');
         });
         done();
       });
@@ -132,7 +132,7 @@ describe('Access Action', () => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
           expect(
             store.getActions()[0].message).toEqual(
-              'There was an error, please try again');
+            'There was an error, please try again');
         });
         done();
       });
@@ -195,7 +195,7 @@ describe('Access Action', () => {
           expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
           expect(
             store.getActions()[0].message).toEqual(
-              'There was an error, please try again');
+            'There was an error, please try again');
         });
         done();
       });

@@ -513,7 +513,7 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('documentList');
-          res.body.documentList.length.should.eql(9);
+          res.body.documentList.length.should.eql(5);
           done();
         });
     });
@@ -532,7 +532,7 @@ describe('Document', () => {
 
     it('should return empty if no searchterm was provided', (done) => {
       chai.request(server)
-        .get('/search/documents?')
+        .get('/search/documents?q=""')
         .set({ Authorization: regularUserToken })
         .end((err, res) => {
           res.should.have.status(200);

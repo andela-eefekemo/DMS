@@ -80,7 +80,7 @@ describe('User Reducer', () => {
       type: actionTypes.UPDATE_EMAIL_EXISTS, message: 'User already exists'
     };
     const expected = {
-      message: 'User already exists'
+      message: 'User already exists', user: {}, userList: []
     };
     const newState = userReducer(initialState.user, action);
 
@@ -91,7 +91,7 @@ describe('User Reducer', () => {
       type: actionTypes.ERROR, message: 'There was an error'
     };
     const expected = {
-      message: 'There was an error'
+      message: 'There was an error', user: {}, userList: []
     };
     const newState = userReducer(initialState.user, action);
 
