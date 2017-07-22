@@ -3,7 +3,12 @@ import { Modal } from 'react-materialize';
 import PropTypes from 'prop-types';
 
 import InputField from '../common/InputField';
-
+/**
+ * User Display component for creating a document
+ *
+ * @param {Object} props { onSubmit, onChange, firstName, lastName, email }
+ * @returns {String} HTML markup for the User Display
+ */
 const UserDisplay = (
   { onSubmit, onChange, firstName, lastName, email }) => {
   return (

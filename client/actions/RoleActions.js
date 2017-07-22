@@ -6,11 +6,13 @@ import * as actionTypes from './actionTypes';
  */
 class RoleActions {
   /**
-   * @static
-   * @param {any} roleContent -
-   * @returns {promise} -
-   * @memberof RoleActions
-   */
+  * Requests the API to create a role
+  *
+  * @static
+  * @param {Object} roleContent Role
+  * @returns {Object} dispatches an object
+  * @memberof RoleActions
+  */
   static createRole(roleContent) {
     return (dispatch) => {
       return axios.post('/api/v1/roles', roleContent)
@@ -38,10 +40,12 @@ class RoleActions {
   }
 
   /**
-   * @static
-   * @returns {promise} -
-   * @memberof RoleActions
-   */
+  * Requests the API to get roles
+  *
+  * @static
+  * @returns {Object} dispatch object
+  * @memberof RoleActions
+  */
   static viewRole() {
     return (dispatch) => {
       return axios.get('/api/v1/roles')
@@ -75,12 +79,14 @@ class RoleActions {
   }
 
   /**
-   * @static
-   * @param {any} roleContent -
-   * @param {any} id -
-   * @returns {promise} -
-   * @memberof RoleActions
-   */
+  * Requests the API to view role
+  *
+  * @static
+  * @param {Object} roleContent role
+  * @param {Integer} id The id of the role to be updated
+  * @returns {Object} dispatch object
+  * @memberof RoleActions
+  */
   static updateRole(roleContent, id) {
     return (dispatch) => {
       return axios.put(`/api/v1/roles/${id}`, roleContent)
@@ -115,11 +121,13 @@ class RoleActions {
   }
 
   /**
-   * @static
-   * @param {any} id -
-   * @returns {promise} -
-   * @memberof RoleActions
-   */
+  * Requests the API to delete a role
+  *
+  * @static
+  * @param {String} id The id of the role to be deleted
+  * @returns {Object} dispatch object
+  * @memberof RoleActions
+  */
   static deleteRole(id) {
     return (dispatch) => {
       return axios.delete(`/api/v1/roles/${id}`)

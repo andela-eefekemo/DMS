@@ -7,11 +7,16 @@ import setAuthorizationToken from '../utilities/setAuthorizationToken';
  */
 class UserActions {
 
+
   /**
-   * @static
-   * @returns {promise} -
-   * @memberof UserActions
-   */
+  * Requests for all accessible users (paginated) from the API
+  *
+  * @static
+  * @param {number} [offset=0] The number of users to offset results by
+  * @param {number} [limit=5] The number of users to return
+  * @returns {Object} dispatch object
+  * @memberof UserActions
+  */
   static getUsers(offset = 0, limit = 5) {
     return (dispatch) => {
       return axios.get(`/api/v1/users?offset=${offset}&limit=${limit}`)
@@ -40,11 +45,13 @@ class UserActions {
   }
 
   /**
-   * @static
-   * @param {any} id -
-   * @returns {promise} -
-   * @memberof UserActions
-   */
+  * Requests for a particular user by ID from the API
+  *
+  * @static
+  * @param {String} id The ID of the user to be retrieved
+  * @returns {Object} dispatch object
+  * @memberof UserActions
+  */
   static viewUser(id) {
     return (dispatch) => {
       return axios.get(`/api/v1/users/${id}`)
@@ -72,13 +79,15 @@ class UserActions {
   }
 
   /**
-   * @static
-   * @param {any} searchTerm -
-   * @param {any} offset -
-   * @param {any} limit -
-   * @returns {promise} -
-   * @memberof UserActions
-   */
+  * Requests for users matching a query (paginated) from the API
+  *
+  * @static
+  * @param {String} searchTerm The search terms to be matched
+  * @param {number} [offset=0] The number of users to offset results by
+  * @param {number} [limit=5] The number of users to return
+  * @returns {Object} dispatch object
+  * @memberof UserActions
+  */
   static searchUsers(searchTerm, offset = 0, limit = 5) {
     return (dispatch) => {
       return axios.get(
@@ -108,12 +117,14 @@ class UserActions {
   }
 
   /**
-   * @static
-   * @param {any} userDetails -
-   * @param {any} id -
-   * @returns {promise} -
-   * @memberof UserActions
-   */
+  * Requests the API to update a user
+  *
+  * @static
+  * @param {String} userDetails
+  * @param {String} id user id
+  * @returns {Object} dispatch object
+  * @memberof UserActions
+  */
   static updateUser(userDetails, id) {
     return (dispatch) => {
       return axios.put(`/api/v1/users/${id}`, userDetails)
@@ -149,11 +160,13 @@ class UserActions {
   }
 
   /**
-   * @static
-   * @param {any} id -
-   * @returns {promise} -
-   * @memberof UserActions
-   */
+  * Requests the API to delete a user
+  *
+  * @static
+  * @param {String} id user id
+  * @returns {Object} dispatch object
+  * @memberof UserActions
+  */
   static deleteUser(id) {
     return (dispatch) => {
       return axios.delete(`/api/v1/users/${id}`)

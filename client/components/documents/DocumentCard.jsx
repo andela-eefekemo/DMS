@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import parseDate from '../../utilities/parseDate';
 
 /**
- * @param {any} props
- * @returns
- */
-
+* Document Card for viewing a single document
+*
+* @param {Object} props { title, id, access, updatedAt, onClick, User }
+* @returns {String} HTML markup for the Document Card
+*/
 const DocumentCard = (props) => {
   const { title, id, access, updatedAt, onClick, User } = props;
   return (

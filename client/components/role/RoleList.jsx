@@ -15,7 +15,8 @@ const deleteRole = RoleActions.deleteRole;
 export class RoleList extends Component {
   /**
    * Creates an instance of RoleList.
-   * @param {any} props -
+   * Binds class methods
+   * @param {Object} props
    * @memberof RoleList
    */
   constructor(props) {
@@ -30,15 +31,19 @@ export class RoleList extends Component {
   }
 
   /**
+   * Makes action call to retrieve list of roles
+   *
    * @return {void}
    * @memberof RoleList
    */
-  componentWillMount() {
+  componentDidMount() {
     this.updateRoleList();
   }
   /**
+   * Update the state if the props are changed
+   *
    * @return {void}
-   * @param {any} nextProps -
+   * @param {Object} nextProps
    * @memberof RoleList
    */
   componentWillReceiveProps(nextProps) {
@@ -49,16 +54,20 @@ export class RoleList extends Component {
     }
   }
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof RoleContainer
-   */
-  onChange(e) {
-    const field = e.target.name;
-    this.setState({ [field]: e.target.value });
+  * Sets the event value to the state
+  * @return {void}
+  * @param {Object} event The event of the HTML component
+  * @memberof RoleContainer
+  */
+  onChange(event) {
+    const field = event.target.name;
+    this.setState({ [field]: event.target.value });
   }
 
   /**
+   * Makes an action call to get all roles
+   * Sets list of role to the state
+   *
    * @return {void}
    * @memberof RoleList
    */
@@ -75,28 +84,35 @@ export class RoleList extends Component {
       });
   }
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof RoleList
-   */
-  deleteRole(e) {
-    this.props.deleteRole(e.target.name).then(() => {
+  * Makes an action call to delete a role
+  * Toasts the error/success message
+  *
+  * @return {void}
+  * @param {Object} event
+  * @memberof RoleList
+  */
+  deleteRole(event) {
+    this.props.deleteRole(event.target.name).then(() => {
       this.updateRoleList();
       this.props.history.push(`${this.props.match.url}`);
     });
   }
 
   /**
-   * @return {void}
-   * @param {any} e
-   * @memberof RoleList
-   */
-  onSubmit(e) {
+  * Makes an action call to update a role
+  * Toasts error/success message
+  * Sets updated role to state
+  *
+  * @param {Object} event
+  * @return {void}
+  * @memberof RoleList
+  */
+  onSubmit(event) {
     const updatedRole = {
       title: this.state.title,
       description: this.state.description,
     };
-    this.props.updateRole(updatedRole, e.target.name)
+    this.props.updateRole(updatedRole, event.target.name)
       .then(() => {
         if (this.props.role.message) {
           return Materialize.toast(this.props.role.message,
@@ -110,7 +126,9 @@ export class RoleList extends Component {
   }
 
   /**
-   * @returns {jsx} -
+   * Renders Rolelist Component
+   *
+   * @returns {String} HMTL markup for the RoleList
    * @memberof RoleList
    */
   render() {

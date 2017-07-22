@@ -8,11 +8,13 @@ import setAuthorizationToken from '../utilities/setAuthorizationToken';
  */
 class AccessActions {
   /**
-   * @static
-   * @param {any} userDetails -
-   * @return {object} dispatch object
-   * @memberof AccessActions
-   */
+  * Request to the API to create a user
+  *
+  * @static
+  * @param {Object} userDetails The details of the user to be created
+  * @returns {Object} dispatch object
+  * @memberof AccessActions
+  */
   static signUpUser(userDetails) {
     return (dispatch) => {
       return axios.post('/api/v1/users', userDetails)
@@ -49,11 +51,13 @@ class AccessActions {
   }
 
   /**
-   * @static
-   * @param {any} userDetails -
-   * @returns {object} dispatch object
-   * @memberof AccessActions
-   */
+  * Request to the API to login a user
+  *
+  * @static
+  * @param {Object} userDetails The details of the user to be logged in
+  * @returns {Object} dispatch object
+  * @memberof AccessActions
+  */
   static signInUser(userDetails) {
     return (dispatch) => {
       return axios.post('/api/v1/users/login', userDetails)
@@ -93,10 +97,12 @@ class AccessActions {
   }
 
   /**
-   * @static
-   * @returns {object} dispatch object
-   * @memberof AccessActions
-   */
+  * Request to the API to logout a user
+  *
+  * @static
+  * @returns {Object} dispatch object
+  * @memberof AccessActions
+  */
   static signOutUser() {
     return (dispatch) => {
       return axios.post('/api/v1/users/logout')

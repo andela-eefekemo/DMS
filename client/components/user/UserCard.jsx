@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import parseDate from '../../utilities/parseDate';
 
 /**
- * @param {any} props
- * @returns
- */
-
+* User Card for viewing a single user
+*
+* @param {Object} props { firstName, lastName,
+* email, Role, id, createdAt, onClick }
+* @returns {String} HTML markup for the User Card
+*/
 const UserCard = (props) => {
   const { firstName, lastName, email, Role, id, createdAt, onClick } = props;
   return (

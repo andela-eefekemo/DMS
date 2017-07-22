@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+/**
+ * Section Display component that displays a carousel.
+ * @returns {String} The HTML markup for the Section Display component
+ */
 const SectionDisplay = () => (
   <div className="section">
     <div className="carousel carousel-slider center" data-indicators="true">

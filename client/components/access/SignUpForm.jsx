@@ -15,12 +15,11 @@ const signUpUser = AccessActions.signUpUser;
 export class SignUpForm extends Component {
   /**
    * Creates an instance of SignUpForm.
-   * @param {any} props
-   * @param {any} context
+   * @param {Object} props
    * @memberof SignUpForm
    */
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
       firstName: '',
       lastName: '',
@@ -33,9 +32,12 @@ export class SignUpForm extends Component {
   }
 
   /**
-   * @return {void}
-   * @memberof SignUpForm
-   */
+  * Validates the SignUpForm
+  * Makes an action call to sign up the user
+  * Toasts the error/success message
+  * @return {void}
+  * @memberof SignUpForm
+  */
   onSubmit() {
     try {
       const { valid } = validate.validateSignUp(this.state);
@@ -59,20 +61,22 @@ export class SignUpForm extends Component {
   }
 
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof SignUpForm
-   */
-  onChange(e) {
+  * Sets the event value to the state
+  * @return {void}
+  * @param {Object} event The event of the HTML component
+  * @memberof SignUpForm
+  */
+  onChange(event) {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   }
 
   /**
-   * @returns {jsx} -
-   * @memberof SignUpForm
-   */
+  * Renders the SignUpForm component
+  * @returns {String} The HTML markup for the SignUpForm
+  * @memberof SignUpForm
+  */
   render() {
     return (
       <div>

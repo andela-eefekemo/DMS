@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
+/**
+* Sidebar component that displays a Sidebar.
+* @param {Object} props { match, user }
+* @returns {String} The HTML markup for the Sidebar component
+*/
 const SideBar = ({ match, user }) => {
   return (
     <ul id="slide-out" className="side-nav fixed ">
@@ -37,9 +41,10 @@ const SideBar = ({ match, user }) => {
               <li><Link to={`${match.url}/profile`} id="profile">
                 <i className="material-icons">perm_identity</i>
                 Profile</Link></li>
-              {user.roleId === 1 && <li><Link to={`${match.url}/allusers`} id="userList">
-                <i className="material-icons">people_outline</i>
-                All Users</Link></li>}
+              {user.roleId === 1 && <li>
+                <Link to={`${match.url}/allusers`} id="userList">
+                  <i className="material-icons">people_outline</i>
+                  All Users</Link></li>}
             </ul>
           </div>
         </li>

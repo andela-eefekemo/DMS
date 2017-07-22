@@ -118,7 +118,8 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
                 Object {
                   "height": 200,
                   "plugins": "link image code",
-                  "toolbar": "undo redo | bold italic | alignleft aligncenter alignright | code",
+                  "toolbar": "undo redo |
+                                    bold italic | alignleft aligncenter alignright | code",
                 }
               }
               content="Awesome"

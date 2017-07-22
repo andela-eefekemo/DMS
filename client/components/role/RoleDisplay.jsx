@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 
 import InputField from '../common/InputField';
 
+/**
+ * Role Display component for creating a role
+ *
+ * @param {Object} props { onChange, onSubmit, role }
+ * @returns {String} HTML markup for the Role Display
+ */
 const RoleDisplay = ({ onChange, onSubmit, role }) => {
   return (
     <div>

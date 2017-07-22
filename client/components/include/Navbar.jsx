@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+/**
+* Navbar component that displays a Navbar.
+* @param {Object} props { match, onClick }
+* @returns {String} The HTML markup for the Navbar component
+*/
 const NavBar = ({ match, onClick }) => {
   return (
     <nav className="nav-extended nav-design">

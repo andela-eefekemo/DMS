@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * @param {any} props
- * @returns
+ * Dropdown component that displays options for a select field.
+ * @param {Object} props The props for the component.
+ * @returns {String} The HTML markup for the Dropdown component
  */
-
 const Dropdown = ({ value, text, selected }) => (
   <option selected={selected} value={value}>{text}</option>
 );
