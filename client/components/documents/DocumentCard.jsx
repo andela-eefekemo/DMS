@@ -28,12 +28,12 @@ const DocumentCard = (props) => {
 
 // Set Props
 DocumentCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  access: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  User: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
-  updatedAt: PropTypes.node.isRequired
+  title: PropTypes.string,
+  access: PropTypes.string,
+  id: PropTypes.number,
+  User: PropTypes.object,
+  onClick: PropTypes.func,
+  updatedAt: PropTypes.node
 };
 
 export default DocumentCard;

@@ -1,10 +1,13 @@
+/* eslint-disable */
 /**
  * @class Validate
  */
 class Validate {
   /**
+   * Validate Input Fields for User Update
+   * 
    * @static
-   * @param {any} [req]
+   * @param {Object} req resquest object
    * @memberof Validate
    * @return {void}
    */
@@ -38,8 +41,10 @@ class Validate {
   }
 
   /**
+   * Validate Input Fields for user Signup and Login
+   * 
    * @static
-   * @param {any} req
+   * @param {Object} req request object
    * @return {void}
    * @memberof Validate
    */
@@ -69,8 +74,10 @@ class Validate {
   }
 
   /**
+   * Validate Input Fields for creating Roles
+   * 
    * @static
-   * @param {any} req
+   * @param {any} req 
    * @memberof Validate
    * @return {void}
    */
@@ -84,8 +91,10 @@ class Validate {
   }
 
   /**
+   * Validate Input Fields for updating Roles
+   * 
    * @static
-   * @param {any} req
+   * @param {Object} req request object
    * @return {void}
    * @memberof Validate
    */
@@ -103,8 +112,10 @@ class Validate {
     });
   }
   /**
+   * Validate Input Fields for updating Roles
+   * 
    * @static
-   * @param {any} req
+   * @param {Object} req request object
    * @return {void}
    * @memberof Validate
    */
@@ -119,8 +130,10 @@ class Validate {
   }
 
   /**
+   * Validate Input Fields for updating Roles
+   * 
    * @static
-   * @param {any} req
+   * @param {Object} req request object
    * @return {void}
    * @memberof Validate
    */

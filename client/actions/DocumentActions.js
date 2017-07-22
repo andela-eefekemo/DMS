@@ -13,9 +13,9 @@ class DocumentActions {
    */
   static getAllDocuments(offset = 0, limit = 5) {
     return (dispatch) => {
-      return axios.get(`/documents?offset=${offset}&limit=${limit}`)
+      return axios.get(`/api/v1/documents?offset=${offset}&limit=${limit}`)
         .then((response) => {
-          if (response.data.message === 'Documents found') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.DOCUMENTS_LIST,
               documentList: response.data.documentList,
@@ -23,10 +23,6 @@ class DocumentActions {
               metaData: response.data.metaData
             });
           }
-          return dispatch({
-            type: actionTypes.DOCUMENT_ERROR,
-            message: response.data.message
-          });
         }).catch(() => {
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
@@ -44,8 +40,16 @@ class DocumentActions {
    */
   static createDocument(documentContent) {
     return (dispatch) => {
-      return axios.post('/documents', documentContent)
+      return axios.post('/api/v1/documents', documentContent)
         .then((response) => {
+          if (response.status === 201) {
+            return dispatch({
+              type: actionTypes.DOCUMENT_CREATED,
+              message: null,
+              document: response.data.newDocument
+            });
+          }
+        }).catch(({ response }) => {
           if (response.data.message ===
             "we're sorry, document title must be unique, please try again") {
             return dispatch({
@@ -53,18 +57,12 @@ class DocumentActions {
               message: 'Document title already exists, please rename document'
             });
           }
-          if (response.data.message === 'Document successfully created') {
+          if (response.status === 400) {
             return dispatch({
-              type: actionTypes.DOCUMENT_CREATED,
-              message: null,
-              document: response.data.newDocument
+              type: actionTypes.DOCUMENT_ERROR,
+              message: response.data.message
             });
           }
-          return dispatch({
-            type: actionTypes.DOCUMENT_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error please try again'
@@ -81,20 +79,22 @@ class DocumentActions {
    */
   static viewDocument(id) {
     return (dispatch) => {
-      return axios.get(`/documents/${id}`)
+      return axios.get(`/api/v1/documents/${id}`)
         .then((response) => {
-          if (response.data.message === 'Document found') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.VIEW_DOCUMENT,
               message: null,
               document: response.data.document
             });
           }
-          return dispatch({
-            type: actionTypes.DOCUMENT_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === (400 || 401 || 404)) {
+            return dispatch({
+              type: actionTypes.DOCUMENT_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error please try again'
@@ -111,9 +111,9 @@ class DocumentActions {
  */
   static getUserDocuments(id, offset = 0, limit = 5) {
     return (dispatch) => {
-      return axios.get(`/users/${id}/documents?offset=${offset}&limit=${limit}`)
+      return axios.get(`/api/v1/users/${id}/documents?offset=${offset}&limit=${limit}`)
         .then((response) => {
-          if (response.data.message === 'Documents found') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.USER_DOCUMENTS,
               documentList: response.data.documents,
@@ -121,10 +121,6 @@ class DocumentActions {
               message: null
             });
           }
-          return dispatch({
-            type: actionTypes.ERROR,
-            message: response.data.message
-          });
         }).catch(() => {
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
@@ -142,8 +138,16 @@ class DocumentActions {
    */
   static updateDocument(id, documentContent) {
     return (dispatch) => {
-      return axios.put(`/documents/${id}`, documentContent)
+      return axios.put(`/api/v1/documents/${id}`, documentContent)
         .then((response) => {
+          if (response.status === 200) {
+            return dispatch({
+              type: actionTypes.DOCUMENT_UPDATED,
+              message: null,
+              document: response.data.updatedDocument
+            });
+          }
+        }).catch(({ response }) => {
           if (
             response.data.message === 'Document already exists') {
             return dispatch({
@@ -151,19 +155,12 @@ class DocumentActions {
               message: 'Document title already exists, please rename document'
             });
           }
-          if (response.data.message ===
-            'Document information has been updated') {
+          if (response.status === (400 || 401 || 404)) {
             return dispatch({
-              type: actionTypes.DOCUMENT_UPDATED,
-              message: null,
-              document: response.data.updatedDocument
+              type: actionTypes.DOCUMENT_ERROR,
+              message: response.data.message
             });
           }
-          return dispatch({
-            type: actionTypes.DOCUMENT_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error please try again'
@@ -180,12 +177,12 @@ class DocumentActions {
    * @returns {promise} -
    * @memberof DocumentActions
    */
-  static searchDocuments(searchTerm, offset = 0, limit = 10) {
+  static searchDocuments(searchTerm, offset = 0, limit = 5) {
     return (dispatch) => {
       return axios.get(
-        `/search/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`)
+        `/api/v1/search/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`)
         .then((response) => {
-          if (response.data.message === 'Documents found') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.SEARCH_DOCUMENTS,
               documentList: response.data.documentList,
@@ -193,11 +190,13 @@ class DocumentActions {
               metaData: response.data.metaData
             });
           }
-          return dispatch({
-            type: actionTypes.DOCUMENT_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === 400) {
+            return dispatch({
+              type: actionTypes.DOCUMENT_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error please try again'
@@ -213,20 +212,22 @@ class DocumentActions {
    */
   static deleteDocument(id) {
     return (dispatch) => {
-      return axios.delete(`/documents/${id}`)
+      return axios.delete(`/api/v1/documents/${id}`)
         .then((response) => {
-          if (response.data.message === 'Document has been deleted') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.DELETE_DOCUMENT,
               message: null,
               documentId: id
             });
           }
-          return dispatch({
-            type: actionTypes.DOCUMENT_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === 401) {
+            return dispatch({
+              type: actionTypes.DOCUMENT_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.DOCUMENT_ERROR,
             message: 'There was an error please try again'

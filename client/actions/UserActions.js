@@ -14,9 +14,9 @@ class UserActions {
    */
   static getUsers(offset = 0, limit = 5) {
     return (dispatch) => {
-      return axios.get(`/users?offset=${offset}&limit=${limit}`)
+      return axios.get(`/api/v1/users?offset=${offset}&limit=${limit}`)
         .then((response) => {
-          if (response.data.message === 'Users found') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.GET_USERS_LIST,
               message: null,
@@ -24,11 +24,13 @@ class UserActions {
               metaData: response.data.metaData
             });
           }
-          return dispatch({
-            type: actionTypes.ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === 400) {
+            return dispatch({
+              type: actionTypes.ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error please try again'
@@ -45,20 +47,22 @@ class UserActions {
    */
   static viewUser(id) {
     return (dispatch) => {
-      return axios.get(`/users/${id}`)
+      return axios.get(`/api/v1/users/${id}`)
         .then((response) => {
-          if (response.data.message === 'User found') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.VIEW_USER,
               message: null,
               user: response.data.user
             });
           }
-          return dispatch({
-            type: actionTypes.ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === (404 || 400)) {
+            return dispatch({
+              type: actionTypes.ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error please try again'
@@ -78,9 +82,9 @@ class UserActions {
   static searchUsers(searchTerm, offset = 0, limit = 5) {
     return (dispatch) => {
       return axios.get(
-        `/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`)
+        `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`)
         .then((response) => {
-          if (response.data.message === 'Users found') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.SEARCH_USERS,
               message: null,
@@ -88,11 +92,13 @@ class UserActions {
               userList: response.data.userList
             });
           }
-          return dispatch({
-            type: actionTypes.ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === 400) {
+            return dispatch({
+              type: actionTypes.ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error please try again'
@@ -110,15 +116,9 @@ class UserActions {
    */
   static updateUser(userDetails, id) {
     return (dispatch) => {
-      return axios.put(`/users/${id}`, userDetails)
+      return axios.put(`/api/v1/users/${id}`, userDetails)
         .then((response) => {
-          if (response.data.message === 'Email already exists') {
-            return dispatch({
-              type: actionTypes.UPDATE_EMAIL_EXISTS,
-              message: 'User Email Already Exists'
-            });
-          }
-          if (response.data.message === 'User information has been updated') {
+          if (response.status === 200) {
             setAuthorizationToken(response.data.token);
             localStorage.setItem('jwToken', response.data.token);
             return dispatch({
@@ -127,11 +127,19 @@ class UserActions {
               message: null
             });
           }
-          return dispatch({
-            type: actionTypes.ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.data.message === 'Email already exists') {
+            return dispatch({
+              type: actionTypes.UPDATE_EMAIL_EXISTS,
+              message: 'User Email Already Exists'
+            });
+          }
+          if (response.status === 400) {
+            return dispatch({
+              type: actionTypes.ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error please try again'
@@ -148,19 +156,21 @@ class UserActions {
    */
   static deleteUser(id) {
     return (dispatch) => {
-      return axios.delete(`/users/${id}`)
+      return axios.delete(`/api/v1/users/${id}`)
         .then((response) => {
-          if (response.data.message === 'User has been deleted') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.DELETE_USER,
               message: 'User has been deleted'
             });
           }
-          return dispatch({
-            type: actionTypes.ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === 400 || 404) {
+            return dispatch({
+              type: actionTypes.ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ERROR,
             message: 'There was an error please try again'

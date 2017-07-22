@@ -2,23 +2,27 @@ import db from '../models';
 import validate from '../helpers/Validate';
 import authenticate from '../helpers/Authenticate';
 import paginate from '../helpers/paginate';
+import handleError from '../helpers/handleError';
 
 /**
  * @class Document
  */
 class Document {
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @return {void}
-   * @memberof Document
-   */
+  * Creates a Document
+  * Route: POST: /documents
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @return {Object} response Object containing message and created document
+  * @memberof Document
+  */
   static create(req, res) {
     validate.document(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors[0].msg });
+      handleError(400, validateErrors[0].msg, res);
     } else {
       db.User.findById(req.user.id)
         .then((user) => {
@@ -32,36 +36,38 @@ class Document {
             .then((document) => {
               document.save()
                 .then((newDocument) => {
-                  return res.status(200).send({
+                  return res.status(201).send({
                     message: 'Document successfully created',
-                    newDocument
+                    newDocument: newDocument.filterDocumentDetails()
                   });
                 });
             }).catch((error) => {
-              return res.status(200).send({
-                message:
-                `we're sorry,
-                document ${error.errors[0].message}, please try again`
-              });
+              handleError(400, `we're sorry,
+                document ${error.errors[0].message}, please try again`, res);
             });
-        }).catch((error) => {
-          return res.status(400).send({
-            message: "we're sorry, there was an error, please try again",
-            error
-          });
+        }).catch(() => {
+          handleError(400,
+            "we're sorry, there was an error, please try again", res);
         });
     }
   }
 
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @return {void}
-   * @memberof Document
-   */
+  * View Documents
+  * Route: GET: /documents
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @returns {Response} response object
+  * @memberof Document
+  */
   static view(req, res) {
     const id = authenticate.verify(req.params.id);
+    if (id === false) {
+      handleError(400,
+        'Id must be a number', res);
+    }
     db.Document.findOne({ where: { id } })
       .then((document) => {
         if (document) {
@@ -75,22 +81,18 @@ class Document {
             res.status(200).send(
               {
                 message: 'Document found',
-                document
+                document: document.filterDocumentDetails()
               });
           } else {
-            return res.status(200).send(
-              { message: 'You are unauthorized to view this document' });
+            handleError(401, 'You are unauthorized to view this document', res);
           }
         } else {
-          return res.status(200).send({ message: 'Document not found' });
+          handleError(404, 'Document not found', res);
         }
       })
       .catch((error) => {
-        return res.status(400).send(
-          {
-            message:
-            `We're sorry, ${error.errors[0].message} , please try again`,
-          });
+        handleError(400,
+          `We're sorry, ${error.errors[0].message} , please try again`, res);
       });
   }
 
@@ -101,13 +103,18 @@ class Document {
   * @param {Object} req request object
   * @param {Object} res response object
   * @returns {Response} response object
+  * @memberof Document
   */
   static getUserDocuments(req, res) {
-    const offset = authenticate.verify(req.query.offset) || 0;
-    const limit = authenticate.verify(req.query.limit) || 5;
+    const offset = authenticate.verify(req.query.offset);
+    const limit = authenticate.verify(req.query.limit);
+    if ((req.query.limit && limit === false)
+      || (req.query.offset && offset === false)) {
+      handleError(400, 'Offset and Limit must be Numbers', res);
+    }
     return db.Document.findAndCount({
-      offset,
-      limit,
+      offset: offset || 0,
+      limit: limit || 5,
       where: { authorId: req.params.id },
       include: [{
         model: db.User,
@@ -122,28 +129,35 @@ class Document {
           metaData: paginate(documents.count, limit, offset)
         });
       })
-      .catch(error => error, res);
+      .catch(() => handleError(400,
+        "we're sorry, there was an error, please try again", res));
   }
 
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns {request} -
-   * @memberof Document
-   */
+  * Update a document
+  * Route: PUT: /documents/:id
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @returns {Response} response object
+  * @memberof Document
+  */
   static update(req, res) {
     // write test for method
     validate.documentUpdate(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors[0].msg });
+      handleError(400, validateErrors[0].msg, res);
     } else {
-      const id = Number(req.params.id);
+      const id = authenticate.verify(req.params.id);
+      if (id === false) {
+        handleError(400, 'Id must be a number', res);
+      }
       db.Document.findById(id)
         .then((document) => {
           if (document.authorId !== req.user.id && req.user.roleId !== 1) {
-            return res.status(200).send({
+            return res.status(401).send({
               message: 'you are unauthorized for this action'
             });
           }
@@ -151,9 +165,8 @@ class Document {
             .then((existingDocument) => {
               if (existingDocument.length !== 0 &&
                 document.authorId !== req.user.id) {
-                return res.status(200).send({
-                  message: 'Document already exists'
-                });
+                handleError(400,
+                  'Document already exists', res);
               }
               document.update({
                 title: req.body.title || document.title,
@@ -163,50 +176,50 @@ class Document {
                 return res.status(200).send(
                   {
                     message: 'Document information has been updated',
-                    updatedDocument
+                    updatedDocument: updatedDocument.filterDocumentDetails()
                   });
               }).catch((error) => {
-                return res.status(200).send({
-                  message:
-                  `we're sorry, document ${error.errors[0].message}`
-                });
+                handleError(400,
+                  `We're sorry, document ${error.errors[0].message}`, res);
               });
-            }).catch((error) => {
-              res.status(400).send({
-                message: "we're sorry, there was an error, please try again",
-                error
-              });
+            }).catch(() => {
+              handleError(400,
+                "We're sorry, there was an error, please try again", res);
             });
-        }).catch((error) => {
-          return res.status(404).send({
-            message:
-            'Document does not exist',
-            error
-          });
+        }).catch(() => {
+          handleError(404,
+            'Document does not exist', res);
         });
     }
   }
 
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns {request} -
-   * @memberof Document
-   */
+  * Get documents
+  * Route: GET: /search/documents?q=[title]&limit=[integer]&offset=[integer] and
+  * Route: GET: /documents?q=[title]&limit=[integer]&offset=[integer]
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @returns {Response} response object
+  * @memberof Document
+  */
   static search(req, res) {
     let searchTerm = '%%';
     if (req.query.q) {
       searchTerm = `%${req.query.q}%`;
     }
-    const offset = req.query.offset || 0;
-    const limit = req.query.limit || 5;
-
+    const offset = authenticate.verify(req.query.offset);
+    const limit = authenticate.verify(req.query.limit);
+    if ((req.query.limit && limit === false)
+      || (req.query.offset && offset === false)) {
+      handleError(400, 'Offset and Limit must be Numbers', res);
+    }
     let query;
     if (req.user.roleId === 1) {
       query = {
-        offset,
-        limit,
+        offset: offset || 0,
+        limit: limit || 5,
         where: {
           $or: [
             { title: { $iLike: `%${searchTerm}%` } }
@@ -220,8 +233,8 @@ class Document {
       };
     } else {
       query = {
-        offset,
-        limit,
+        offset: offset || 0,
+        limit: limit || 5,
         where: {
           $and: [{
             $or: [
@@ -254,39 +267,39 @@ class Document {
             metaData: paginate(documents.count, limit, offset)
           });
       })
-      .catch((error) => {
-        return res.status(400).send(
-          {
-            message: "We're sorry, we had an error, please try again",
-            error
-          });
+      .catch(() => {
+        handleError(400, "We're sorry, we had an error, please try again", res);
       });
   }
 
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns {request} -
-   * @memberof Document
-   */
+  * Delete a document
+  * Route: DELETE: /documents/:id
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @returns {Response} response object
+  * @memberof Document
+  */
   static delete(req, res) {
-    // write test for method
     const id = authenticate.verify(req.params.id);
+    if (id === false) {
+      handleError(400, 'Id must be a number', res);
+    }
     db.Document.findById(id)
       .then((document) => {
         if (Number(document.authorId) !== req.user.id &&
           req.user.roleId !== 1) {
-          res.status(200).send(
-            { message: 'You are unauthorized for this action' });
+          handleError(401, 'You are unauthorized for this action', res);
         } else {
           document.destroy()
             .then(() => {
               res.status(200).send({ message: 'Document has been deleted' });
             });
         }
-      }).catch((error) => {
-        res.status(404).send({ message: 'Document not found', error });
+      }).catch(() => {
+        handleError(404, 'Document not found', res);
       });
   }
 }

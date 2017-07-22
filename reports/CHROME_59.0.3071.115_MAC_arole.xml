@@ -5,9 +5,9 @@
 
   <testsuite name="arole"
     errors="0" failures="0" hostname="" id="" package="arole" skipped="0"
-    tests="6" time="71.34" timestamp="Thu, 20 Jul 2017 12:18:12 GMT">
+    tests="6" time="197.4" timestamp="Sat, 22 Jul 2017 12:30:28 GMT">
   
-    <testcase name="Create role without credentials" classname="arole" time="11.58" assertions="7">
+    <testcase name="Create role without credentials" classname="arole" time="40.19" assertions="7">
 
     
 
@@ -24,7 +24,7 @@
     
     </testcase>
   
-    <testcase name="User should be able to create role successfully" classname="arole" time="14.02" assertions="9">
+    <testcase name="User should be able to create role successfully" classname="arole" time="36.05" assertions="9">
 
     
 
@@ -45,7 +45,7 @@
     
     </testcase>
   
-    <testcase name="User should not be able to create role if title exists" classname="arole" time="8.644" assertions="7">
+    <testcase name="User should not be able to create role if title exists" classname="arole" time="34.17" assertions="7">
 
     
 
@@ -62,7 +62,7 @@
     
     </testcase>
   
-    <testcase name="User should not be able to update role with existing title" classname="arole" time="12.69" assertions="7">
+    <testcase name="User should not be able to update role with existing title" classname="arole" time="44.86" assertions="7">
 
     
 
@@ -79,7 +79,7 @@
     
     </testcase>
   
-    <testcase name="User should be able to update role" classname="arole" time="12.14" assertions="7">
+    <testcase name="User should be able to update role" classname="arole" time="17.41" assertions="7">
 
     
 
@@ -96,7 +96,7 @@
     
     </testcase>
   
-    <testcase name="User delete role" classname="arole" time="12.27" assertions="7">
+    <testcase name="User delete role" classname="arole" time="24.71" assertions="7">
 
     
 

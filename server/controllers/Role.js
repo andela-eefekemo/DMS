@@ -1,5 +1,7 @@
 import db from '../models';
 import validate from '../helpers/Validate';
+import authenticate from '../helpers/Authenticate';
+import handleError from '../helpers/handleError';
 
 /**
  * @class Role
@@ -7,23 +9,26 @@ import validate from '../helpers/Validate';
 class Role {
 
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @return {void}
-   * @memberof Role
-   * @method create
-   */
+  * Create a role
+  * Route: POST: /roles
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @returns {Response} response object
+  * @memberof Role
+  * @method create
+  */
   static create(req, res) {
     validate.role(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors[0].msg });
+      handleError(400, validateErrors[0].msg, res);
     } else {
       db.Role.findOne({ where: { title: req.body.title } })
         .then((role) => {
           if (role !== null) {
-            res.status(200).send({ message: 'Role already exists' });
+            handleError(400, 'Role already exists', res);
           } else {
             return db.Role.create({
               title: req.body.title,
@@ -31,14 +36,12 @@ class Role {
             })
               .then((newRole) => {
                 newRole.save().then((savedRole) => {
-                  res.status(200).send({ message: 'Role created', savedRole });
+                  res.status(201).send({ message: 'Role created', savedRole });
                 });
               })
-              .catch((error) => {
-                res.send({
-                  message: "We're sorry, the new role couldn't be created",
-                  error
-                });
+              .catch(() => {
+                handleError(400,
+                  "We're sorry, the new role couldn't be created", res);
               });
           }
         });
@@ -46,12 +49,15 @@ class Role {
   }
 
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @return {request} -
-   * @memberof Role
-   */
+  * Get roles
+  * Route: GET: /roles or GET: /roles
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @returns {Response} response object
+  * @memberof Role
+  */
   static view(req, res) {
     db.Role.findAll({
       where: { id: { $not: [1, 2] } },
@@ -59,37 +65,40 @@ class Role {
     })
       .then((roles) => {
         if (roles.length === 0) {
-          return res.status(200).send({
-            message: 'There are no roles currently'
-          });
+          handleError(404,
+            'There are no roles currently', res);
         }
         return res.status(200).send({ message: 'Roles found', roles });
-      }).catch((error) => {
-        return res.status(400).send({
-          message: "we're sorry, there was an error please try again",
-          error
-        });
+      }).catch(() => {
+        handleError(400,
+          "We're sorry, the new role couldn't be created", res);
       });
   }
 
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @return {request} -
-   * @memberof Role
-   */
+  * Update a role
+  * Route: PUT: /roles/:id
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @returns {Response} response object
+  * @memberof Role
+  */
   static update(req, res) {
     validate.roleUpdate(req);
     const validateErrors = req.validationErrors();
     if (validateErrors) {
-      res.status(200).send({ message: validateErrors[0].msg });
+      handleError(400, validateErrors[0].msg, res);
     } else {
-      const id = Number(req.params.id);
+      const id = authenticate.verify(req.params.id);
+      if (id === false) {
+        handleError(400, 'Id must be a number', res);
+      }
       db.Role.findById(id)
         .then((roles) => {
           if (roles === null) {
-            return res.status(200).send({ message: 'Role not found' });
+            return res.status(404).send({ message: 'Role not found' });
           }
           roles.update({
             title: req.body.title || roles.title,
@@ -101,41 +110,43 @@ class Role {
             });
           })
             .catch((error) => {
-              res.status(200).send({
-                message: `we're sorry, role ${error.errors[0].message}`
-              });
+              handleError(404,
+                `we're sorry, role ${error.errors[0].message}`, res);
             });
         })
-        .catch((error) => {
-          res.status(400).send({
-            message: "we're sorry, there was an error, please try again",
-            error
-          });
+        .catch(() => {
+          handleError(404,
+            "we're sorry, there was an error, please try again", res);
         });
     }
   }
 
   /**
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @return {request} -
-   * @memberof Role
-   */
+  * Delete a role
+  * Route: DELETE: /roles/:id
+  *
+  * @static
+  * @param {Object} req request object
+  * @param {Object} res response object
+  * @returns {Response} response object
+  * @memberof Role
+  */
   static delete(req, res) {
-    // write test for method
-    const id = Number(req.params.id);
+    const id = authenticate.verify(req.params.id);
+    if (id === false) {
+      handleError(400, 'Id must be a number', res);
+    }
     db.Role.findById(id)
       .then((roles) => {
         if (roles === null) {
-          return res.status(200).send({ message: 'Role not found' });
+          return res.status(404).send({ message: 'Role not found' });
         }
         roles.destroy()
           .then(() => {
             return res.status(200).send({ message: 'Role has been deleted' });
           });
-      }).catch((error) => {
-        return res.status(404).send({ message: 'Role not found', error });
+      }).catch(() => {
+        handleError(404, 'Role not found', res);
       });
   }
 }

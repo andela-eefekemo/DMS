@@ -33,13 +33,13 @@ UserCard.defaultProps = {
 };
 // Set Props
 UserCard.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  Role: PropTypes.object.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  Role: PropTypes.object,
   createdAt: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired
+  onClick: PropTypes.func,
+  id: PropTypes.number
 };
 
 export default UserCard;

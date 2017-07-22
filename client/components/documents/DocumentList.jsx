@@ -210,9 +210,9 @@ export class DocumentList extends Component {
     };
     this.props.updateDocument(this.props.document.id, updatedDocument)
       .then(() => {
-        if (this.props.document.message) {
+        if (this.props.message) {
           return Materialize.toast(
-            this.props.document.message, 2000,
+            this.props.message, 2000,
             'indigo darken-4 white-text rounded');
         }
         Materialize.toast(
@@ -227,7 +227,6 @@ export class DocumentList extends Component {
         });
         this.updateDocumentList();
       });
-    this.props.history.push('/dashboard');
   }
 
   /**
@@ -331,6 +330,7 @@ DocumentList.propTypes = {
   deleteDocument: PropTypes.func,
   updateDocument: PropTypes.func,
   pagination: PropTypes.object,
+  message: PropTypes.string,
   history: PropTypes.object
 };
 
@@ -338,6 +338,7 @@ const mapPropsToState = (state) => {
   return {
     documentList: state.document.documentList,
     document: state.document.document,
+    message: state.document.message,
     pagination: state.document.pagination,
     access: state.access
   };

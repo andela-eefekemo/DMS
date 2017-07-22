@@ -123,7 +123,7 @@ const DocumentView = (props) => {
 DocumentView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  getContent: PropTypes.func.isRequired,
+  getContent: PropTypes.func,
   deleteDocument: PropTypes.func.isRequired,
   id: PropTypes.number,
   userId: PropTypes.number,

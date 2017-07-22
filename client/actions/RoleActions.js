@@ -13,20 +13,22 @@ class RoleActions {
    */
   static createRole(roleContent) {
     return (dispatch) => {
-      return axios.post('/roles', roleContent)
+      return axios.post('/api/v1/roles', roleContent)
         .then((response) => {
-          if (response.data.message === 'Role created') {
+          if (response.status === 201) {
             return dispatch({
               type: actionTypes.ROLE_CREATED,
               message: null,
               role: response.data.savedRole
             });
           }
-          return dispatch({
-            type: actionTypes.ROLE_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === 400) {
+            return dispatch({
+              type: actionTypes.ROLE_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ROLE_ERROR,
             message: 'There was an error please try again'
@@ -42,26 +44,28 @@ class RoleActions {
    */
   static viewRole() {
     return (dispatch) => {
-      return axios.get('/roles')
+      return axios.get('/api/v1/roles')
         .then((response) => {
-          if (response.data.message === 'Roles found') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.VIEW_ROLE,
               message: null,
               roleList: response.data.roles
             });
           }
-          if (response.data.message === 'There are no roles currently') {
+        }).catch(({ response }) => {
+          if (response.status === 404) {
             return dispatch({
               type: actionTypes.NO_ROLES,
               roleList: []
             });
           }
-          return dispatch({
-            type: actionTypes.ROLE_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+          if (response.status === 400) {
+            return dispatch({
+              type: actionTypes.ROLE_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ROLE_ERROR,
             message: 'There was an error please try again'
@@ -79,7 +83,7 @@ class RoleActions {
    */
   static updateRole(roleContent, id) {
     return (dispatch) => {
-      return axios.put(`/roles/${id}`, roleContent)
+      return axios.put(`/api/v1/roles/${id}`, roleContent)
         .then((response) => {
           if (response.data.message === 'Role has been updated') {
             return dispatch({
@@ -88,6 +92,7 @@ class RoleActions {
               role: response.data.updatedRole
             });
           }
+        }).catch(({ response }) => {
           if (response.data.message ===
             "we're sorry, role title must be unique") {
             return dispatch({
@@ -95,11 +100,12 @@ class RoleActions {
               message: 'Role title must be unique, please rename role'
             });
           }
-          return dispatch({
-            type: actionTypes.ROLE_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+          if (response.status === (400 || 404)) {
+            return dispatch({
+              type: actionTypes.ROLE_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ROLE_ERROR,
             message: 'There was an error please try again'
@@ -116,19 +122,21 @@ class RoleActions {
    */
   static deleteRole(id) {
     return (dispatch) => {
-      return axios.delete(`/roles/${id}`)
+      return axios.delete(`/api/v1/roles/${id}`)
         .then((response) => {
-          if (response.data.message === 'Role has been deleted') {
+          if (response.status === 200) {
             return dispatch({
               type: actionTypes.ROLE_DELETED,
               message: 'Role has been deleted'
             });
           }
-          return dispatch({
-            type: actionTypes.ROLE_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+        }).catch(({ response }) => {
+          if (response.status === 404) {
+            return dispatch({
+              type: actionTypes.ROLE_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ROLE_ERROR,
             message: 'There was an error please try again'

@@ -12,10 +12,14 @@ describe('Document Actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
+  const offset = 0;
+  const limit = 5;
+  const id = 1;
+  const searchTerm = 'e';
   describe('Create Documents', () => {
     it('Should make an AJAX call to create document', (done) => {
-      moxios.stubRequest('/documents', {
-        status: 200,
+      moxios.stubRequest('/api/v1/documents', {
+        status: 201,
         response: {
           newDocument: { title: 'Eguono' },
           message: 'Document successfully created'
@@ -24,22 +28,21 @@ describe('Document Actions', () => {
       const store = mockStore({});
       const expectedAction = [{
         type: actionType.DOCUMENT_CREATED,
+        document: { title: 'Eguono' },
         message: null
       }];
       store.dispatch(DocumentActions.createDocument({
         title: 'Eguono',
         content: 'eguono'
       })).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].document).toEqual({ title: 'Eguono' });
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/documents', {
-          status: 400,
+        moxios.stubRequest('/api/v1/documents', {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -53,16 +56,35 @@ describe('Document Actions', () => {
           title: 'hello@hello.com',
           content: 'eguono'
         })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest('/api/v1/documents', {
+          status: 400,
+          response: {
+            message: 'error'
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.DOCUMENT_ERROR,
+          message: 'error'
+        }];
+        store.dispatch(DocumentActions.createDocument({
+          title: 'hello@hello.com',
+          content: 'eguono'
+        })).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
     it('Should dispatch the appropraite action type if document does not exist',
       (done) => {
-        moxios.stubRequest('/documents', {
-          status: 200,
+        moxios.stubRequest('/api/v1/documents', {
+          status: 400,
           response: {
             message:
             "we're sorry, document title must be unique, please try again"
@@ -77,16 +99,14 @@ describe('Document Actions', () => {
           title: 'hello@hello.com',
           content: 'eguono'
         })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('List all Documents', () => {
     it('Should make an AJAX call to list all documents', (done) => {
-      moxios.stubRequest('/documents', {
+      moxios.stubRequest(`/api/v1/documents?offset=${offset}&limit=${limit}`, {
         status: 200,
         response: {
           documentList: [{ title: 'Eguono' }, { title: 'esther' }],
@@ -102,17 +122,13 @@ describe('Document Actions', () => {
         metaData: []
       }];
       store.dispatch(DocumentActions.getAllDocuments()).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(
-          store.getActions()[0].documentList).toEqual(
-          expectedAction[0].documentList);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/documents', {
+        moxios.stubRequest(`/api/v1/documents?offset=${offset}&limit=${limit}`, {
           status: 400,
           response: {
             message: 'error'
@@ -124,16 +140,14 @@ describe('Document Actions', () => {
           message: 'There was an error please try again'
         }];
         store.dispatch(DocumentActions.getAllDocuments()).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('View Document', () => {
     it('Should make an AJAX call to view a documents', (done) => {
-      moxios.stubRequest('/documents/1', {
+      moxios.stubRequest('/api/v1/documents/1', {
         status: 200,
         response: {
           document: { title: 'Eguono' },
@@ -147,17 +161,32 @@ describe('Document Actions', () => {
         document: { title: 'Eguono' }
       }];
       store.dispatch(DocumentActions.viewDocument(1)).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(
-          store.getActions()[0].document).toEqual(expectedAction[0].document);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/documents/300000', {
+        moxios.stubRequest('/api/v1/documents/300000', {
           status: 400,
+          response: {
+            message: 'error'
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.DOCUMENT_ERROR,
+          message: 'error'
+        }];
+        store.dispatch(DocumentActions.viewDocument(300000)).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest('/api/v1/documents/300000', {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -168,63 +197,57 @@ describe('Document Actions', () => {
           message: 'There was an error please try again'
         }];
         store.dispatch(DocumentActions.viewDocument(300000)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Get all users Documents', () => {
     it('Should make an AJAX call to list all documents', (done) => {
-      moxios.stubRequest('/users/1/documents', {
-        status: 200,
-        response: {
-          documentList: [{ title: 'Eguono' }, { title: 'esther' }],
-          message: 'Documents found',
-          metaData: []
-        }
-      });
+      moxios.stubRequest(
+        `/api/v1/users/${id}/documents?offset=${offset}&limit=${limit}`, {
+          status: 200,
+          response: {
+            documents: [{ title: 'Eguono' }, { title: 'esther' }],
+            message: 'Documents found',
+            metaData: []
+          }
+        });
       const store = mockStore({});
       const expectedAction = [{
         type: actionType.USER_DOCUMENTS,
         message: null,
-        documents: [{ title: 'Eguono' }, { title: 'esther' }],
+        documentList: [{ title: 'Eguono' }, { title: 'esther' }],
         metaData: []
       }];
       store.dispatch(DocumentActions.getUserDocuments(1)).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(
-          store.getActions()[0].documentList).toEqual(
-          expectedAction[0].documentList);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/users/1/documents', {
-          status: 400,
-          response: {
-            message: 'error'
-          }
-        });
+        moxios.stubRequest(
+          `/api/v1/users/${id}/documents?offset=${offset}&limit=${limit}`, {
+            status: 403,
+            response: {
+              message: 'error'
+            }
+          });
         const store = mockStore({});
         const expectedAction = [{
           type: actionType.DOCUMENT_ERROR,
           message: 'There was an error please try again'
         }];
         store.dispatch(DocumentActions.getUserDocuments(1)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Update Document', () => {
     it('Should make an AJAX call to update a documents', (done) => {
-      moxios.stubRequest('/documents/1', {
+      moxios.stubRequest('/api/v1/documents/1', {
         status: 200,
         response: {
           updatedDocument: { title: 'Eguono' },
@@ -239,18 +262,15 @@ describe('Document Actions', () => {
       }];
       store.dispatch(
         DocumentActions.updateDocument(1, { title: 'Eguono' })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(null);
-          expect(
-            store.getActions()[0].document).toEqual(expectedAction[0].document);
+          expect(store.getActions()).toEqual(expectedAction);
         });
       done();
     });
     it(
       'Should make an AJAX call to update a documents and fail if title exists',
       (done) => {
-        moxios.stubRequest('/documents/1', {
-          status: 200,
+        moxios.stubRequest('/api/v1/documents/1', {
+          status: 400,
           response: {
             updatedDocument: { title: 'Eguono' },
             message: 'Document already exists'
@@ -263,16 +283,14 @@ describe('Document Actions', () => {
         }];
         store.dispatch(
           DocumentActions.updateDocument(1, { title: 'Eguono' })).then(() => {
-            expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-            expect(
-              store.getActions()[0].message).toEqual(expectedAction[0].message);
+            expect(store.getActions()).toEqual(expectedAction);
           });
         done();
       });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/documents/300000', {
-          status: 400,
+        moxios.stubRequest('/api/v1/documents/300000', {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -283,21 +301,37 @@ describe('Document Actions', () => {
           message: 'There was an error please try again'
         }];
         store.dispatch(DocumentActions.updateDocument(300000)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest('/api/v1/documents/300000', {
+          status: 400,
+          response: {
+            message: 'error'
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.DOCUMENT_ERROR,
+          message: 'error'
+        }];
+        store.dispatch(DocumentActions.updateDocument(300000)).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Search Documents', () => {
     it('Should make an AJAX call to search documents', (done) => {
-      moxios.stubRequest('/search/documents?q=e&offset=0&limit=20', {
+      moxios.stubRequest(`/api/v1/search/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
         status: 200,
         response: {
           documentList: [{ title: 'Eguono' }, { title: 'esther' }],
           message: 'Documents found',
-          metaData: []
+          metaData: {}
         }
       });
       const store = mockStore({});
@@ -305,21 +339,17 @@ describe('Document Actions', () => {
         type: actionType.SEARCH_DOCUMENTS,
         message: null,
         documentList: [{ title: 'Eguono' }, { title: 'esther' }],
-        metaData: []
+        metaData: {}
       }];
-      store.dispatch(DocumentActions.searchDocuments('e')).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(
-          store.getActions()[0].documentList).toEqual(
-          expectedAction[0].documentList);
+      store.dispatch(DocumentActions.searchDocuments('e', 0, 5)).then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/search/documents?q=e&offset=0&limit=20', {
-          status: 400,
+        moxios.stubRequest(`/api/v1/search/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -329,17 +359,34 @@ describe('Document Actions', () => {
           type: actionType.DOCUMENT_ERROR,
           message: 'There was an error please try again'
         }];
-        store.dispatch(DocumentActions.searchDocuments('e')).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+        store.dispatch(DocumentActions.searchDocuments('e', 0, 5)).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest(
+          `/api/v1/search/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
+            status: 400,
+            response: {
+              message: 'error'
+            }
+          });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.DOCUMENT_ERROR,
+          message: 'error'
+        }];
+        store.dispatch(DocumentActions.searchDocuments('e', 0, 5)).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Delete Document', () => {
     it('Should make an AJAX call to view a documents', (done) => {
-      moxios.stubRequest('/documents/1', {
+      moxios.stubRequest('/api/v1/documents/1', {
         status: 200,
         response: {
           message: 'Document has been deleted',
@@ -353,17 +400,13 @@ describe('Document Actions', () => {
         documentId: 1
       }];
       store.dispatch(DocumentActions.deleteDocument(1)).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(
-          store.getActions()[0].documentId).toEqual(
-          expectedAction[0].documentId);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/documents/300000', {
+        moxios.stubRequest('/api/v1/documents/300000', {
           status: 400,
           response: {
             message: 'error'
@@ -375,9 +418,7 @@ describe('Document Actions', () => {
           message: 'There was an error please try again'
         }];
         store.dispatch(DocumentActions.deleteDocument(300000)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });

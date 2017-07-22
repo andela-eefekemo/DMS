@@ -15,9 +15,9 @@ class AccessActions {
    */
   static signUpUser(userDetails) {
     return (dispatch) => {
-      return axios.post('/users', userDetails)
+      return axios.post('/api/v1/users', userDetails)
         .then((response) => {
-          if (response.data.message === 'Signup successful') {
+          if (response.status === 201) {
             setAuthorizationToken(response.data.token);
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
@@ -27,17 +27,19 @@ class AccessActions {
               user: response.data.userData
             });
           }
+        }).catch(({ response }) => {
           if (response.data.message === 'Email already exists') {
             return dispatch({
               type: actionTypes.USER_ALREADY_EXISTS,
               message: response.data.message
             });
           }
-          return dispatch({
-            type: actionTypes.ACCESS_ERROR,
-            message: response.data.message
-          });
-        }).catch(() => {
+          if (response.status === 400) {
+            return dispatch({
+              type: actionTypes.ACCESS_ERROR,
+              message: response.data.message
+            });
+          }
           return dispatch({
             type: actionTypes.ACCESS_ERROR,
             message: 'There was an error, please try again'
@@ -54,11 +56,10 @@ class AccessActions {
    */
   static signInUser(userDetails) {
     return (dispatch) => {
-      return axios.post('/users/login', userDetails)
+      return axios.post('/api/v1/users/login', userDetails)
         .then((response) => {
           if (
-            response.data.message && response.data.message ===
-            'login successful') {
+            response.status === 200) {
             setAuthorizationToken(response.data.token);
             const token = response.data.token;
             localStorage.setItem('jwToken', token);
@@ -68,21 +69,21 @@ class AccessActions {
               user: response.data.userData
             });
           }
+        }).catch(({ response }) => {
           if (
-            response.data.message && response.data.message ===
+            response.data.message ===
             'User does not exist') {
             return dispatch({
               type: actionTypes.USER_DOES_NOT_EXIST,
               message: 'User does not exist'
             });
           }
-          if (response.data.message) {
+          if (response.status === 400) {
             return dispatch({
               type: actionTypes.ACCESS_ERROR,
               message: response.data.message
             });
           }
-        }).catch(() => {
           return dispatch({
             type: actionTypes.ACCESS_ERROR,
             message: 'There was an error, please try again'
@@ -98,7 +99,7 @@ class AccessActions {
    */
   static signOutUser() {
     return (dispatch) => {
-      return axios.post('/users/logout')
+      return axios.post('/api/v1/users/logout')
         .then((response) => {
           localStorage.removeItem('jwToken');
           return dispatch({

@@ -95,13 +95,13 @@ const RoleCard = ({
 
 // Set Props
 RoleCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  updatedAt: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  deleteRole: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired
+  title: PropTypes.string,
+  description: PropTypes.string,
+  updatedAt: PropTypes.string,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  deleteRole: PropTypes.func,
+  id: PropTypes.number
 };
 
 export default RoleCard;

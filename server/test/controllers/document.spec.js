@@ -13,7 +13,6 @@ describe('Document', () => {
   let regularUserToken;
   let adminUser;
   let adminToken;
-  let contributorUser;
   let contributorToken;
   let adminPrivate;
   let adminPublic;
@@ -23,95 +22,94 @@ describe('Document', () => {
   let regularUserRole;
   before((done) => {
     chai.request(server)
-      .post('/users')
+      .post('/api/v1/users')
       .send(testData.userEight)
       .end((err, res) => {
         savedUser = res.body.userData;
         regularUserToken = `JWT ${res.body.token}`;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/users')
+      .post('/api/v1/users')
       .send(testData.userNine)
       .end((err, res) => {
         adminUser = res.body.userData;
         adminToken = `JWT ${res.body.token}`;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/users')
+      .post('/api/v1/users')
       .send(testData.userTen)
       .end((err, res) => {
-        contributorUser = res.body.userData;
         contributorToken = `JWT ${res.body.token}`;
-        res.should.have.status(200);
+        res.should.have.status(201);
         done();
       });
   });
   before((done) => {
     chai.request(server)
-      .post('/documents')
+      .post('/api/v1/documents')
       .set({ Authorization: adminToken })
       .send(testData.documentSix)
       .end((err, res) => {
         adminPrivate = res.body.newDocument;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/documents')
+      .post('/api/v1/documents')
       .set({ Authorization: adminToken })
       .send(testData.documentEight)
       .end((err, res) => {
         adminPublic = res.body.newDocument;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/documents')
+      .post('/api/v1/documents')
       .set({ Authorization: adminToken })
       .send(testData.documentTen)
       .end((err, res) => {
         adminRole = res.body.newDocument;
-        res.should.have.status(200);
+        res.should.have.status(201);
         done();
       });
   });
   before((done) => {
     chai.request(server)
-      .post('/documents')
+      .post('/api/v1/documents')
       .set({ Authorization: regularUserToken })
       .send(testData.documentSeven)
       .end((err, res) => {
         regularUserPrivate = res.body.newDocument;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/documents')
+      .post('/api/v1/documents')
       .set({ Authorization: regularUserToken })
       .send(testData.documentNine)
       .end((err, res) => {
         regularUserPublic = res.body.newDocument;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/documents')
+      .post('/api/v1/documents')
       .set({ Authorization: regularUserToken })
       .send(testData.documentEleven)
       .end((err, res) => {
         regularUserRole = res.body.newDocument;
-        res.should.have.status(200);
+        res.should.have.status(201);
         done();
       });
   });
 
   // create documents
-  describe('/DOCUMENTS create', () => {
+  describe('/api/v1/DOCUMENTS create', () => {
     it('should allow create new user document', (done) => {
       chai.request(server)
-        .post('/documents')
+        .post('/api/v1/documents')
         .set({ Authorization: regularUserToken })
         .send(testData.documentOne)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(201);
           res.body.should.have.property('newDocument');
           res.body.should.have.property('message').eql(
             'Document successfully created');
@@ -125,33 +123,33 @@ describe('Document', () => {
 
     it('should not create document with incorrect access type', (done) => {
       chai.request(server)
-        .post('/documents')
+        .post('/api/v1/documents')
         .set({ Authorization: regularUserToken })
         .send(testData.documentFive)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.have.property('message').eql(
             "we're sorry, Use a valid access type, please try again");
         });
       done();
     });
 
-    it('should not create document with no access t', (done) => {
+    it('should not create document with existing title', (done) => {
       chai.request(server)
-        .post('/documents')
+        .post('/api/v1/documents')
         .set({ Authorization: regularUserToken })
         .send(testData.documentOne)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.have.property('message').eql(
             "we're sorry, document title must be unique, please try again");
         });
       done();
     });
 
-    it('should not create document with the same title', (done) => {
+    it('should not create document with no access type', (done) => {
       chai.request(server)
-        .post('/documents')
+        .post('/api/v1/documents')
         .set({ Authorization: regularUserToken })
         .send(testData.documentFour)
         .end((err, res) => {
@@ -164,10 +162,10 @@ describe('Document', () => {
 
     it('should fail if user is not signed in', (done) => {
       chai.request(server)
-        .post('/documents')
+        .post('/api/v1/documents')
         .send(testData.documentThree)
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(401);
         });
       done();
     });
@@ -177,7 +175,7 @@ describe('Document', () => {
   describe('DOCUMENTS listAll', () => {
     it('should listAll documents for the admin', () => {
       chai.request(server)
-        .get('/documents')
+        .get('/api/v1/documents')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -191,7 +189,7 @@ describe('Document', () => {
       'should list role, public and private documents user has access to view',
       () => {
         chai.request(server)
-          .get('/documents')
+          .get('/api/v1/documents')
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -203,7 +201,7 @@ describe('Document', () => {
     it('should list only public documents if user has no other access',
       () => {
         chai.request(server)
-          .get('/documents')
+          .get('/api/v1/documents')
           .set({ Authorization: contributorToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -214,7 +212,7 @@ describe('Document', () => {
       });
     it('should fail if user is not logged in', () => {
       chai.request(server)
-        .get('/documents')
+        .get('/api/v1/documents')
         .end((err, res) => {
           res.should.have.status(404);
         });
@@ -226,7 +224,7 @@ describe('Document', () => {
     describe('admin', () => {
       it('should view private document for regularUser', (done) => {
         chai.request(server)
-          .get(`/documents/${regularUserPrivate.id}`)
+          .get(`/api/v1/documents/${regularUserPrivate.id}`)
           .set({ Authorization: adminToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -240,7 +238,7 @@ describe('Document', () => {
 
       it('should view role document of regularUser', (done) => {
         chai.request(server)
-          .get(`/documents/${regularUserRole.id}`)
+          .get(`/api/v1/documents/${regularUserRole.id}`)
           .set({ Authorization: adminToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -254,7 +252,7 @@ describe('Document', () => {
 
       it('should view public document of regularUser', (done) => {
         chai.request(server)
-          .get(`/documents/${regularUserPublic.id}`)
+          .get(`/api/v1/documents/${regularUserPublic.id}`)
           .set({ Authorization: adminToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -270,10 +268,10 @@ describe('Document', () => {
     describe('regularUser', () => {
       it('should  not view private document for admin', (done) => {
         chai.request(server)
-          .get(`/documents/${adminPrivate.id}`)
+          .get(`/api/v1/documents/${adminPrivate.id}`)
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
-            res.should.have.status(200);
+            res.should.have.status(401);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -282,10 +280,10 @@ describe('Document', () => {
 
       it('should not view role document of admin', (done) => {
         chai.request(server)
-          .get(`/documents/${adminRole.id}`)
+          .get(`/api/v1/documents/${adminRole.id}`)
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
-            res.should.have.status(200);
+            res.should.have.status(401);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -294,7 +292,7 @@ describe('Document', () => {
 
       it('should view public document of admin', (done) => {
         chai.request(server)
-          .get(`/documents/${adminPublic.id}`)
+          .get(`/api/v1/documents/${adminPublic.id}`)
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -308,7 +306,7 @@ describe('Document', () => {
 
       it('should view private own document', (done) => {
         chai.request(server)
-          .get(`/documents/${regularUserPrivate.id}`)
+          .get(`/api/v1/documents/${regularUserPrivate.id}`)
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -324,10 +322,10 @@ describe('Document', () => {
     describe('contributor', () => {
       it('should not view private document for admin', (done) => {
         chai.request(server)
-          .get(`/documents/${adminPrivate.id}`)
+          .get(`/api/v1/documents/${adminPrivate.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(200);
+            res.should.have.status(401);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -336,10 +334,10 @@ describe('Document', () => {
 
       it('should not view role document of admin', (done) => {
         chai.request(server)
-          .get(`/documents/${adminRole.id}`)
+          .get(`/api/v1/documents/${adminRole.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(200);
+            res.should.have.status(401);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -348,7 +346,7 @@ describe('Document', () => {
 
       it('should view public document of admin', (done) => {
         chai.request(server)
-          .get(`/documents/${adminPublic.id}`)
+          .get(`/api/v1/documents/${adminPublic.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -362,10 +360,10 @@ describe('Document', () => {
 
       it('should not view private of other user', (done) => {
         chai.request(server)
-          .get(`/documents/${regularUserPrivate.id}`)
+          .get(`/api/v1/documents/${regularUserPrivate.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(200);
+            res.should.have.status(401);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -374,10 +372,10 @@ describe('Document', () => {
 
       it('should not view role document of regularUser', (done) => {
         chai.request(server)
-          .get(`/documents/${regularUserRole.id}`)
+          .get(`/api/v1/documents/${regularUserRole.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(200);
+            res.should.have.status(401);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -386,7 +384,7 @@ describe('Document', () => {
 
       it('should view public document of regularUser', (done) => {
         chai.request(server)
-          .get(`/documents/${regularUserPublic.id}`)
+          .get(`/api/v1/documents/${regularUserPublic.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
             res.should.have.status(200);
@@ -401,10 +399,10 @@ describe('Document', () => {
 
     it('should fail if document does not exist', (done) => {
       chai.request(server)
-        .get('/documents/3000')
+        .get('/api/v1/documents/3000')
         .set({ Authorization: adminToken })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(404);
           res.body.should.have.property('message').eql('Document not found');
           done();
         });
@@ -415,7 +413,7 @@ describe('Document', () => {
   describe('DOCUMENTS update', () => {
     it('should allow a user to update his/her document', (done) => {
       chai.request(server)
-        .put(`/documents/${regularUserPrivate.id}`)
+        .put(`/api/v1/documents/${regularUserPrivate.id}`)
         .set({ Authorization: regularUserToken })
         .send({ title: 'The great divide' })
         .end((err, res) => {
@@ -431,11 +429,11 @@ describe('Document', () => {
 
     it('should not allow a user to update other users document', (done) => {
       chai.request(server)
-        .put(`/documents/${regularUserPrivate.id}`)
+        .put(`/api/v1/documents/${regularUserPrivate.id}`)
         .set({ Authorization: contributorToken })
         .send({ title: 'The main man' })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.have.property(
             'message').eql('you are unauthorized for this action');
           res.body.should.not.have.property('updatedDocument');
@@ -445,7 +443,7 @@ describe('Document', () => {
 
     it('should allow admin to update other users document', (done) => {
       chai.request(server)
-        .put(`/documents/${regularUserPrivate.id}`)
+        .put(`/api/v1/documents/${regularUserPrivate.id}`)
         .set({ Authorization: adminToken })
         .send({ title: 'The main man' })
         .end((err, res) => {
@@ -461,11 +459,11 @@ describe('Document', () => {
 
     it('should fail if input field is empty', (done) => {
       chai.request(server)
-        .put(`/documents/${regularUserPrivate.id}`)
+        .put(`/api/v1/documents/${regularUserPrivate.id}`)
         .set({ Authorization: adminToken })
         .send({ title: '' })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.have.property(
             'message').eql('Title is Required');
           res.body.should.not.have.property('updatedDocument');
@@ -475,13 +473,13 @@ describe('Document', () => {
 
     it('should fail if document title already exists', (done) => {
       chai.request(server)
-        .put(`/documents/${adminPrivate.id}`)
+        .put(`/api/v1/documents/${adminPrivate.id}`)
         .set({ Authorization: adminToken })
         .send({ title: 'The main man' })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.have.property(
-            'message').eql("we're sorry, document title must be unique");
+            'message').eql("We're sorry, document title must be unique");
           res.body.should.not.have.property('updatedDocument');
           done();
         });
@@ -492,7 +490,7 @@ describe('Document', () => {
   describe('GETUSERDOCUMENTS', () => {
     it('should get all documents by user', (done) => {
       chai.request(server)
-        .get(`/users/${adminUser.id}/documents`)
+        .get(`/api/v1/users/${adminUser.id}/documents`)
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -508,7 +506,7 @@ describe('Document', () => {
   describe('DOCUMENTS search', () => {
     it('admin should search all documents based on title', (done) => {
       chai.request(server)
-        .get('/search/documents?q=o')
+        .get('/api/v1/search/documents?q=o')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -520,7 +518,7 @@ describe('Document', () => {
 
     it('user should view only documents he/her has access to view', (done) => {
       chai.request(server)
-        .get('/search/documents?q=o')
+        .get('/api/v1/search/documents?q=o')
         .set({ Authorization: regularUserToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -532,7 +530,7 @@ describe('Document', () => {
 
     it('should return empty if no searchterm was provided', (done) => {
       chai.request(server)
-        .get('/search/documents?q=""')
+        .get('/api/v1/search/documents?q=""')
         .set({ Authorization: regularUserToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -547,10 +545,10 @@ describe('Document', () => {
   describe('DOCUMENTS delete', () => {
     it('should not allow users to delete other users documents', (done) => {
       chai.request(server)
-        .delete(`/documents/${regularUserPrivate.id}`)
+        .delete(`/api/v1/documents/${regularUserPrivate.id}`)
         .set({ Authorization: contributorToken })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.have.property(
             'message').eql('You are unauthorized for this action');
           done();
@@ -559,7 +557,7 @@ describe('Document', () => {
 
     it('should allow users to delete his/her documents', (done) => {
       chai.request(server)
-        .delete(`/documents/${regularUserPrivate.id}`)
+        .delete(`/api/v1/documents/${regularUserPrivate.id}`)
         .set({ Authorization: regularUserToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -571,7 +569,7 @@ describe('Document', () => {
 
     it('should allow admin to delete other users documents', (done) => {
       chai.request(server)
-        .delete(`/documents/${regularUserPublic.id}`)
+        .delete(`/api/v1/documents/${regularUserPublic.id}`)
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -583,7 +581,7 @@ describe('Document', () => {
 
     it('should fail if document is not found', (done) => {
       chai.request(server)
-        .delete('/documents/5000')
+        .delete('/api/v1/documents/5000')
         .set({ Authorization: contributorToken })
         .end((err, res) => {
           res.should.have.status(404);
