@@ -1,5 +1,4 @@
 /* eslint no-console: "off", global-require: "off" */
-
 import 'colors';
 import webpack from 'webpack';
 import express from 'express';
@@ -27,6 +26,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use('/', express.static(path.join(__dirname, 'client')));
 } else {
   app.use('/', express.static(path.join(__dirname, 'client')));
+  app.use(require('compression')());
 }
 
 app.get('/', (req, res) => {
