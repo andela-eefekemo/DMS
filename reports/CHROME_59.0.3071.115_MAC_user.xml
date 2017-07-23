@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="9">
+
+  <testsuite name="user"
+    errors="0" failures="0" hostname="" id="" package="user" skipped="0"
+    tests="9" time="45.01" timestamp="Sun, 23 Jul 2017 07:11:53 GMT">
+  
+    <testcase name="User sign up without credentials" classname="user" time="3.525" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User sign up with existing email" classname="user" time="1.863" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User sign up success" classname="user" time="2.181" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User sign in without credentials" classname="user" time="0.9850" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User sign in with wrong email" classname="user" time="1.051" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User sign in with wrong password" classname="user" time="1.731" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User sign in success" classname="user" time="1.527" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User should be able to update his/her profile" classname="user" time="20.60" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User should be able to search through user" classname="user" time="11.54" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>
