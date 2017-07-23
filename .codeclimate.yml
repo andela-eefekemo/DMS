@@ -9,16 +9,9 @@ engines:
     config:
       languages:
         JavaScript: true
-ratings:
   paths:
-      - "server"
-      - "client"
+  - "server/**/*.js"
+  - "client/**/*.js"
 exclude_paths:
-- "node_modules"
-- .gitignore
-- .eslintignore
-- .travis.yml
-- .eslintrc.json
-- "webpack.config.js"
-- "webpack.deployment.config.js"
-- "coverage"
+  - "server/test/**/*"
+  - "client/test/**/*"
