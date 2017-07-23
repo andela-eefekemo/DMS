@@ -8,6 +8,8 @@ Document Management System provides a restful API for users to create and manage
 
 ## API Documentation
 The API has routes, each dedicated to a single task that uses HTTP response codes to indicate API status and errors.
+## API Summary
+View full API documentation [here](https://doc-ninja.herokuapp.com/api-docs)
 
 #### API Features
 
