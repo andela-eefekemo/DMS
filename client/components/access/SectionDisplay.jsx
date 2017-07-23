@@ -21,7 +21,7 @@ const SectionDisplay = () => (
       <div className="carousel-item white-text" href="#one!">
         <img
           src="../../img/slide2.jpg"
-          alt="slide2" className="slide-img" />
+          alt="slide" className="slide-img" />
       </div>
       <div className="carousel-item amber white-text" href="#two!">
         <img

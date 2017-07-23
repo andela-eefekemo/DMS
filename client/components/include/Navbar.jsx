@@ -37,7 +37,7 @@ const NavBar = ({ match, onClick }) => {
             <Link to="/auth/signup">GET STARTED</Link>
           </li>}
           {(match.url === '/dashboard') &&
-            <li><Link to="/" onClick={onClick}>LOG OUT</Link></li>}
+            <li><Link to="" onClick={onClick}>LOG OUT</Link></li>}
         </ul>
       </div>
     </nav>

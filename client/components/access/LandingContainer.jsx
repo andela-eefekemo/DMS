@@ -21,7 +21,7 @@ export class LandingContainer extends Component {
     $('.carousel.carousel-slider').carousel({ fullWidth: true });
     setInterval(() => {
       $('.carousel').carousel('next');
-    }, 5000);
+    }, 7000);
     if (this.props.access.isAuthenticated === true) {
       this.props.history.push('/dashboard');
     }
