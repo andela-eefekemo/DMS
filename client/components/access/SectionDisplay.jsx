@@ -20,7 +20,7 @@ const SectionDisplay = () => (
       </div>
       <div className="carousel-item white-text" href="#one!">
         <img
-          src="../../img/slide2.jpg"
+          src="../../img/slide6.jpg"
           alt="slide" className="slide-img" />
       </div>
       <div className="carousel-item amber white-text" href="#two!">
