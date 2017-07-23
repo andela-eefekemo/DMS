@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+/**
+ * Input component that displays an Input Field.
+ * @param {Object} props The props for the component.
+ * @returns {String} The HTML markup for the Input component
+ */
 const InputField =
   ({ className, name, value, placeholder, type, onChange, label }) => (
     <div className="input-field">

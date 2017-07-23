@@ -14,7 +14,8 @@ const validateRequiredFields = (inputFields = [], requiredFields = []) => {
 
   inputFields.forEach((field, index) => {
     if (validator.isEmpty(String(field))) {
-      errors[requiredFields[index]] = `Please enter the ${requiredFields[index]}`;
+      errors[requiredFields[index]] =
+        `Please enter the ${requiredFields[index]}`;
       valid = false;
     }
   });

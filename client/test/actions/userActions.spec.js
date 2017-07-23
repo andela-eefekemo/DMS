@@ -16,10 +16,13 @@ const token =
 describe('User Actions', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-
+  const offset = 0;
+  const limit = 5;
+  const searchTerm = '';
+  const id = 1;
   describe('List all Users', () => {
     it('Should make an AJAX call to list all users', (done) => {
-      moxios.stubRequest('/users', {
+      moxios.stubRequest(`/api/v1/users?offset=${offset}&limit=${limit}`, {
         status: 200,
         response: {
           userList: [{ firstName: 'Eguono' }, { firstName: 'esther' }],
@@ -35,17 +38,32 @@ describe('User Actions', () => {
         metaData: []
       }];
       store.dispatch(UserActions.getUsers()).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(
-          store.getActions()[0].userList).toEqual(expectedAction[0].userList);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/users', {
+        moxios.stubRequest(`/api/v1/users?offset=${offset}&limit=${limit}`, {
           status: 400,
+          response: {
+            message: 'error'
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.ERROR,
+          message: 'error'
+        }];
+        store.dispatch(UserActions.getUsers()).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest(`/api/v1/users?offset=${offset}&limit=${limit}`, {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -56,62 +74,76 @@ describe('User Actions', () => {
           message: 'There was an error please try again'
         }];
         store.dispatch(UserActions.getUsers()).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Search all Users', () => {
     it('Should make an AJAX call to search users', (done) => {
-      moxios.stubRequest('/search/users?q=e&offset=0&limit=20', {
-        status: 200,
-        response: {
-          userList: [{ firstName: 'Eguono' }, { firstName: 'esther' }],
-          message: 'Users found',
-          metaData: []
-        }
-      });
+      moxios.stubRequest(
+        `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
+          status: 200,
+          response: {
+            userList: [{ firstName: 'Eguono' }, { firstName: 'esther' }],
+            message: 'Users found',
+            metaData: {}
+          }
+        });
       const store = mockStore({});
       const expectedAction = [{
         type: actionType.SEARCH_USERS,
         message: null,
         userList: [{ firstName: 'Eguono' }, { firstName: 'esther' }],
-        metaData: []
+        metaData: {}
       }];
-      store.dispatch(UserActions.searchUsers('e')).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(
-          store.getActions()[0].userList).toEqual(expectedAction[0].userList);
+      store.dispatch(UserActions.searchUsers('')).then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/search/users?q=e&offset=0&limit=20', {
-          status: 400,
-          response: {
-            message: 'error'
-          }
+        moxios.stubRequest(
+          `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
+            status: 400,
+            response: {
+              message: 'error'
+            }
+          });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.ERROR,
+          message: 'error'
+        }];
+        store.dispatch(UserActions.searchUsers('')).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
         });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest(
+          `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
+            status: 403,
+            response: {
+              message: 'error'
+            }
+          });
         const store = mockStore({});
         const expectedAction = [{
           type: actionType.ERROR,
           message: 'There was an error please try again'
         }];
         store.dispatch(UserActions.searchUsers('e')).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('View User', () => {
     it('Should make an AJAX call to view a users', (done) => {
-      moxios.stubRequest('/users/1', {
+      moxios.stubRequest(`/api/v1/users/${id}`, {
         status: 200,
         response: {
           user: { firstName: 'Eguono' },
@@ -125,16 +157,32 @@ describe('User Actions', () => {
         user: { firstName: 'Eguono' }
       }];
       store.dispatch(UserActions.viewUser(1)).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].user).toEqual(expectedAction[0].user);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/users/300000', {
-          status: 400,
+        moxios.stubRequest(`/api/v1/users/${3000}`, {
+          status: 404,
+          response: {
+            message: 'error'
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.ERROR,
+          message: 'error'
+        }];
+        store.dispatch(UserActions.viewUser(3000)).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest(`/api/v1/users/${3000}`, {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -144,17 +192,15 @@ describe('User Actions', () => {
           type: actionType.ERROR,
           message: 'There was an error please try again'
         }];
-        store.dispatch(UserActions.viewUser(300000)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+        store.dispatch(UserActions.viewUser(3000)).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Delete User', () => {
     it('Should make an AJAX call to view a users', (done) => {
-      moxios.stubRequest('/users/1', {
+      moxios.stubRequest('/api/v1/users/1', {
         status: 200,
         response: {
           message: 'User has been deleted'
@@ -166,16 +212,13 @@ describe('User Actions', () => {
         message: 'User has been deleted'
       }];
       store.dispatch(UserActions.deleteUser(1)).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(
-          store.getActions()[0].message).toEqual(expectedAction[0].message);
-        expect(store.getActions()[0].user).toEqual(expectedAction[0].user);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/users/300000', {
+        moxios.stubRequest('/api/v1/users/300000', {
           status: 400,
           response: {
             message: 'error'
@@ -184,19 +227,17 @@ describe('User Actions', () => {
         const store = mockStore({});
         const expectedAction = [{
           type: actionType.ERROR,
-          message: 'There was an error please try again'
+          message: 'error'
         }];
         store.dispatch(UserActions.deleteUser(300000)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Update user', () => {
     it('Should make an AJAX call to update a users', (done) => {
-      moxios.stubRequest('/users/1', {
+      moxios.stubRequest('/api/v1/users/1', {
         status: 200,
         response: {
           updatedUser: { firstName: 'Eguono' },
@@ -212,18 +253,15 @@ describe('User Actions', () => {
       }];
       store.dispatch(
         UserActions.updateUser({ firstName: 'Eguono' }, 1)).then(() => {
-          expect(
-            store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(null);
-          expect(store.getActions()[0].user).toEqual(expectedAction[0].user);
+          expect(store.getActions()).toEqual(expectedAction);
         });
       done();
     });
     it(
       'Should make an AJAX call to update a users and fail if firstName exists',
       (done) => {
-        moxios.stubRequest('/users/1', {
-          status: 200,
+        moxios.stubRequest('/api/v1/users/1', {
+          status: 400,
           response: {
             updatedUser: { firstName: 'Eguono' },
             message: 'Email already exists'
@@ -236,16 +274,14 @@ describe('User Actions', () => {
         }];
         store.dispatch(
           UserActions.updateUser({ firstName: 'Eguono' }, 1)).then(() => {
-            expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-            expect(
-              store.getActions()[0].message).toEqual(expectedAction[0].message);
+            expect(store.getActions()).toEqual(expectedAction);
           });
         done();
       });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/users/300000', {
-          status: 400,
+        moxios.stubRequest('/api/v1/users/300000', {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -257,9 +293,7 @@ describe('User Actions', () => {
         }];
         store.dispatch(
           UserActions.updateUser({ firstName: 'eguono' }, 300000)).then(() => {
-            expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-            expect(
-              store.getActions()[0].message).toEqual(expectedAction[0].message);
+            expect(store.getActions()).toEqual(expectedAction);
           });
         done();
       });

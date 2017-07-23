@@ -57,6 +57,15 @@ const userModel = (sequelize, DataTypes) => {
 
       hashPassword() {
         this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
+      },
+
+      filterUserDetails() {
+        const { password, createdAt, updatedAt, ...rest } = this.get();
+        return rest;
+      },
+      filterUserList() {
+        const { password, updatedAt, ...rest } = this.get();
+        return rest;
       }
     },
 

@@ -12,6 +12,8 @@ import SectionDisplay from './SectionDisplay';
 export class LandingContainer extends Component {
 
   /**
+   * Initializes the carousel component
+   * Redirects user to dashbaord page if authenticated
    * @return {void}
    * @memberof LandingContainer
    */
@@ -23,7 +25,8 @@ export class LandingContainer extends Component {
   }
 
   /**
-   * @returns {jsx} -
+   * Renders a component
+   * @returns {void}
    * @memberof LandingContainer
    */
   render() {

@@ -23,7 +23,8 @@ const getUserDocuments = DocumentActions.getUserDocuments;
 export class DocumentList extends Component {
   /**
    * Creates an instance of DocumentList.
-   * @param {any} props -
+   * Binds class methods
+   * @param {Object} props
    * @memberof DocumentList
    */
   constructor(props) {
@@ -48,6 +49,8 @@ export class DocumentList extends Component {
   }
 
   /**
+   * Makes action call to retrieve list of documents
+   *
    * @return {void}
    * @memberof DocumentList
    */
@@ -55,25 +58,31 @@ export class DocumentList extends Component {
     this.updateDocumentList();
   }
   /**
+   * Update the state if the props are changed
+   *
    * @return {void}
-   * @param {any} nextProps -
+   * @param {Object} nextProps
    * @memberof DocumentList
    */
   componentWillReceiveProps(nextProps) {
     this.setState({
       documents: nextProps.documentList,
-      pageCount: nextProps.pagination.pageCount
+      pageCount: nextProps.pagination.pageCount,
+      count: nextProps.pagination.count
     });
   }
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof DocumentList
-   */
-  changeDocument(e) {
-    const value = e.target.value;
+  * Makes an action call to get personal/all documents
+  * Sets document list to the state
+  *
+  * @return {void}
+  * @param {Object} event
+  * @memberof DocumentList
+  */
+  changeDocument(event) {
+    const value = event.target.value;
     this.setState({
-      [e.target.name]: value
+      [event.target.name]: value
     });
     if (value === 'Personal') {
       this.props.getUserDocuments(this.props.access.user.id)
@@ -92,21 +101,26 @@ export class DocumentList extends Component {
     }
   }
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof DocumentContainer
-   */
-  onChange(e) {
-    const field = e.target.name;
-    this.setState({ [field]: e.target.value });
+  * Sets the event value to the state
+  * @return {void}
+  * @param {Object} event The event of the HTML component
+  * @memberof DocumentContainer
+  */
+  onChange(event) {
+    const field = event.target.name;
+    this.setState({ [field]: event.target.value });
   }
   /**
-   * @param {any} e -
-   * @return {void}
-   * @memberof DocumentList
-   */
-  onClick(e) {
-    this.props.viewDocument(e.target.name).then(() => {
+  * Makes an action call to view a document
+  * Toasts the error/success message
+  * Sets document to the state
+  *
+  * @param {Object} event
+  * @return {void}
+  * @memberof DocumentList
+  */
+  onClick(event) {
+    this.props.viewDocument(event.target.name).then(() => {
       if (this.props.document.message) {
         return Materialize.toast(
           this.props.document.message, 2000,
@@ -117,25 +131,30 @@ export class DocumentList extends Component {
         content: this.props.document.content,
         access: this.props.document.access
       });
-      this.props.history.push(`${this.props.match.url}/viewDocument`);
+      this.props.history.push(`${this.props.match.url}/view-document`);
     });
   }
 
   /**
-   * @param {event} e
+   * Sets the searchterm to the state
+   * Makes an action call to the search for a document
+   * @param {Object} event
    * @return {void}
    * @memberof DocumentList
    */
-  onSearch(e) {
+  onSearch(event) {
     this.setState({
-      searchTerm: e.target.value
+      searchTerm: event.target.value
     });
-    this.props.searchDocuments(e.target.value)
+    this.props.searchDocuments(event.target.value)
       .then(() => {
       });
   }
 
   /**
+   * Makes an action call to get all documents
+   * Sets list of documents to the state
+   *
    * @return {void}
    * @memberof DocumentList
    */
@@ -143,12 +162,13 @@ export class DocumentList extends Component {
     this.props.getAllDocuments()
       .then(() => {
         this.setState({
-          documents: this.props.documentList
+          documents: this.props.documentList,
+          count: this.props.pagination.count
         });
       });
   }
   /**
-  * Get the content of the TinyMCE editor
+  * Get the content of the TinyMCE editor and sets it to the state
   *
   * @param {Object} event
   * @returns {void} nothing
@@ -157,12 +177,15 @@ export class DocumentList extends Component {
     this.setState({ content: event.target.getContent() });
   }
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof DocumentList
-   */
-  deleteDocument(e) {
-    this.props.deleteDocument(e.target.name).then(() => {
+  * Makes an action call to delete a document
+  * Toasts the error/success message
+  *
+  * @return {void}
+  * @param {Object} event
+  * @memberof DocumentList
+  */
+  deleteDocument(event) {
+    this.props.deleteDocument(event.target.name).then(() => {
       Materialize.toast(
         this.props.document.message, 2000,
         'indigo darken-4 white-text rounded');
@@ -172,10 +195,12 @@ export class DocumentList extends Component {
   }
 
   /**
-   * @return {void}
-   * @param {any} data -
-   * @memberof DocumentList
-   */
+  * Pagination for the list of documents
+  *
+  * @return {void}
+  * @param {Object} data
+  * @memberof DocumentList
+  */
   handlePageClick(data) {
     const selected = data.selected;
     const limit = 5;
@@ -186,22 +211,28 @@ export class DocumentList extends Component {
         this.props.access.user.id, offset, limit).then(() => {
           this.setState({
             documents: this.props.documentList,
-            pageCount: this.props.pagination.pageCount
+            pageCount: this.props.pagination.pageCount,
+            count: this.props.pagination.count
           });
         });
     } else {
       this.props.getAllDocuments(offset, limit).then(() => {
         this.setState({
           documents: this.props.documentList,
-          pageCount: this.props.pagination.pageCount
+          pageCount: this.props.pagination.pageCount,
+          count: this.props.pagination.count
         });
       });
     }
   }
   /**
-   * @return {void}
-   * @memberof DocumentList
-   */
+  * Makes an action call to update a document
+  * Toasts error/success message
+  * Sets updated document to state
+  *
+  * @return {void}
+  * @memberof DocumentList
+  */
   onSubmit() {
     const updatedDocument = {
       title: this.state.title,
@@ -210,9 +241,9 @@ export class DocumentList extends Component {
     };
     this.props.updateDocument(this.props.document.id, updatedDocument)
       .then(() => {
-        if (this.props.document.message) {
+        if (this.props.message) {
           return Materialize.toast(
-            this.props.document.message, 2000,
+            this.props.message, 2000,
             'indigo darken-4 white-text rounded');
         }
         Materialize.toast(
@@ -227,13 +258,14 @@ export class DocumentList extends Component {
         });
         this.updateDocumentList();
       });
-    this.props.history.push('/dashboard');
   }
 
   /**
-   * @returns {jsx} -
-   * @memberof DocumentList
-   */
+  * Renders the Document List component
+  *
+  * @returns {String} HTML markup for the DocumentList
+  * @memberof DocumentList
+  */
   render() {
     return (
       <div className="document-list">
@@ -273,7 +305,7 @@ export class DocumentList extends Component {
                         onClick={this.onClick} match={this.props.match}
                       />
                     ))}
-                    <ReactPaginate
+                    {(this.state.count > 5) && <ReactPaginate
                       previousLabel={'previous'}
                       nextLabel={'next'}
                       breakLabel={<a href="">...</a>}
@@ -285,15 +317,15 @@ export class DocumentList extends Component {
                       containerClassName={'pagination'}
                       subContainerClassName={'pages pagination'}
                       activeClassName={'active'}
-                    />
+                    />}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col l6 m6 s12">
+            <div className="col l6 m6 s12 text-scrollable">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewDocument`} render={() => {
+                  path={`${this.props.match.url}/view-document`} render={() => {
                     if (!this.props.document.id) {
                       this.props.history.push(`${this.props.match.url}`);
                     }
@@ -331,6 +363,7 @@ DocumentList.propTypes = {
   deleteDocument: PropTypes.func,
   updateDocument: PropTypes.func,
   pagination: PropTypes.object,
+  message: PropTypes.string,
   history: PropTypes.object
 };
 
@@ -338,6 +371,7 @@ const mapPropsToState = (state) => {
   return {
     documentList: state.document.documentList,
     document: state.document.document,
+    message: state.document.message,
     pagination: state.document.pagination,
     access: state.access
   };

@@ -20,7 +20,8 @@ import RoleConnectedList from './role/RoleList';
 class Dashboard extends Component {
   /**
    * Creates an instance of Dashboard.
-   * @param {any} props -
+   *
+   * @param {Object} props
    * @memberof Dashboard
    */
   constructor(props) {
@@ -31,6 +32,10 @@ class Dashboard extends Component {
     };
   }
   /**
+   * Intialize materialize collapsible
+   * Check if user is authenticated
+   * Toast access message
+   *
    * @return {void}
    * @memberof Dashboard
    */
@@ -44,7 +49,9 @@ class Dashboard extends Component {
   }
 
   /**
-   * @return {jsx} -
+   * Renders dashboard component
+   *
+   * @return {String} HTML markup for dashboard component
    * @memberof Dashboard
    */
   render() {
@@ -63,18 +70,18 @@ class Dashboard extends Component {
             <Route
               exact path={`${this.props.match.url}`}
               render={() => (
-                <Redirect to={`${this.props.match.url}/alldocuments`} />)} />
+                <Redirect to={`${this.props.match.url}/all-documents`} />)} />
             <Route
               path={`${this.props.match.url}/profile`}
               component={UserConnectedContainer} />
             <Route
-              path={`${this.props.match.url}/alldocuments`}
+              path={`${this.props.match.url}/all-documents`}
               component={DocumentConnectedList} />
             <Route
-              path={`${this.props.match.url}/allusers`}
+              path={`${this.props.match.url}/all-users`}
               component={UserConnectedList} />
             <Route
-              path={`${this.props.match.url}/allroles`}
+              path={`${this.props.match.url}/all-roles`}
               component={RoleConnectedList} />
           </Switch>
           <Footer />

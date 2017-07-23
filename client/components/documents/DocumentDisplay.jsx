@@ -4,7 +4,12 @@ import TinyMCE from 'react-tinymce';
 
 import InputField from '../common/InputField';
 import Dropdown from '../common/Dropdown';
-
+/**
+ * Document Display component for creating a document
+ *
+ * @param {Object} props { onChange, onSubmit, document, getContent }
+ * @returns {String} HTML markup for the Document Display
+ */
 const DocumentDisplay = ({ onChange, onSubmit, document, getContent }) => {
   return (
     <div className="document-form">

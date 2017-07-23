@@ -16,7 +16,8 @@ const createDocument = DocumentActions.createDocument;
 export class DocumentContainer extends Component {
   /**
    * Creates an instance of DocumentContainer.
-   * @param {any} props -
+   * Binds the functions to the class
+   * @param {Object} props
    * @memberof DocumentContainer
    */
   constructor(props) {
@@ -32,9 +33,12 @@ export class DocumentContainer extends Component {
   }
 
   /**
-   * @return {void}
-   * @memberof DocumentContainer
-   */
+  * Validates the DocumentDisplay input fields
+  * Makes an action call to create a new document
+  * Toasts the error/success message
+  * @return {void}
+  * @memberof DocumentContainer
+  */
   onSubmit() {
     try {
       const { valid } = validate.validateSaveDocument(this.state);
@@ -58,28 +62,30 @@ export class DocumentContainer extends Component {
     }
   }
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof DocumentContainer
-   */
-  onChange(e) {
-    const field = e.target.name;
-    this.setState({ [field]: e.target.value });
+  * Sets the event value to the state
+  * @return {void}
+  * @param {Object} event The event of the HTML component
+  * @memberof DocumentContainer
+  */
+  onChange(event) {
+    const field = event.target.name;
+    this.setState({ [field]: event.target.value });
   }
 
   /**
-  * Get the content of the TinyMCE editor
+  * Get the content of the TinyMCE editor and sets it to the state
   *
   * @param {Object} event
-  * @returns {void} nothing
+  * @returns {void}
   */
   getContent(event) {
     this.setState({ content: event.target.getContent() });
   }
   /**
-   * @returns {jsx} -
-   * @memberof DocumentContainer
-   */
+  * Renders the DocumentContainer component
+  * @returns {String} The HTML markup for the DocumentContainer
+  * @memberof DocumentContainer
+  */
   render() {
     return (
       <DocumentDisplay

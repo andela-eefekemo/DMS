@@ -3,7 +3,7 @@ import passportJWT from 'passport-jwt';
 import db from '../models';
 
 
-module.exports = (passport) => {
+export default (passport) => {
   const ExtractJwt = passportJWT.ExtractJwt;
   const JwtStrategy = passportJWT.Strategy;
   const jwtOptions = {};

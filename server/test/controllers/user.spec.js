@@ -24,47 +24,47 @@ describe('User', () => {
   let hotToken;
   before((done) => {
     chai.request(server)
-      .post('/users')
+      .post('/api/v1/users')
       .send(testData.userFive)
       .end((err, res) => {
         savedUser5 = res.body.userData;
         userToken5 = `JWT ${res.body.token}`;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/users')
+      .post('/api/v1/users')
       .send(testData.userSix)
       .end((err, res) => {
         fineUser = res.body.userData;
         fineToken = `JWT ${res.body.token}`;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/users')
+      .post('/api/v1/users')
       .send(testData.userFour)
       .end((err, res) => {
         hotAdmin = res.body.userData;
         hotToken = `JWT ${res.body.token}`;
-        res.should.have.status(200);
+        res.should.have.status(201);
       });
     chai.request(server)
-      .post('/users')
+      .post('/api/v1/users')
       .send(testData.admin2)
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
         adminToken = `JWT ${res.body.token}`;
         adminUser = res.body.userData;
         done();
       });
   });
 
-  describe('/POST users', () => {
+  describe('/api/v1/POST users', () => {
     it('should fail without email field', (done) => {
       chai.request(server)
-        .post('/users')
+        .post('/api/v1/users')
         .send(testData.incompleteInfo)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           res.body.should.have.property('message').eql(
@@ -74,12 +74,12 @@ describe('User', () => {
     });
     it('should save user info', (done) => {
       chai.request(server)
-        .post('/users')
+        .post('/api/v1/users')
         .send(testData.newUser)
         .end((err, res) => {
           savedUser = res.body.userData;
           userToken = `JWT ${res.body.token}`;
-          res.should.have.status(200);
+          res.should.have.status(201);
           res.body.should.be.a('object');
           res.body.should.have.property('userData');
           res.body.should.have.property('message');
@@ -88,17 +88,16 @@ describe('User', () => {
           res.body.userData.should.have.property('firstName');
           res.body.userData.should.have.property('lastName');
           res.body.userData.should.have.property('email');
-          res.body.userData.should.have.property('password');
           done();
         });
     });
 
     it('should return a token', (done) => {
       chai.request(server)
-        .post('/users')
+        .post('/api/v1/users')
         .send(testData.userOne)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(201);
           res.body.should.have.property('token');
           `JWT ${res.body.token}`.should.be.a('string');
           done();
@@ -107,10 +106,10 @@ describe('User', () => {
 
     it('should fail if email already exists', (done) => {
       chai.request(server)
-        .post('/users')
+        .post('/api/v1/users')
         .send(testData.newUser)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.have.property('message').eql('Email already exists');
           done();
         });
@@ -118,10 +117,10 @@ describe('User', () => {
   });
 
   // Login user
-  describe('/POST users/login', () => {
+  describe('/api/v1/POST users/login', () => {
     it('should log in user', (done) => {
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(testData.userTwo)
         .end((err, res) => {
           res.should.have.status(200);
@@ -131,14 +130,13 @@ describe('User', () => {
           res.body.userData.should.be.a('object');
           res.body.message.should.be.a('string').eql('login successful');
           res.body.userData.should.have.property('email');
-          res.body.userData.should.have.property('password');
           done();
         });
     });
 
     it('should return a token', (done) => {
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(testData.userTwo)
         .end((err, res) => {
           res.should.have.status(200);
@@ -150,10 +148,10 @@ describe('User', () => {
 
     it('should fail without email field', (done) => {
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send({ password: 'eguono' })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           res.body.should.have.property('message').eql(
@@ -164,10 +162,10 @@ describe('User', () => {
 
     it('should fail without correct password', (done) => {
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(testData.userThree)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('message').eql(
             'Wrong password, Please input correct password');
@@ -177,10 +175,10 @@ describe('User', () => {
   });
 
   // POST /users/logout
-  describe('/POST logout user', () => {
+  describe('/api/v1/POST logout user', () => {
     it('should logout user', (done) => {
       chai.request(server)
-        .post('/users/logout')
+        .post('/api/v1/users/logout')
         .send(testData.userThree)
         .end((err, res) => {
           res.should.have.status(200);
@@ -193,10 +191,10 @@ describe('User', () => {
   });
 
   // GET /users
-  describe('/GET users', () => {
+  describe('/api/v1/GET users', () => {
     it('should be only accessible to admins', (done) => {
       chai.request(server)
-        .get('/users')
+        .get('/api/v1/users')
         .set({ Authorization: userToken })
         .end((err, res) => {
           res.should.have.status(401);
@@ -207,7 +205,7 @@ describe('User', () => {
     });
     it('should get list of users', (done) => {
       chai.request(server)
-        .get('/users?roleId=1')
+        .get('/api/v1/users?roleId=1')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -222,7 +220,7 @@ describe('User', () => {
 
     it('should limit list of users', (done) => {
       chai.request(server)
-        .get('/users?roleId=1&limit=2')
+        .get('/api/v1/users?roleId=1&limit=2')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -236,7 +234,7 @@ describe('User', () => {
     });
     it('should limit users based on offset', (done) => {
       chai.request(server)
-        .get('/users?roleId=1&offset=3')
+        .get('/api/v1/users?roleId=1&offset=3')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -251,10 +249,10 @@ describe('User', () => {
   });
 
   // Get user by id
-  describe('/GET user:id', () => {
+  describe('/api/v1/GET user:id', () => {
     it('should allow admin to view user', (done) => {
       chai.request(server)
-        .get(`/users/${savedUser5.id}`)
+        .get(`/api/v1/users/${savedUser5.id}`)
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -267,7 +265,7 @@ describe('User', () => {
 
     it('should allow a user to view his/her infomation', (done) => {
       chai.request(server)
-        .get(`/users/${savedUser5.id}`)
+        .get(`/api/v1/users/${savedUser5.id}`)
         .set({ Authorization: userToken5 })
         .end((err, res) => {
           res.should.have.status(200);
@@ -280,10 +278,10 @@ describe('User', () => {
 
     it("should return 'User not found' if user does not exist", (done) => {
       chai.request(server)
-        .get('/users/20')
+        .get('/api/v1/users/20')
         .set({ Authorization: adminToken })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(404);
           res.body.should.not.have.property('user');
           res.body.should.have.property('message').eql('User not found');
           done();
@@ -292,7 +290,7 @@ describe('User', () => {
 
     it('should not allow users to view other users infomation', (done) => {
       chai.request(server)
-        .get(`/users/${adminUser.id}`)
+        .get(`/api/v1/users/${adminUser.id}`)
         .set({ Authorization: userToken5 })
         .end((err, res) => {
           res.should.have.status(401);
@@ -302,10 +300,10 @@ describe('User', () => {
   });
 
   // Update user by id
-  describe('/PUT user:id', () => {
+  describe('/api/v1/PUT user:id', () => {
     it('should allow admin to update user information', (done) => {
       chai.request(server)
-        .put(`/users/${savedUser.id}`)
+        .put(`/api/v1/users/${savedUser.id}`)
         .send({ email: 'jonah@gmail.com' })
         .set({ Authorization: adminToken })
         .end((err, res) => {
@@ -324,7 +322,7 @@ describe('User', () => {
 
     it('should allow user to update his/her information', (done) => {
       chai.request(server)
-        .put(`/users/${savedUser.id}`)
+        .put(`/api/v1/users/${savedUser.id}`)
         .send({ firstName: 'Boy' })
         .set({ Authorization: updatedToken })
         .end((err, res) => {
@@ -341,7 +339,7 @@ describe('User', () => {
 
     it('should not allow users to update other users information', (done) => {
       chai.request(server)
-        .put(`/users/${savedUser.id}`)
+        .put(`/api/v1/users/${savedUser.id}`)
         .send({ firstName: 'Boy' })
         .set({ Authorization: fineToken })
         .end((err, res) => {
@@ -352,11 +350,11 @@ describe('User', () => {
 
     it('should fail if email already exists', (done) => {
       chai.request(server)
-        .put(`/users/${fineUser.id}`)
+        .put(`/api/v1/users/${fineUser.id}`)
         .set({ Authorization: fineToken })
         .send({ email: 'jonah@gmail.com' })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.have.property(
             'message').eql('Email already exists');
           done();
@@ -368,7 +366,7 @@ describe('User', () => {
   describe('USERS search', () => {
     it('admin should search all users based on firstname or lastname', (done) => {
       chai.request(server)
-        .get('/search/users?q=o')
+        .get('/api/v1/search/users?q=o')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -380,7 +378,7 @@ describe('User', () => {
 
     it('user not be able to search for other users', (done) => {
       chai.request(server)
-        .get('/search/users?q=o')
+        .get('/api/v1/search/users?q=o')
         .set({ Authorization: fineToken })
         .end((err, res) => {
           res.should.have.status(401);
@@ -391,7 +389,7 @@ describe('User', () => {
 
     it('should return empty if no searchterm was provided', (done) => {
       chai.request(server)
-        .get('/search/users?q=""')
+        .get('/api/v1/search/users?q=""')
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -403,10 +401,10 @@ describe('User', () => {
   });
 
   // Delete user by id
-  describe('/DELETE user:id', () => {
+  describe('/api/v1/DELETE user:id', () => {
     it('user should be able to delete his/her account', (done) => {
       chai.request(server)
-        .delete(`/users/${updatedUser.id}`)
+        .delete(`/api/v1/users/${updatedUser.id}`)
         .set({ Authorization: updatedToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -417,7 +415,7 @@ describe('User', () => {
 
     it('admin should be able to delete user account', (done) => {
       chai.request(server)
-        .delete(`/users/${savedUser5.id}`)
+        .delete(`/api/v1/users/${savedUser5.id}`)
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(200);
@@ -429,10 +427,10 @@ describe('User', () => {
 
     it('admin should fail if user not found', (done) => {
       chai.request(server)
-        .delete(`/users/${updatedUser.id}`)
+        .delete(`/api/v1/users/${updatedUser.id}`)
         .set({ Authorization: adminToken })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(404);
           res.body.should.have.property('message').eql(
             'User not found');
           done();
@@ -441,7 +439,7 @@ describe('User', () => {
 
     it('user should not be able to delete other users account', (done) => {
       chai.request(server)
-        .delete(`/users/${updatedUser.id}`)
+        .delete(`/api/v1/users/${updatedUser.id}`)
         .set({ Authorization: fineToken })
         .end((err, res) => {
           res.should.have.status(401);
@@ -454,7 +452,7 @@ describe('User', () => {
 
     it('should fail if user was not found', (done) => {
       chai.request(server)
-        .delete('/users/30002')
+        .delete('/api/v1/users/30002')
         .set({ Authorization: updatedToken })
         .end((err, res) => {
           res.should.have.status(401);
