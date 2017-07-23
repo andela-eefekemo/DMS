@@ -8,6 +8,7 @@
   "description": "Creating a Document Management System where each document defines access rights; the document defines which roles can access it.",
   "main": "index.js",
   "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "start": "NODE_ENV=production babel-node -- index.js",
     "test": "npm run setup:test && NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register ./server/test/**/*.js --timeout 2000000",
     "dev": "NODE_ENV=development nodemon --watch server --exec babel-node -- index.js",
@@ -50,6 +51,7 @@
   "devDependencies": {
     "babel-jest": "^20.0.3",
     "chai": "^4.0.2",
+    "coveralls": "^2.13.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
@@ -59,7 +61,8 @@
     "jest": "^20.0.4",
     "mocha": "^3.4.2",
     "nightwatch": "^0.9.16",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "nyc": "^11.0.3"
   },
   "dependencies": {
     "axios": "^0.16.1",
