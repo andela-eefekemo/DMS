@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/andela-eefekemo/DMS.svg?branch=staging)](https://travis-ci.org/andela-eefekemo/DMS)
 [![Code Climate](https://codeclimate.com/github/andela-eefekemo/DMS/badges/gpa.svg)](https://codeclimate.com/github/andela-efeekemo/DMS)
-[![Coverage Status](https://coveralls.io/repos/github/andela-eefekemo/DMS/badge.png?branch=master)](https://coveralls.io/github/andela-eefekemo/DMS?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/andela-eefekemo/DMS/badge.svg?branch=master)](https://coveralls.io/github/andela-eefekemo/DMS?branch=master)
 
 Document Management System provides a restful API for users to create and manage documents giving different privileges based on user roles and managing authentication using JWT.
 
