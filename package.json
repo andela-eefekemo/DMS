@@ -15,7 +15,7 @@
     "db:migrate": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "db:migrate:test": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
     "setup:test": "npm run db:migrate:test && NODE_ENV=test sequelize db:seed:all",
-    "build": "webpack --config ./webpack.config.js --progress --colors --watch",
+    "build": "webpack --config ./webpack.config.prod.js --progress --colors --watch",
     "db:seed": "sequelize db:seed:all",
     "client:test": "jest --coverage client/test",
     "client:test:update": "jest --updateSnapshot client/test",
