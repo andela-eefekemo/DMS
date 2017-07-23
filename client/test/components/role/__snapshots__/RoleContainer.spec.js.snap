@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Role Container Container should match snapshot of document Container 1`] = `
+<RoleDisplay
+  onChange={[Function]}
+  onSubmit={[Function]}
+  role={
+    Object {
+      "description": "",
+      "title": "",
+    }
+  }
+/>
+`;

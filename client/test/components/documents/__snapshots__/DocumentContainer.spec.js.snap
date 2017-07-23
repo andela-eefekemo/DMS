@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Document Container Container should match snapshot of document Container 1`] = `
+<DocumentDisplay
+  document={
+    Object {
+      "access": "",
+      "content": "",
+      "title": "",
+    }
+  }
+  getContent={[Function]}
+  onChange={[Function]}
+  onSubmit={[Function]}
+/>
+`;
