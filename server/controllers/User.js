@@ -78,21 +78,23 @@ class User {
     } else {
       db.User.findOne({ where: { email: req.body.email } })
         .then((user) => {
-          const verifyUser = authenticate.verifyPassword(
-            req.body.password, user.password);
           if (!user) {
             handleError(400, 'User does not exist', res);
-          } else if (verifyUser) {
-            const userInfo = authenticate.setUserInfo(user);
-            const token = authenticate.generateWebToken(userInfo);
-            res.status(200).send({
-              message: 'login successful',
-              userData: user.filterUserDetails(),
-              token
-            });
           } else {
-            handleError(400,
-              'Wrong password, Please input correct password', res);
+            const verifyUser = authenticate.verifyPassword(
+              req.body.password, user.password);
+            if (verifyUser) {
+              const userInfo = authenticate.setUserInfo(user);
+              const token = authenticate.generateWebToken(userInfo);
+              res.status(200).send({
+                message: 'login successful',
+                userData: user.filterUserDetails(),
+                token
+              });
+            } else {
+              handleError(400,
+                'Wrong password, Please input correct password', res);
+            }
           }
         })
         .catch(() => {
