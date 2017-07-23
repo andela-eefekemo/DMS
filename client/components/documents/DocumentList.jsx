@@ -65,11 +65,13 @@ export class DocumentList extends Component {
    * @memberof DocumentList
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      documents: nextProps.documentList,
-      pageCount: nextProps.pagination.pageCount,
-      count: nextProps.pagination.count
-    });
+    if (this.props !== nextProps) {
+      this.setState({
+        documents: nextProps.documentList,
+        pageCount: nextProps.pagination.pageCount,
+        count: nextProps.pagination.count
+      });
+    }
   }
   /**
   * Makes an action call to get personal/all documents
