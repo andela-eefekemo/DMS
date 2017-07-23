@@ -15,7 +15,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#role-header')
       .pause(1000)
       .click('#create-role')
@@ -38,7 +38,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#role-header')
       .pause(1000)
       .click('#create-role')
@@ -64,7 +64,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#role-header')
       .pause(1000)
       .click('#create-role')
@@ -90,7 +90,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#role-header')
       .pause(1000)
       .click('#roleList')
@@ -103,7 +103,8 @@ module.exports = {
       .click('#update')
       .waitForElementVisible('.toast', 5000)
       .pause(1000)
-      .assert.containsText('.toast', 'Role title must be unique, please rename role');
+      .assert.containsText('.toast',
+      'Role title must be unique, please rename role');
   },
   'User should be able to update role':
   (browser) => {
@@ -115,7 +116,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#role-header')
       .pause(1000)
       .click('#roleList')
@@ -139,7 +140,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#role-header')
       .pause(1000)
       .click('#roleList')

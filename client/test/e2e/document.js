@@ -17,7 +17,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#document-header')
       .pause(1000)
       .click('#create-document')
@@ -44,7 +44,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#document-header')
       .pause(1000)
       .click('#create-document')
@@ -74,7 +74,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#document-header')
       .pause(1000)
       .click('#create-document')
@@ -103,7 +103,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .waitForElementVisible('input', 5000)
       .pause(2000)
       .clearValue('input[name=searchTerm]')
@@ -120,7 +120,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .waitForElementVisible('input', 5000)
       .pause(2000)
       .clearValue('input[name=searchTerm]')
@@ -153,7 +153,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .waitForElementVisible('input', 5000)
       .pause(2000)
       .clearValue('input[name=searchTerm]')
@@ -171,7 +171,8 @@ module.exports = {
       .click('#save-update')
       .waitForElementVisible('.toast', 5000)
       .pause(1000)
-      .assert.containsText('.toast', 'Document has been updated');
+      .assert.containsText('.toast',
+      "We're sorry, document title must be unique");
   },
   'User should be able to view personal and all documents':
   (browser) => {
@@ -183,7 +184,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .waitForElementVisible('input', 5000)
       .pause(2000)
       .clearValue('input[name=searchTerm]')
@@ -205,7 +206,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .waitForElementVisible('input', 5000)
       .pause(2000)
       .clearValue('input[name=searchTerm]')
@@ -217,6 +218,13 @@ module.exports = {
       .click('#delete-document')
       .pause(2000)
       .click('#delete')
+      .pause(2000)
+      .waitForElementVisible('input', 5000)
+      .pause(2000)
+      .clearValue('input[name=searchTerm]')
+      .setValue('input[name=searchTerm]', newTitle)
+      .pause(5000)
+      .assert.elementNotPresent('.scrollable > div > a')
       .end();
   },
 };

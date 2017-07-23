@@ -42,7 +42,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`),
+      .waitForElementVisible('.side-nav', 5000),
   'User sign in without credentials': browser =>
     browser
       .url('http://localhost:7000/auth/signin')
@@ -80,7 +80,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`),
+      .waitForElementVisible('.side-nav', 5000),
   'User should be able to update his/her profile': browser =>
     browser
       .url('http://localhost:7000/auth/signin')
@@ -90,7 +90,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#user-header')
       .click('#profile')
       .waitForElementVisible('input', 5000)
@@ -126,7 +126,7 @@ module.exports = {
       .click('.button-design')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Welcome!')
-      .assert.urlEquals(`${'http://localhost:7000/dashboard/alldocuments'}`)
+      .waitForElementVisible('.side-nav', 5000)
       .click('#user-header')
       .pause(2000)
       .click('#userList')

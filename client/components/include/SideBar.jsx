@@ -27,7 +27,7 @@ const SideBar = ({ match, user }) => {
                 <i className="material-icons">note_add</i>
                 Create Document</Link>
               </li>
-              <li><Link to={`${match.url}/alldocuments`}>
+              <li><Link to={`${match.url}/all-documents`}>
                 <i className="material-icons">perm_media</i>
                 All Document</Link></li>
             </ul>
@@ -42,7 +42,7 @@ const SideBar = ({ match, user }) => {
                 <i className="material-icons">perm_identity</i>
                 Profile</Link></li>
               {user.roleId === 1 && <li>
-                <Link to={`${match.url}/allusers`} id="userList">
+                <Link to={`${match.url}/all-users`} id="userList">
                   <i className="material-icons">people_outline</i>
                   All Users</Link></li>}
             </ul>
@@ -60,7 +60,7 @@ const SideBar = ({ match, user }) => {
                 Create Role</Link>
               </li>}
               {user.roleId === 1 && <li><Link
-                to={`${match.url}/allroles`}
+                to={`${match.url}/all-roles`}
                 id="roleList">
                 <i className="material-icons">wc</i>
                 All Roles</Link></li>}

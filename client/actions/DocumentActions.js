@@ -197,8 +197,7 @@ class DocumentActions {
   static searchDocuments(searchTerm, offset = 0, limit = 5) {
     return (dispatch) => {
       return axios.get(
-        `/api/v1/search/documents?q=
-        ${searchTerm}&offset=${offset}&limit=${limit}`)
+        `/api/v1/search/documents?q=${searchTerm}&offset=${offset}&limit=${limit}`)
         .then((response) => {
           if (response.status === 200) {
             return dispatch({

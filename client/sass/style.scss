@@ -332,3 +332,7 @@ input[type=password].invalid{
   overflow-y: scroll !important; 
   height:30rem !important;
 }
+.text-scrollable{
+  overflow-y: scroll !important; 
+  max-height:37rem !important;
+}

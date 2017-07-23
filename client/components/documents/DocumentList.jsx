@@ -67,7 +67,8 @@ export class DocumentList extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       documents: nextProps.documentList,
-      pageCount: nextProps.pagination.pageCount
+      pageCount: nextProps.pagination.pageCount,
+      count: nextProps.pagination.count
     });
   }
   /**
@@ -130,7 +131,7 @@ export class DocumentList extends Component {
         content: this.props.document.content,
         access: this.props.document.access
       });
-      this.props.history.push(`${this.props.match.url}/viewDocument`);
+      this.props.history.push(`${this.props.match.url}/view-document`);
     });
   }
 
@@ -161,7 +162,8 @@ export class DocumentList extends Component {
     this.props.getAllDocuments()
       .then(() => {
         this.setState({
-          documents: this.props.documentList
+          documents: this.props.documentList,
+          count: this.props.pagination.count
         });
       });
   }
@@ -209,14 +211,16 @@ export class DocumentList extends Component {
         this.props.access.user.id, offset, limit).then(() => {
           this.setState({
             documents: this.props.documentList,
-            pageCount: this.props.pagination.pageCount
+            pageCount: this.props.pagination.pageCount,
+            count: this.props.pagination.count
           });
         });
     } else {
       this.props.getAllDocuments(offset, limit).then(() => {
         this.setState({
           documents: this.props.documentList,
-          pageCount: this.props.pagination.pageCount
+          pageCount: this.props.pagination.pageCount,
+          count: this.props.pagination.count
         });
       });
     }
@@ -301,7 +305,7 @@ export class DocumentList extends Component {
                         onClick={this.onClick} match={this.props.match}
                       />
                     ))}
-                    <ReactPaginate
+                    {(this.state.count > 5) && <ReactPaginate
                       previousLabel={'previous'}
                       nextLabel={'next'}
                       breakLabel={<a href="">...</a>}
@@ -313,15 +317,15 @@ export class DocumentList extends Component {
                       containerClassName={'pagination'}
                       subContainerClassName={'pages pagination'}
                       activeClassName={'active'}
-                    />
+                    />}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col l6 m6 s12">
+            <div className="col l6 m6 s12 text-scrollable">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewDocument`} render={() => {
+                  path={`${this.props.match.url}/view-document`} render={() => {
                     if (!this.props.document.id) {
                       this.props.history.push(`${this.props.match.url}`);
                     }

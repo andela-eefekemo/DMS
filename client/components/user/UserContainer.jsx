@@ -75,7 +75,6 @@ export class UserContainer extends Component {
           }
           Materialize.toast(
             'Profile updated!', 2000, 'indigo darken-4 white-text rounded');
-          this.props.history.push('/dashboard/allusers');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -122,8 +121,7 @@ UserContainer.propTypes = {
   user: PropTypes.object.isRequired,
   access: PropTypes.object.isRequired,
   updateUser: PropTypes.func.isRequired,
-  viewUser: PropTypes.func.isRequired,
-  history: PropTypes.object
+  viewUser: PropTypes.func.isRequired
 };
 
 

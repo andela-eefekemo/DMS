@@ -60,7 +60,8 @@ export class UserList extends Component {
     this.props.getAllUsers()
       .then(() => {
         this.setState({
-          Users: this.props.UserList
+          Users: this.props.UserList,
+          count: this.props.pagination.count
         });
       }).catch(() => {
 
@@ -76,7 +77,8 @@ export class UserList extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       Users: nextProps.UserList,
-      pageCount: nextProps.pagination.pageCount
+      pageCount: nextProps.pagination.pageCount,
+      count: nextProps.pagination.count
     });
   }
   /**
@@ -101,7 +103,7 @@ export class UserList extends Component {
         email: this.props.User.email,
         roleId: this.props.User.roleId
       });
-      this.props.history.push(`${this.props.match.url}/viewUser`);
+      this.props.history.push(`${this.props.match.url}/view-user`);
     }).catch(() => {
     });
   }
@@ -133,7 +135,7 @@ export class UserList extends Component {
   deleteUser(event) {
     this.props.deleteUser(event.target.name).then(() => {
       this.updateUserList();
-      this.props.history.push(`${this.props.match.url}/allusers`);
+      this.props.history.push(`${this.props.match.url}/all-users`);
     }).catch(() => {
 
     });
@@ -189,7 +191,7 @@ export class UserList extends Component {
                   <h5>All Users</h5>
                   <div className="scrollable">
                     {singleUser}
-                    <ReactPaginate
+                    {(this.state.count > 5) && <ReactPaginate
                       previousLabel={'previous'}
                       nextLabel={'next'}
                       breakLabel={<a href="">...</a>}
@@ -201,7 +203,7 @@ export class UserList extends Component {
                       containerClassName={'pagination'}
                       subContainerClassName={'pages pagination'}
                       activeClassName={'active'}
-                    />
+                    />}
                   </div>
                 </div>
               </div>
@@ -209,7 +211,7 @@ export class UserList extends Component {
             <div className="col l6 m6 s12">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewUser`} render={() => {
+                  path={`${this.props.match.url}/view-user`} render={() => {
                     if (!this.props.User.id) {
                       this.props.history.push(`${this.props.match.url}`);
                     }
