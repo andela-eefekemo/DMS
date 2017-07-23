@@ -1,14 +1,10 @@
 engines:
-  duplications:
-    enabled: true
+  duplication:
+    enabled: false
     config:
       languages:
-        - javascript
-  eslint:
-    enabled: true
-    config:
-      languages:
-        JavaScript: true
+      - javascript
+ratings:
   paths:
   - "server/**/*.js"
   - "client/**/*.js"
