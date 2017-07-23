@@ -65,7 +65,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
           <li>
             <Link
               replace={false}
-              to="//alldocuments"
+              to="//all-documents"
             >
               <i
                 className="material-icons"
@@ -113,7 +113,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
             <Link
               id="userList"
               replace={false}
-              to="//allusers"
+              to="//all-users"
             >
               <i
                 className="material-icons"
@@ -160,7 +160,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
             <Link
               id="roleList"
               replace={false}
-              to="//allroles"
+              to="//all-roles"
             >
               <i
                 className="material-icons"

@@ -15,16 +15,16 @@ exports[`SectionDisplay Component should match the sectiondisplay snapshot 1`] =
         className="inner-slide"
       >
         <img
-          alt="smallslide2"
+          alt="slide1"
           className="slide-img"
-          src="../../img/slide 3.jpg"
+          src="../../img/slide5.jpg"
         />
       </span>
       <div
         className="landing-content"
       >
         <h2>
-          First Panel
+          DocNinja
         </h2>
         <Link
           replace={false}
@@ -39,9 +39,9 @@ exports[`SectionDisplay Component should match the sectiondisplay snapshot 1`] =
       href="#one!"
     >
       <img
-        alt="smallslide2"
+        alt="slide2"
         className="slide-img"
-        src="../../img/smallslide2.jpg"
+        src="../../img/slide2.jpg"
       />
     </div>
     <div
@@ -49,9 +49,9 @@ exports[`SectionDisplay Component should match the sectiondisplay snapshot 1`] =
       href="#two!"
     >
       <img
-        alt="smallslide2"
+        alt="slide3"
         className="slide-img"
-        src="../../img/smallslide2.jpg"
+        src="../../img/slide1.jpg"
       />
     </div>
     <div
@@ -59,9 +59,9 @@ exports[`SectionDisplay Component should match the sectiondisplay snapshot 1`] =
       href="#three!"
     >
       <img
-        alt="smallslide2"
+        alt="slide4"
         className="slide-img"
-        src="../../img/smallslide2.jpg"
+        src="../../img/slide4.jpg"
       />
     </div>
     <div
@@ -69,9 +69,9 @@ exports[`SectionDisplay Component should match the sectiondisplay snapshot 1`] =
       href="#four!"
     >
       <img
-        alt="smallslide2"
+        alt="slide3"
         className="slide-img"
-        src="../../img/smallslide2.jpg"
+        src="../../img/slide3.jpg"
       />
     </div>
   </div>
