@@ -9,8 +9,8 @@ import app from './server';
 
 import config from './webpack.config';
 
-let port = process.env.PORT || 7000;
-let homepage = `${__dirname}/client/index.html`;
+const port = process.env.PORT || 7000;
+const homepage = `${__dirname}/client/index.html`;
 
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(config);
@@ -18,10 +18,12 @@ if (process.env.NODE_ENV === 'development') {
     noInfo: true,
     publicPath: config.output.publicPath
   }));
-  app.use(require('webpack-hot-middleware')(compiler));
+  app.use(require('webpack-hot-middleware')(compiler, {
+    log: console.log,
+    path: '/__webpack_hmr',
+    heartbeat: 10 * 1000
+  }));
   app.use(morgan('dev'));
-  port = 7000;
-  homepage = `${__dirname}/client/index.html`;
   app.use('/', express.static(path.join(__dirname, 'client')));
 } else {
   app.use('/', express.static(path.join(__dirname, 'client')));
