@@ -16,7 +16,8 @@ const createRole = RoleActions.createRole;
 export class RoleContainer extends Component {
   /**
    * Creates an instance of RoleContainer.
-   * @param {any} props -
+   * Binds the functions to the class
+   * @param {Object} props
    * @memberof RoleContainer
    */
   constructor(props) {
@@ -30,9 +31,13 @@ export class RoleContainer extends Component {
   }
 
   /**
-   * @return {void}
-   * @memberof RoleContainer
-   */
+  * Validates the RoleDisplay input fields
+  * Makes an action call to create a new role
+  * Toasts the error/success message
+  *
+  * @return {void}
+  * @memberof RoleContainer
+  */
   onSubmit() {
     try {
       const { valid } = validate.validateSaveRole(this.state);
@@ -48,7 +53,7 @@ export class RoleContainer extends Component {
           }
           Materialize.toast(
             'Role created', 2000, 'indigo darken-4 white-text rounded');
-          this.props.history.push('/dashboard/allroles');
+          this.props.history.push('/dashboard/all-roles');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -56,13 +61,14 @@ export class RoleContainer extends Component {
     }
   }
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof RoleContainer
-   */
-  onChange(e) {
-    const field = e.target.name;
-    this.setState({ [field]: e.target.value });
+  * Sets the event value to the state
+  * @return {void}
+  * @param {Object} event The event of the HTML component
+  * @memberof RoleContainer
+  */
+  onChange(event) {
+    const field = event.target.name;
+    this.setState({ [field]: event.target.value });
   }
 
 

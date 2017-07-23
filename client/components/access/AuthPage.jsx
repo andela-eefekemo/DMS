@@ -13,7 +13,8 @@ import SignUpConnectedForm from './SignUpForm';
  */
 class AuthPage extends Component {
   /**
-   * @returns {jsx} -
+   * Renders a component
+   * @returns {void}
    * @memberof LandingContainer
    */
   render() {

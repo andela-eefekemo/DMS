@@ -1,6 +1,12 @@
 import * as actionTypes from '../actions/actionTypes';
 import initialState from './initialState';
 
+/**
+* Reducer for document-related actions.
+* @param {Object} state The old state of the application
+* @param {Object} action The dispatched action
+* @returns {Object} The new application state
+*/
 const documentReducer =
   (state = initialState.document, action) => {
     switch (action.type) {

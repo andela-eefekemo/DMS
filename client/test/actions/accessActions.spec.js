@@ -17,8 +17,8 @@ describe('Access Action', () => {
   afterEach(() => moxios.uninstall());
 
   describe('Sign In User', () => {
-    it('Should make an AJAX call to sign up users', (done) => {
-      moxios.stubRequest('/users/login', {
+    it('Should make an AJAX call to sign in users', (done) => {
+      moxios.stubRequest('/api/v1/users/login', {
         status: 200,
         response: {
           token,
@@ -29,20 +29,20 @@ describe('Access Action', () => {
       const store = mockStore({});
       const expectedAction = [{
         type: actionType.SIGN_IN_USER,
-        message: 'login successful'
+        user: { firstName: 'Eguono' },
+        message: null
       }];
       store.dispatch(AccessAction.signInUser({
         email: 'hello@hello.com',
         password: 'eguono'
       })).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/users/login', {
+        moxios.stubRequest('/api/v1/users/login', {
           status: 400,
           response: {
             message: 'login failed'
@@ -51,23 +51,20 @@ describe('Access Action', () => {
         const store = mockStore({});
         const expectedAction = [{
           type: actionType.ACCESS_ERROR,
-          message: 'There was an error, please try again'
+          message: 'login failed'
         }];
         store.dispatch(AccessAction.signInUser({
           email: 'hello@hello.com',
           password: 'eguono'
         })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(
-              'There was an error, please try again');
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
     it('Should dispatch the appropraite action type if user does not exist',
       (done) => {
-        moxios.stubRequest('/users/login', {
-          status: 200,
+        moxios.stubRequest('/api/v1/users/login', {
+          status: 400,
           response: {
             message: 'User does not exist'
           }
@@ -81,16 +78,15 @@ describe('Access Action', () => {
           email: 'hello@hello.com',
           password: 'eguono'
         })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual('User does not exist');
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Sign Up User', () => {
     it('Should make an AJAX call to sign up users', (done) => {
-      moxios.stubRequest('/users', {
-        status: 200,
+      moxios.stubRequest('/api/v1/users', {
+        status: 201,
         response: {
           token,
           userData: { firstName: 'Eguono' },
@@ -100,21 +96,20 @@ describe('Access Action', () => {
       const store = mockStore({});
       const expectedAction = [{
         type: actionType.SIGN_UP_USER,
+        user: { firstName: 'Eguono' },
         message: null
       }];
       store.dispatch(AccessAction.signUpUser({
         email: 'hello@hello.com',
         password: 'eguono'
       })).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].user).toEqual({ firstName: 'Eguono' });
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/users', {
+        moxios.stubRequest('/api/v1/users', {
           status: 400,
           response: {
             message: 'signup failed'
@@ -123,23 +118,20 @@ describe('Access Action', () => {
         const store = mockStore({});
         const expectedAction = [{
           type: actionType.ACCESS_ERROR,
-          message: 'There was an error, please try again'
+          message: 'signup failed'
         }];
         store.dispatch(AccessAction.signUpUser({
           email: 'hello@hello.com',
           password: 'eguono'
         })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(
-              'There was an error, please try again');
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
     it('Should dispatch the appropraite action type if email already exists',
       (done) => {
-        moxios.stubRequest('/users', {
-          status: 200,
+        moxios.stubRequest('/api/v1/users', {
+          status: 400,
           response: {
             message: 'Email already exists'
           }
@@ -153,15 +145,14 @@ describe('Access Action', () => {
           email: 'hello@hello.com',
           password: 'eguono'
         })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual('Email already exists');
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Sign Out User', () => {
     it('Should make an AJAX call to sign out users', (done) => {
-      moxios.stubRequest('/users/logout', {
+      moxios.stubRequest('/api/v1/users/logout', {
         status: 200,
         response: {
           message: 'Signout successful'
@@ -173,14 +164,13 @@ describe('Access Action', () => {
         message: 'Signout successful'
       }];
       store.dispatch(AccessAction.signOutUser()).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual('Signout successful');
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/users', {
+        moxios.stubRequest('/api/v1/users', {
           status: 400,
           response: {
             message: 'signup failed'
@@ -192,10 +182,7 @@ describe('Access Action', () => {
           message: 'There was an error, please try again'
         }];
         store.dispatch(AccessAction.signOutUser()).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(
-              'There was an error, please try again');
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });

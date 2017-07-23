@@ -13,8 +13,8 @@ describe('Role Actions', () => {
   afterEach(() => moxios.uninstall());
   describe('Create Roles', () => {
     it('Should make an AJAX call to create Role', (done) => {
-      moxios.stubRequest('/roles', {
-        status: 200,
+      moxios.stubRequest('/api/v1/roles', {
+        status: 201,
         response: {
           savedRole: { title: 'Eguono' },
           message: 'Role created'
@@ -23,15 +23,31 @@ describe('Role Actions', () => {
       const store = mockStore({});
       const expectedAction = [{
         type: actionType.ROLE_CREATED,
+        role: { title: 'Eguono' },
         message: null
       }];
       store.dispatch(RoleActions.createRole({
         title: 'Eguono',
         description: 'eguono'
       })).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(store.getActions()[0].role).toEqual({ title: 'Eguono' });
+        expect(store.getActions()).toEqual(expectedAction);
+      });
+      done();
+    });
+    it('Should make an AJAX call to view Role', (done) => {
+      moxios.stubRequest('/api/v1/roles', {
+        status: 403,
+        response: {
+          message: 'There are no roles currently'
+        }
+      });
+      const store = mockStore({});
+      const expectedAction = [{
+        type: actionType.ROLE_ERROR,
+        message: 'There was an error please try again'
+      }];
+      store.dispatch(RoleActions.createRole()).then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
@@ -57,7 +73,7 @@ describe('Role Actions', () => {
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/roles', {
+        moxios.stubRequest('/api/v1/roles', {
           status: 400,
           response: {
             message: 'error'
@@ -66,22 +82,20 @@ describe('Role Actions', () => {
         const store = mockStore({});
         const expectedAction = [{
           type: actionType.ROLE_ERROR,
-          message: 'There was an error please try again'
+          message: 'error'
         }];
         store.dispatch(RoleActions.createRole({
           title: 'hello@hello.com',
           des: 'eguono'
         })).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('View Roles', () => {
     it('Should make an AJAX call to view Roles', (done) => {
-      moxios.stubRequest('/roles', {
+      moxios.stubRequest('/api/v1/roles', {
         status: 200,
         response: {
           roles: [{ title: 'Eguono' }, { title: 'June' }],
@@ -94,21 +108,15 @@ describe('Role Actions', () => {
         message: null,
         roleList: [{ title: 'Eguono' }, { title: 'June' }]
       }];
-      store.dispatch(RoleActions.viewRole({
-        title: 'Eguono',
-        description: 'eguono'
-      })).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(store.getActions()[0].message).toEqual(null);
-        expect(
-          store.getActions()[0].roleList).toEqual(expectedAction[0].roleList);
+      store.dispatch(RoleActions.viewRole()).then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/roles', {
-          status: 400,
+        moxios.stubRequest('/api/v1/roles', {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -119,16 +127,50 @@ describe('Role Actions', () => {
           message: 'There was an error please try again'
         }];
         store.dispatch(RoleActions.viewRole()).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest('/api/v1/roles', {
+          status: 400,
+          response: {
+            message: 'error'
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.ROLE_ERROR,
+          message: 'error'
+        }];
+        store.dispatch(RoleActions.viewRole()).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
+        });
+        done();
+      });
+    it("Should dispatch the appropraite action type if there's an error",
+      (done) => {
+        moxios.stubRequest('/api/v1/roles', {
+          status: 404,
+          response: {
+            roleList: []
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.NO_ROLES,
+          roleList: []
+        }];
+        store.dispatch(RoleActions.viewRole()).then(() => {
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Delete Role', () => {
     it('Should make an AJAX call to view a Roles', (done) => {
-      moxios.stubRequest('/roles/1', {
+      moxios.stubRequest('/api/v1/roles/1', {
         status: 200,
         response: {
           message: 'Role has been deleted'
@@ -140,16 +182,14 @@ describe('Role Actions', () => {
         message: 'Role has been deleted'
       }];
       store.dispatch(RoleActions.deleteRole(1)).then(() => {
-        expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-        expect(
-          store.getActions()[0].message).toEqual(expectedAction[0].message);
+        expect(store.getActions()).toEqual(expectedAction);
       });
       done();
     });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/roles/300000', {
-          status: 400,
+        moxios.stubRequest('/api/v1/roles/300000', {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -160,16 +200,14 @@ describe('Role Actions', () => {
           message: 'There was an error please try again'
         }];
         store.dispatch(RoleActions.deleteRole(300000)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });
   });
   describe('Update Role', () => {
     it('Should make an AJAX call to update a Roles', (done) => {
-      moxios.stubRequest('/roles/1', {
+      moxios.stubRequest('/api/v1/roles/1', {
         status: 200,
         response: {
           updatedRole: { title: 'Eguono' },
@@ -184,17 +222,15 @@ describe('Role Actions', () => {
       }];
       store.dispatch(
         RoleActions.updateRole({ title: 'Eguono' }, 1)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(store.getActions()[0].message).toEqual(null);
-          expect(store.getActions()[0].Role).toEqual(expectedAction[0].Role);
+          expect(store.getActions()).toEqual(expectedAction);
         });
       done();
     });
     it(
       'Should make an AJAX call to update a Roles and fail if title exists',
       (done) => {
-        moxios.stubRequest('/roles/1', {
-          status: 200,
+        moxios.stubRequest('/api/v1/roles/1', {
+          status: 400,
           response: {
             updatedRole: { title: 'Eguono' },
             message: "we're sorry, role title must be unique"
@@ -207,17 +243,35 @@ describe('Role Actions', () => {
         }];
         store.dispatch(
           RoleActions.updateRole({ title: 'Eguono' }, 1)).then(() => {
-            expect(
-              store.getActions()[0].type).toEqual(expectedAction[0].type);
-            expect(
-              store.getActions()[0].message).toEqual(expectedAction[0].message);
+            expect(store.getActions()).toEqual(expectedAction);
+          });
+        done();
+      });
+    it(
+      'Should make an AJAX call to update a Roles and fail if title exists',
+      (done) => {
+        moxios.stubRequest('/api/v1/roles/1', {
+          status: 400,
+          response: {
+            updatedRole: { title: 'Eguono' },
+            message: "we're sorry, role title must be uniqu"
+          }
+        });
+        const store = mockStore({});
+        const expectedAction = [{
+          type: actionType.ROLE_ERROR,
+          message: "we're sorry, role title must be uniqu"
+        }];
+        store.dispatch(
+          RoleActions.updateRole({ title: 'Eguono' }, 1)).then(() => {
+            expect(store.getActions()).toEqual(expectedAction);
           });
         done();
       });
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
-        moxios.stubRequest('/roles/300000', {
-          status: 400,
+        moxios.stubRequest('/api/v1/roles/300000', {
+          status: 403,
           response: {
             message: 'error'
           }
@@ -228,9 +282,7 @@ describe('Role Actions', () => {
           message: 'There was an error please try again'
         }];
         store.dispatch(RoleActions.updateRole(300000)).then(() => {
-          expect(store.getActions()[0].type).toEqual(expectedAction[0].type);
-          expect(
-            store.getActions()[0].message).toEqual(expectedAction[0].message);
+          expect(store.getActions()).toEqual(expectedAction);
         });
         done();
       });

@@ -39,7 +39,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
         <i
           className="material-icons"
         >
-          filter_drama
+          note
         </i>
         Document
       </div>
@@ -57,7 +57,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
               <i
                 className="material-icons"
               >
-                perm_media
+                note_add
               </i>
               Create Document
             </Link>
@@ -86,7 +86,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
         <i
           className="material-icons"
         >
-          filter_drama
+          people
         </i>
         Users
       </div>
@@ -118,7 +118,7 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
               <i
                 className="material-icons"
               >
-                perm_media
+                people_outline
               </i>
               All Users
             </Link>
@@ -129,11 +129,12 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
     <li>
       <div
         className="collapsible-header"
+        id="role-header"
       >
         <i
           className="material-icons"
         >
-          filter_drama
+          face
         </i>
         Roles
       </div>
@@ -143,26 +144,28 @@ exports[`SideBar Component should match the sidebar snapshot 1`] = `
         <ul>
           <li>
             <Link
+              id="create-role"
               replace={false}
               to="//role"
             >
               <i
                 className="material-icons"
               >
-                supervisor_account
+                create
               </i>
               Create Role
             </Link>
           </li>
           <li>
             <Link
+              id="roleList"
               replace={false}
               to="//allroles"
             >
               <i
                 className="material-icons"
               >
-                perm_media
+                wc
               </i>
               All Roles
             </Link>

@@ -20,7 +20,8 @@ const searchUsers = UserActions.searchUsers;
 export class UserList extends Component {
   /**
    * Creates an instance of UserList.
-   * @param {any} props -
+   * Binds class methods
+   * @param {Object} props
    * @memberof UserList
    */
   constructor(props) {
@@ -39,14 +40,19 @@ export class UserList extends Component {
   }
 
   /**
-   * @return {void}
-   * @memberof UserList
-   */
+  * Makes action call to retrieve list of users
+  *
+  * @return {void}
+  * @memberof UserList
+  */
   componentDidMount() {
     this.updateUserList();
   }
 
   /**
+   * Makes an action call to get all users
+   * Sets list of users to the state
+   *
    * @return {void}
    * @memberof UserList
    */
@@ -54,31 +60,38 @@ export class UserList extends Component {
     this.props.getAllUsers()
       .then(() => {
         this.setState({
-          Users: this.props.UserList
+          Users: this.props.UserList,
+          count: this.props.pagination.count
         });
       }).catch(() => {
 
       });
   }
   /**
+   * Update the state if the props are changed
+   *
    * @return {void}
-   * @param {any} nextProps -
+   * @param {Object} nextProps
    * @memberof UserList
    */
   componentWillReceiveProps(nextProps) {
     this.setState({
       Users: nextProps.UserList,
-      pageCount: nextProps.pagination.pageCount
+      pageCount: nextProps.pagination.pageCount,
+      count: nextProps.pagination.count
     });
   }
   /**
-   * @param {any} e -
+  * Makes an action call to view a user
+  * Toasts the error/success message
+  * Sets user to the state
+  *
+   * @param {Object} event
    * @return {void}
    * @memberof UserList
    */
-  onClick(e) {
-    e.preventDefault();
-    this.props.viewUser(e.target.name).then(() => {
+  onClick(event) {
+    this.props.viewUser(event.target.name).then(() => {
       if (this.props.User.message) {
         return Materialize.toast(
           this.props.User.message, 2000,
@@ -90,19 +103,21 @@ export class UserList extends Component {
         email: this.props.User.email,
         roleId: this.props.User.roleId
       });
-      this.props.history.push(`${this.props.match.url}/viewUser`);
+      this.props.history.push(`${this.props.match.url}/view-user`);
     }).catch(() => {
     });
   }
 
   /**
-   * @param {any} e -
+   * Sets the searchterm to the state
+   * Makes an action call to the search for a user
+   * @param {Object} event
    * @return {void}
    * @memberof UserList
    */
-  onSearch(e) {
-    this.setState({ searchTerm: e.target.value });
-    this.props.searchUsers(e.target.value)
+  onSearch(event) {
+    this.setState({ searchTerm: event.target.value });
+    this.props.searchUsers(event.target.value)
       .then(() => {
       }).catch(() => {
 
@@ -110,23 +125,28 @@ export class UserList extends Component {
   }
 
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof UserList
-   */
-  deleteUser(e) {
-    this.props.deleteUser(e.target.name).then(() => {
+  * Makes an action call to delete a user
+  * Toasts the error/success message
+  *
+  * @return {void}
+  * @param {Object} event
+  * @memberof UserList
+  */
+  deleteUser(event) {
+    this.props.deleteUser(event.target.name).then(() => {
       this.updateUserList();
-      this.props.history.push(`${this.props.match.url}/allusers`);
+      this.props.history.push(`${this.props.match.url}/all-users`);
     }).catch(() => {
 
     });
   }
   /**
-   * @return {void}
-   * @param {any} data
-   * @memberof UserList
-   */
+  * Pagination for the list of users
+  *
+  * @return {void}
+  * @param {Object} data
+  * @memberof UserList
+  */
   handlePageClick(data) {
     const selected = data.selected;
     const limit = 5;
@@ -140,9 +160,11 @@ export class UserList extends Component {
   }
 
   /**
-   * @returns {jsx} -
-   * @memberof UserList
-   */
+  * Renders the User List component
+  *
+  * @returns {String} HTML markup for the UserList
+  * @memberof UserList
+  */
   render() {
     const singleUser = this.state.Users.map(User => (
       <UserCard
@@ -169,7 +191,7 @@ export class UserList extends Component {
                   <h5>All Users</h5>
                   <div className="scrollable">
                     {singleUser}
-                    <ReactPaginate
+                    {(this.state.count > 5) && <ReactPaginate
                       previousLabel={'previous'}
                       nextLabel={'next'}
                       breakLabel={<a href="">...</a>}
@@ -181,7 +203,7 @@ export class UserList extends Component {
                       containerClassName={'pagination'}
                       subContainerClassName={'pages pagination'}
                       activeClassName={'active'}
-                    />
+                    />}
                   </div>
                 </div>
               </div>
@@ -189,7 +211,7 @@ export class UserList extends Component {
             <div className="col l6 m6 s12">
               <Switch>
                 <Route
-                  path={`${this.props.match.url}/viewUser`} render={() => {
+                  path={`${this.props.match.url}/view-user`} render={() => {
                     if (!this.props.User.id) {
                       this.props.history.push(`${this.props.match.url}`);
                     }

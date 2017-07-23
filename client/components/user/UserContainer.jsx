@@ -15,9 +15,10 @@ const viewUser = UserActions.viewUser;
  */
 export class UserContainer extends Component {
   /**
-   * Creates an instance of ProfileContainer.
-   * @param {any} props -
-   * @memberof ProfileContainer
+   * Creates an instance of UserContainer.
+   * Binds the functions to the class
+   * @param {Object} props
+   * @memberof UserContainer
    */
   constructor(props) {
     super(props);
@@ -32,6 +33,10 @@ export class UserContainer extends Component {
   }
 
   /**
+   * Makes an action call to get the current user information
+   * Sets user information to the state
+   * Initializes materialize modal
+   *
    * @return {void}
    * @memberof UserContainer
    */
@@ -48,9 +53,13 @@ export class UserContainer extends Component {
     $('.modal').modal();
   }
   /**
- * @return {void}
- * @memberof UserContainer
- */
+  * Validates the UserDisplay input fields
+  * Makes an action call to update user profile
+  * Toasts the error/success message
+  *
+  * @return {void}
+  * @memberof UserContainer
+  */
   onSubmit() {
     try {
       const { valid } = validate.validateUpdateUser(this.state);
@@ -66,7 +75,6 @@ export class UserContainer extends Component {
           }
           Materialize.toast(
             'Profile updated!', 2000, 'indigo darken-4 white-text rounded');
-          this.props.history.push('/dashboard/allusers');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -75,19 +83,21 @@ export class UserContainer extends Component {
   }
 
   /**
-   * @return {void}
-   * @param {any} e -
-   * @memberof UserContainer
-   */
-  onChange(e) {
-    const field = e.target.name;
-    this.setState({ [field]: e.target.value });
+  * Sets the event value to the state
+  * @return {void}
+  * @param {Object} event The event of the HTML component
+  * @memberof UserContainer
+  */
+  onChange(event) {
+    const field = event.target.name;
+    this.setState({ [field]: event.target.value });
   }
 
   /**
-   * @returns {jsx} -
-   * @memberof UserContainer
-   */
+  * Renders the User component
+  * @returns {String} The HTML markup for the User
+  * @memberof UserContainer
+  */
   render() {
     return (
       <UserDisplay
@@ -115,8 +125,7 @@ UserContainer.propTypes = {
   user: PropTypes.object.isRequired,
   access: PropTypes.object.isRequired,
   updateUser: PropTypes.func.isRequired,
-  viewUser: PropTypes.func.isRequired,
-  history: PropTypes.object
+  viewUser: PropTypes.func.isRequired
 };
 
 

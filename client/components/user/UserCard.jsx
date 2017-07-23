@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import parseDate from '../../utilities/parseDate';
 
 /**
- * @param {any} props
- * @returns
- */
-
+* User Card for viewing a single user
+*
+* @param {Object} props { firstName, lastName,
+* email, Role, id, createdAt, onClick }
+* @returns {String} HTML markup for the User Card
+*/
 const UserCard = (props) => {
   const { firstName, lastName, email, Role, id, createdAt, onClick } = props;
   return (
@@ -33,13 +35,13 @@ UserCard.defaultProps = {
 };
 // Set Props
 UserCard.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  Role: PropTypes.object.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  Role: PropTypes.object,
   createdAt: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired
+  onClick: PropTypes.func,
+  id: PropTypes.number
 };
 
 export default UserCard;

@@ -7,6 +7,14 @@ import PropTypes from 'prop-types';
 import InputField from '../common/InputField';
 import Dropdown from '../common/Dropdown';
 
+/**
+ * Document view component for viewing a document
+ * Has update and delete modals for deleting and updating a document
+ *
+ * @param {Object} props { id, title, content, access, onSubmit,
+ * onChange, getContent, deleteDocument, userId, authorId }
+ * @returns {String} HTML markup for the Document view
+ */
 const DocumentView = (props) => {
   const {
     id,
@@ -97,7 +105,8 @@ const DocumentView = (props) => {
                     plugins: 'link image code',
                     height: 200,
                     toolbar:
-                    'undo redo | bold italic | alignleft aligncenter alignright | code'
+                    `undo redo |
+                    bold italic | alignleft aligncenter alignright | code`
                   }}
                   onChange={getContent}
                 />
@@ -123,7 +132,7 @@ const DocumentView = (props) => {
 DocumentView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  getContent: PropTypes.func.isRequired,
+  getContent: PropTypes.func,
   deleteDocument: PropTypes.func.isRequired,
   id: PropTypes.number,
   userId: PropTypes.number,

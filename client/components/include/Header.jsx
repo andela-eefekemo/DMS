@@ -15,6 +15,7 @@ const signOutUser = accessActions.signOutUser;
 export class Header extends Component {
   /**
    * Creates an instance of Header.
+   * Binds class logout method
    * @param {any} props -
    * @memberof Header
    */
@@ -24,7 +25,8 @@ export class Header extends Component {
   }
 
   /**
-   * Lifecycle function
+   * Initializes sidenav component
+   *
    * @return {void}
    * @memberof Header
    */
@@ -33,6 +35,8 @@ export class Header extends Component {
   }
 
   /**
+   * Makes an action call to lagout a user
+   *
    * @return {void}
    * @memberof Header
    */
@@ -44,7 +48,8 @@ export class Header extends Component {
   }
 
   /**
-   * @returns {jsx} -
+   * Renders navbar component
+   * @returns {String} -
    * @memberof Header
    */
   render() {

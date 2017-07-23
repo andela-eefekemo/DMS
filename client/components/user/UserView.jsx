@@ -1,7 +1,13 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
 import PropTypes from 'prop-types';
-
+/**
+ * User view component for viewing a User
+ * Has update and delete modals for deleting and updating a User
+ *
+ * @param {Object} props { id, firstName, lastName, email, deleteUser }
+ * @returns {String} HTML markup for the User view
+ */
 const UserView = ({ id, firstName, lastName, email, deleteUser }) => {
   return (
     <div className="card blue-grey darken-1">

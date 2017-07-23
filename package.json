@@ -34,19 +34,6 @@
     ],
     "setupFiles": []
   },
-  "jest": {
-    "transform": {
-      ".*": "<rootDir>/node_modules/babel-jest"
-    },
-    "globals": {
-      "window": true
-    },
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-dom"
-    ],
-    "setupFiles": []
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/andela-eefekemo/DMS.git"

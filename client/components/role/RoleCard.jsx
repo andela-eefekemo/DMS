@@ -5,10 +5,12 @@ import InputField from '../common/InputField';
 import parseDate from '../../utilities/parseDate';
 
 /**
- * @param {any} props
- * @returns
- */
-
+* Role Card for viewing a single user
+*
+* @param {Object} props { title, id, description,
+*  updatedAt, onChange, onSubmit, deleteRole }
+* @returns {String} HTML markup for the Role Card
+*/
 const RoleCard = ({
     title, id, description, updatedAt, onChange, onSubmit, deleteRole }) => {
   return (
@@ -95,13 +97,13 @@ const RoleCard = ({
 
 // Set Props
 RoleCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  updatedAt: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  deleteRole: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired
+  title: PropTypes.string,
+  description: PropTypes.string,
+  updatedAt: PropTypes.string,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  deleteRole: PropTypes.func,
+  id: PropTypes.number
 };
 
 export default RoleCard;

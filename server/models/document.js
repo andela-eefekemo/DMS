@@ -44,7 +44,14 @@ const documentModel = (sequelize, DataTypes) => {
           onDelete: 'SET NULL',
         });
       }
-    }
+    },
+    instanceMethods: {
+
+      filterDocumentDetails() {
+        const { createdAt, updatedAt, ...rest } = this.get();
+        return rest;
+      }
+    },
   });
   return Document;
 };
