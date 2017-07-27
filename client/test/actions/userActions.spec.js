@@ -11,7 +11,12 @@ const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
 const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDUsImZpcnN0TmFtZSI6ImhlbGxvIiwibGFzdE5hbWUiOiJoZWxsbyIsImVtYWlsIjoiaGVsbG9AaGVsbG8uY29tIiwicm9sZUlkIjoyLCJpYXQiOjE0OTk0OTE5NTAsImV4cCI6MTUwMDA5Njc1MH0.5UsgY1xeV05dVCrXDLe-yPB8KmfVcB9_8YOu-SXpCy8';
+  `eyJhbGciOiJIUzI1NiIsInR
+  5cCI6IkpXVCJ9.eyJpZCI6NDUsImZ
+  pcnN0TmFtZSI6ImhlbGxvIiwibGFzdE5hbWUi
+  iJoZWxsbyIsImVtYWlsIjoiaGVsbG9AaGVsbG8uY29tI
+  iwicm9sZUlkIjoyLCJpYXQiOjE0OTk0OTE5NTAsImV4cCI6MT
+  UwMDA5Njc1MH0.5UsgY1xeV05dVCrXDLe-yPB8KmfVcB9_8YOu-SXpCy8`;
 
 describe('User Actions', () => {
   beforeEach(() => moxios.install());
@@ -82,7 +87,8 @@ describe('User Actions', () => {
   describe('Search all Users', () => {
     it('Should make an AJAX call to search users', (done) => {
       moxios.stubRequest(
-        `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
+        `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`,
+        {
           status: 200,
           response: {
             userList: [{ firstName: 'Eguono' }, { firstName: 'esther' }],
@@ -105,7 +111,8 @@ describe('User Actions', () => {
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
         moxios.stubRequest(
-          `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
+          `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`
+          , {
             status: 400,
             response: {
               message: 'error'
@@ -124,7 +131,8 @@ describe('User Actions', () => {
     it("Should dispatch the appropraite action type if there's an error",
       (done) => {
         moxios.stubRequest(
-          `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`, {
+          `/api/v1/search/users?q=${searchTerm}&offset=${offset}&limit=${limit}`
+          , {
             status: 403,
             response: {
               message: 'error'

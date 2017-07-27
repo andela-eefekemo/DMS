@@ -39,9 +39,9 @@ exports[`SectionDisplay Component should match the sectiondisplay snapshot 1`] =
       href="#one!"
     >
       <img
-        alt="slide2"
+        alt="slide"
         className="slide-img"
-        src="../../img/slide2.jpg"
+        src="../../img/slide6.jpg"
       />
     </div>
     <div
