@@ -271,7 +271,7 @@ describe('Document', () => {
           .get(`/api/v1/documents/${adminPrivate.id}`)
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(403);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -283,7 +283,7 @@ describe('Document', () => {
           .get(`/api/v1/documents/${adminRole.id}`)
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(403);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -325,7 +325,7 @@ describe('Document', () => {
           .get(`/api/v1/documents/${adminPrivate.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(403);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -337,7 +337,7 @@ describe('Document', () => {
           .get(`/api/v1/documents/${adminRole.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(403);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -363,7 +363,7 @@ describe('Document', () => {
           .get(`/api/v1/documents/${regularUserPrivate.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(403);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -375,7 +375,7 @@ describe('Document', () => {
           .get(`/api/v1/documents/${regularUserRole.id}`)
           .set({ Authorization: contributorToken })
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(403);
             res.body.should.have.property(
               'message').eql('You are unauthorized to view this document');
             done();
@@ -433,7 +433,7 @@ describe('Document', () => {
         .set({ Authorization: contributorToken })
         .send({ title: 'The main man' })
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(403);
           res.body.should.have.property(
             'message').eql('you are unauthorized for this action');
           res.body.should.not.have.property('updatedDocument');
@@ -548,7 +548,7 @@ describe('Document', () => {
         .delete(`/api/v1/documents/${regularUserPrivate.id}`)
         .set({ Authorization: contributorToken })
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(403);
           res.body.should.have.property(
             'message').eql('You are unauthorized for this action');
           done();

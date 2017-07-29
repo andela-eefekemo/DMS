@@ -85,7 +85,7 @@ class Document {
                 document: document.filterDocumentDetails()
               });
           } else {
-            handleError(401, 'You are unauthorized to view this document', res);
+            handleError(403, 'You are unauthorized to view this document', res);
           }
         } else {
           handleError(404, 'Document not found', res);
@@ -159,7 +159,7 @@ class Document {
       db.Document.findById(id)
         .then((document) => {
           if (document.authorId !== req.user.id && req.user.roleId !== 1) {
-            return res.status(401).send({
+            return res.status(403).send({
               message: 'you are unauthorized for this action'
             });
           }
@@ -296,7 +296,7 @@ class Document {
       .then((document) => {
         if (Number(document.authorId) !== req.user.id &&
           req.user.roleId !== 1) {
-          handleError(401, 'You are unauthorized for this action', res);
+          handleError(403, 'You are unauthorized for this action', res);
         } else {
           document.destroy()
             .then(() => {

@@ -11,12 +11,12 @@ module.exports = {
     logging: false
   },
   test: {
-    dialect: 'postgres',
-    username: 'mgenhpog',
-    password: 'XPDDU6KlEloSzxcecJ8UT8ZU0GCiXW6L',
-    database: 'mgenhpog',
-    host: 'stampy.db.elephantsql.com',
+    username: 'andeladeveloper',
+    password: null,
+    database: 'DMS',
+    host: 'localhost',
     port: 5432,
+    dialect: 'postgres',
     logging: false
   },
   production: {
