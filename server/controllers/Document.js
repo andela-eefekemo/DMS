@@ -46,7 +46,7 @@ class Document {
                 document ${error.errors[0].message}, please try again`, res);
             });
         }).catch(() => {
-          res.send({
+          res.status(500).send({
             message: "we're sorry, there was an error, please try again"
           });
         });
@@ -130,7 +130,7 @@ class Document {
           metaData: paginate(documents.count, limit, offset)
         });
       })
-      .catch(() => res.send({
+      .catch(() => res.status(500).send({
         message: "we're sorry, there was an error, please try again"
       }));
   }
@@ -271,7 +271,7 @@ class Document {
           });
       })
       .catch(() => {
-        res.send({
+        res.status(500).send({
           message: "we're sorry, there was an error, please try again"
         });
       });

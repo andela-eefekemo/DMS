@@ -40,7 +40,7 @@ class Role {
                 });
               })
               .catch(() => {
-                res.send({
+                res.status(500).send({
                   message: "we're sorry, there was an error, please try again"
                 });
               });
@@ -117,7 +117,7 @@ class Role {
             });
         })
         .catch(() => {
-          res.send({
+          res.status(500).send({
             message: "we're sorry, there was an error, please try again"
           });
         });

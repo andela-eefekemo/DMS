@@ -53,7 +53,7 @@ class User {
                   });
               })
               .catch(() => {
-                res.send({
+                res.status(500).send({
                   message: "we're sorry, we couldn't sign you up"
                 });
               });
@@ -100,7 +100,7 @@ class User {
           }
         })
         .catch(() => {
-          res.send({
+          res.status(500).send({
             message: "we're sorry, we couldn't log you in"
           });
         });
@@ -135,7 +135,7 @@ class User {
         }
       })
       .catch(() => {
-        res.send({
+        res.status(500).send({
           message: "we're sorry, there was an error, please try again"
         });
       });
@@ -230,7 +230,7 @@ class User {
             });
         }
       }).catch(() => {
-        res.send({
+        res.status(500).send({
           message: "we're sorry, there was an error, please try again"
         });
       });
@@ -283,7 +283,7 @@ class User {
           });
       })
       .catch(() => {
-        res.send({
+        res.status(500).send({
           message: "we're sorry, there was an error, please try again"
         });
       });

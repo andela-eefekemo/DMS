@@ -8,6 +8,7 @@ import app from './server';
 
 import config from './webpack.config';
 
+require('dotenv').config();
 const port = process.env.PORT || 7000;
 const homepage = `${__dirname}/client/index.html`;
 
