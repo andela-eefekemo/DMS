@@ -1,7 +1,7 @@
 const faker = require('faker');
 
 const title = faker.lorem.words(2);
-const newTitle = faker.lorem.words(2);
+const newTitle = faker.lorem.words(7);
 const email = faker.internet.email();
 const password = faker.internet.password();
 module.exports = {

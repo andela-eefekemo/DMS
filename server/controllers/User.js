@@ -53,7 +53,9 @@ class User {
                   });
               })
               .catch(() => {
-                handleError(400, "we're sorry, we couldn't sign you up", res);
+                res.send({
+                  message: "we're sorry, we couldn't sign you up"
+                });
               });
           }
         });
@@ -98,7 +100,9 @@ class User {
           }
         })
         .catch(() => {
-          handleError(400, "we're sorry, we couldn't log you in", res);
+          res.send({
+            message: "we're sorry, we couldn't log you in"
+          });
         });
     }
   }
@@ -131,8 +135,9 @@ class User {
         }
       })
       .catch(() => {
-        handleError(400,
-          "We're sorry, we had an error, please try again", res);
+        res.send({
+          message: "we're sorry, there was an error, please try again"
+        });
       });
   }
 
@@ -182,8 +187,9 @@ class User {
                       token
                     });
                 }).catch(() => {
-                  handleError(400,
-                    "we're sorry, there was an error, please try again", res);
+                  res.send({
+                    message: "we're sorry, there was an error, please try again"
+                  });
                 });
               }
             }).catch((error) => {
@@ -224,7 +230,9 @@ class User {
             });
         }
       }).catch(() => {
-        handleError(400, "We're sorry, we had an error, please try again", res);
+        res.send({
+          message: "we're sorry, there was an error, please try again"
+        });
       });
   }
 
@@ -275,7 +283,9 @@ class User {
           });
       })
       .catch(() => {
-        handleError(400, "We're sorry, we had an error, please try again", res);
+        res.send({
+          message: "we're sorry, there was an error, please try again"
+        });
       });
   }
 

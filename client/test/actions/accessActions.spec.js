@@ -10,7 +10,7 @@ window.localStorage = localStorageMock;
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDUsImZpcnN0TmFtZSI6ImhlbGxvIiwibGFzdE5hbWUiOiJoZWxsbyIsImVtYWlsIjoiaGVsbG9AaGVsbG8uY29tIiwicm9sZUlkIjoyLCJpYXQiOjE0OTk0OTE5NTAsImV4cCI6MTUwMDA5Njc1MH0.5UsgY1xeV05dVCrXDLe-yPB8KmfVcB9_8YOu-SXpCy8';
+  'token';
 
 describe('Access Action', () => {
   beforeEach(() => moxios.install());

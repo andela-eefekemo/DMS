@@ -46,8 +46,9 @@ class Document {
                 document ${error.errors[0].message}, please try again`, res);
             });
         }).catch(() => {
-          handleError(400,
-            "we're sorry, there was an error, please try again", res);
+          res.send({
+            message: "we're sorry, there was an error, please try again"
+          });
         });
     }
   }
@@ -129,8 +130,9 @@ class Document {
           metaData: paginate(documents.count, limit, offset)
         });
       })
-      .catch(() => handleError(400,
-        "we're sorry, there was an error, please try again", res));
+      .catch(() => res.send({
+        message: "we're sorry, there was an error, please try again"
+      }));
   }
 
   /**
@@ -183,8 +185,9 @@ class Document {
                   `We're sorry, document ${error.errors[0].message}`, res);
               });
             }).catch(() => {
-              handleError(400,
-                "We're sorry, there was an error, please try again", res);
+              res.send({
+                message: "we're sorry, there was an error, please try again"
+              });
             });
         }).catch(() => {
           handleError(404,
@@ -268,7 +271,9 @@ class Document {
           });
       })
       .catch(() => {
-        handleError(400, "We're sorry, we had an error, please try again", res);
+        res.send({
+          message: "we're sorry, there was an error, please try again"
+        });
       });
   }
 

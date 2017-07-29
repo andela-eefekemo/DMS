@@ -11,12 +11,7 @@ const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
 const token =
-  `eyJhbGciOiJIUzI1NiIsInR
-  5cCI6IkpXVCJ9.eyJpZCI6NDUsImZ
-  pcnN0TmFtZSI6ImhlbGxvIiwibGFzdE5hbWUi
-  iJoZWxsbyIsImVtYWlsIjoiaGVsbG9AaGVsbG8uY29tI
-  iwicm9sZUlkIjoyLCJpYXQiOjE0OTk0OTE5NTAsImV4cCI6MT
-  UwMDA5Njc1MH0.5UsgY1xeV05dVCrXDLe-yPB8KmfVcB9_8YOu-SXpCy8`;
+  'token';
 
 describe('User Actions', () => {
   beforeEach(() => moxios.install());

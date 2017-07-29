@@ -40,8 +40,9 @@ class Role {
                 });
               })
               .catch(() => {
-                handleError(400,
-                  "We're sorry, the new role couldn't be created", res);
+                res.send({
+                  message: "we're sorry, there was an error, please try again"
+                });
               });
           }
         });
@@ -70,8 +71,9 @@ class Role {
         }
         return res.status(200).send({ message: 'Roles found', roles });
       }).catch(() => {
-        handleError(400,
-          "We're sorry, the new role couldn't be created", res);
+        res.send({
+          message: "we're sorry, there was an error, please try again"
+        });
       });
   }
 
@@ -115,8 +117,9 @@ class Role {
             });
         })
         .catch(() => {
-          handleError(404,
-            "we're sorry, there was an error, please try again", res);
+          res.send({
+            message: "we're sorry, there was an error, please try again"
+          });
         });
     }
   }
