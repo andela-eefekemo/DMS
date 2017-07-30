@@ -4,13 +4,15 @@ const title = faker.lorem.words(2);
 const newTitle = faker.lorem.words(7);
 const email = faker.internet.email();
 const password = faker.internet.password();
+const firstName = faker.name.firstName();
+const lastName = faker.name.lastName();
 module.exports = {
   'Create document without credentials': (browser) => {
     browser
       .url('http://localhost:7000/auth/signup')
       .waitForElementVisible('body', 5000)
-      .setValue('input[name=firstName]', 'Eguono')
-      .setValue('input[name=lastName]', 'Efekemo')
+      .setValue('input[name=firstName]', firstName)
+      .setValue('input[name=lastName]', lastName)
       .setValue('input[name=email]', email)
       .setValue('input[name=password]', password)
       .setValue('input[name=confirmPassword]', password)
@@ -34,6 +36,33 @@ module.exports = {
       .pause(1000)
       .waitForElementVisible('.toast', 6000)
       .assert.containsText('.toast', 'No field should be left blank');
+  },
+  'User should be able to view personal and all documents':
+  (browser) => {
+    browser
+      .url('http://localhost:7000/auth/signin')
+      .waitForElementVisible('body', 5000)
+      .setValue('input[name=email]', email)
+      .setValue('input[name=password]', password)
+      .click('.button-design')
+      .waitForElementVisible('.toast', 5000)
+      .assert.containsText('.toast', 'Welcome!')
+      .waitForElementVisible('.side-nav', 5000)
+      .waitForElementVisible('input', 5000)
+      .pause(2000)
+      .clearValue('input[name=searchTerm]')
+      .click('select option[value="Personal"]')
+      .pause(2000)
+      .assert.containsText('.card-panel > h5', 'Personal Documents')
+      .assert.elementNotPresent(
+      '.scrollable > div > a')
+      .pause(5000)
+      .click('select option[value="All"]')
+      .pause(2000)
+      .assert.containsText('.card-panel > h5', 'All Documents')
+      .assert.elementPresent(
+      '.scrollable > div > a')
+      .pause(5000);
   },
   'User should be able to create document successfully': (browser) => {
     browser
@@ -173,29 +202,6 @@ module.exports = {
       .pause(1000)
       .assert.containsText('.toast',
       "We're sorry, document title must be unique");
-  },
-  'User should be able to view personal and all documents':
-  (browser) => {
-    browser
-      .url('http://localhost:7000/auth/signin')
-      .waitForElementVisible('body', 5000)
-      .setValue('input[name=email]', email)
-      .setValue('input[name=password]', password)
-      .click('.button-design')
-      .waitForElementVisible('.toast', 5000)
-      .assert.containsText('.toast', 'Welcome!')
-      .waitForElementVisible('.side-nav', 5000)
-      .waitForElementVisible('input', 5000)
-      .pause(2000)
-      .clearValue('input[name=searchTerm]')
-      .click('select option[value="Personal"]')
-      .pause(2000)
-      .assert.containsText('.card-panel > h5', 'Personal Documents')
-      .pause(5000)
-      .click('select option[value="All"]')
-      .pause(2000)
-      .assert.containsText('.card-panel > h5', 'All Documents')
-      .pause(5000);
   },
   'User delete document': (browser) => {
     browser
