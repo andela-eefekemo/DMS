@@ -584,9 +584,7 @@ describe('Document', () => {
         .delete('/api/v1/documents/5000')
         .set({ Authorization: contributorToken })
         .end((err, res) => {
-          res.should.have.status(404);
-          res.body.should.have.property(
-            'message').eql('Document not found');
+          res.should.have.status(500);
           done();
         });
     });

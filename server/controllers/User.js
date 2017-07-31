@@ -199,7 +199,9 @@ class User {
             });
         })
         .catch(() => {
-          handleError(400, 'User not found', res);
+          res.status(500).send({
+            message: "we're sorry, there was an error, please try again"
+          });
         });
     }
   }

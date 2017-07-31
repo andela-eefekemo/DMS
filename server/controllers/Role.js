@@ -71,7 +71,7 @@ class Role {
         }
         return res.status(200).send({ message: 'Roles found', roles });
       }).catch(() => {
-        res.send({
+        res.status(500).send({
           message: "we're sorry, there was an error, please try again"
         });
       });
@@ -149,7 +149,9 @@ class Role {
             return res.status(200).send({ message: 'Role has been deleted' });
           });
       }).catch(() => {
-        handleError(404, 'Role not found', res);
+        res.status(500).send({
+          message: "we're sorry, there was an error, please try again"
+        });
       });
   }
 }

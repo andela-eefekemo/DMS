@@ -91,9 +91,10 @@ class Document {
           handleError(404, 'Document not found', res);
         }
       })
-      .catch((error) => {
-        handleError(400,
-          `We're sorry, ${error.errors[0].message} , please try again`, res);
+      .catch(() => {
+        res.status(500).send({
+          message: "we're sorry, there was an error, please try again"
+        });
       });
   }
 
@@ -190,8 +191,9 @@ class Document {
               });
             });
         }).catch(() => {
-          handleError(404,
-            'Document does not exist', res);
+          res.status(500).send({
+            message: "we're sorry, there was an error, please try again"
+          });
         });
     }
   }
@@ -304,7 +306,9 @@ class Document {
             });
         }
       }).catch(() => {
-        handleError(404, 'Document not found', res);
+        res.status(500).send({
+          message: "we're sorry, there was an error, please try again"
+        });
       });
   }
 }
