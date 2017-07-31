@@ -6,7 +6,8 @@ module.exports = {
       firstName: 'Eguono',
       lastName: 'Efekemo',
       email: 'efe@gmail.com',
-      password: bcrypt.hashSync('password', bcrypt.genSaltSync(8)),
+      password: bcrypt.hashSync(
+        process.env.HASH_PASSWORD, bcrypt.genSaltSync(8)),
       roleId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
@@ -15,7 +16,8 @@ module.exports = {
       firstName: 'Efe',
       lastName: 'Eguono',
       email: 'eguono@gmail.com',
-      password: 'password2',
+      password: bcrypt.hashSync(
+        process.env.HASH_PASSWORD, bcrypt.genSaltSync(8)),
       roleId: 2,
       createdAt: new Date(),
       updatedAt: new Date()
