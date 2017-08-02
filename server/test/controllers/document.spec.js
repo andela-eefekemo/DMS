@@ -477,7 +477,7 @@ describe('Document', () => {
         .set({ Authorization: adminToken })
         .send({ title: 'The main man' })
         .end((err, res) => {
-          res.should.have.status(409);
+          res.should.have.status(400);
           res.body.should.have.property(
             'message').eql("We're sorry, document title must be unique");
           res.body.should.not.have.property('updatedDocument');
