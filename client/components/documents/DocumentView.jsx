@@ -4,8 +4,8 @@ import ReactHtmlParser from 'react-html-parser';
 import TinyMCE from 'react-tinymce';
 import PropTypes from 'prop-types';
 
-import InputField from '../common/InputField.jsx';
-import Dropdown from '../common/Dropdown.jsx';
+import InputField from '../common/InputField';
+import Dropdown from '../common/Dropdown';
 
 /**
  * Document view component for viewing a document

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ConnectedHeader from '../include/Header.jsx';
-import SectionDisplay from './SectionDisplay.jsx';
+import ConnectedHeader from '../include/Header';
+import SectionDisplay from './SectionDisplay';
 
 /**
  * @class LandingContainer

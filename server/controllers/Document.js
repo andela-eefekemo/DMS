@@ -40,7 +40,7 @@ class Document {
                   newDocument: newDocument.filterDocumentDetails()
                 }));
             }).catch((error) => {
-              handleError(409, `we're sorry,
+              handleError(400, `we're sorry,
                 document ${error.errors[0].message}, please try again`, res);
             });
         }).catch(() => {
@@ -178,7 +178,7 @@ class Document {
                   message: 'Document information has been updated',
                   updatedDocument: updatedDocument.filterDocumentDetails()
                 })).catch((error) => {
-                  handleError(409,
+                  handleError(400,
                     `We're sorry, document ${error.errors[0].message}`, res);
                 });
             }).catch(() => {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import DocumentDisplay from './DocumentDisplay.jsx';
+import DocumentDisplay from './DocumentDisplay';
 import DocumentActions from '../../actions/DocumentActions';
 import validate from '../../utilities/validate';
 

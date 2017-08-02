@@ -42,17 +42,40 @@
     "templateStrings": true
   },
   "rules": {
+    "import/extensions": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
     "import/no-unresolved": 0,
-    "import/no-named-as-default":0,
+    "import/no-named-as-default": 0,
     "one-var": 0,
     "one-var-declaration-per-line": 0,
     "new-cap": 0,
     "consistent-return": 0,
     "no-param-reassign": 0,
-    "no-restricted-syntax": [2, "WithStatement"],
+    "no-restricted-syntax": [
+      2,
+      "WithStatement"
+    ],
     "comma-dangle": 0,
-    "curly": [1, "multi-line"],
-    "no-multi-spaces": [2, { "exceptions": { "ImportDeclaration": true } }],
+    "curly": [
+      1,
+      "multi-line"
+    ],
+    "no-multi-spaces": [
+      2,
+      {
+        "exceptions": {
+          "ImportDeclaration": true
+        }
+      }
+    ],
     "no-multi-str": 0,
     "import/no-extraneous-dependencies": [
       2,
@@ -62,24 +85,55 @@
         "peerDependencies": false
       }
     ],
-    "max-len": [2, 80, 2],
-    "no-shadow": [1, { "allow": ["req", "res", "err"] }],
-    "require-jsdoc": [0, {
-      "require": {
-        "FunctionDeclaration": true,
-        "MethodDefinition": true,
-        "ClassDeclaration": true
+    "max-len": [
+      2,
+      80,
+      2
+    ],
+    "no-shadow": [
+      1,
+      {
+        "allow": [
+          "req",
+          "res",
+          "err"
+        ]
       }
-    }],
-    "valid-jsdoc": [1, {
-      "requireReturn": true,
-      "requireReturnType": true,
-      "requireParamDescription": true,
-      "requireReturnDescription": true
-    }],
+    ],
+    "require-jsdoc": [
+      0,
+      {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": true,
+          "ClassDeclaration": true
+        }
+      }
+    ],
+    "valid-jsdoc": [
+      1,
+      {
+        "requireReturn": true,
+        "requireReturnType": true,
+        "requireParamDescription": true,
+        "requireReturnDescription": true
+      }
+    ],
     "jsx-quotes": 1,
-    "react/display-name": [1, { "ignoreTranspilerName": false }],
-    "react/forbid-prop-types": [1, { "forbid": ["any"] }],
+    "react/display-name": [
+      1,
+      {
+        "ignoreTranspilerName": false
+      }
+    ],
+    "react/forbid-prop-types": [
+      1,
+      {
+        "forbid": [
+          "any"
+        ]
+      }
+    ],
     "react/jsx-boolean-value": 1,
     "react/jsx-closing-bracket-location": 0,
     "react/jsx-curly-spacing": 1,

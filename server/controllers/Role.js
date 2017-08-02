@@ -110,7 +110,7 @@ class Role {
             updatedRole
           }))
             .catch((error) => {
-              handleError(409,
+              handleError(400,
                 `we're sorry, role ${error.errors[0].message}`, res);
             });
         })

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TinyMCE from 'react-tinymce';
 
-import InputField from '../common/InputField.jsx';
-import Dropdown from '../common/Dropdown.jsx';
+import InputField from '../common/InputField';
+import Dropdown from '../common/Dropdown';
 /**
  * Document Display component for creating a document
  *

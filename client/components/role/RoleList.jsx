@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import RoleActions from '../../actions/RoleActions';
-import RoleCard from './RoleCard.jsx';
+import RoleCard from './RoleCard';
 
 const viewRole = RoleActions.viewRole;
 const updateRole = RoleActions.updateRole;
