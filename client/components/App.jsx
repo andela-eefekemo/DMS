@@ -1,9 +1,9 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import LandingConnectedContainer from './access/LandingContainer.jsx';
-import Dashboard from './Dashboard.jsx';
-import AuthPage from './access/AuthPage.jsx';
+import LandingConnectedContainer from './access/LandingContainer';
+import Dashboard from './Dashboard';
+import AuthPage from './access/AuthPage';
 
 /**
  * @class App

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-import RoleDisplay from './RoleDisplay.jsx';
+import RoleDisplay from './RoleDisplay';
 import RoleActions from '../../actions/RoleActions';
 import validate from '../../utilities/validate';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'react-materialize';
 import PropTypes from 'prop-types';
 
-import InputField from '../common/InputField.jsx';
+import InputField from '../common/InputField';
 /**
  * User Display component for creating a document
  *

@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 
-import ConnectedHeader from './include/Header.jsx';
-import SideBar from './include/sideBar.jsx';
-import Footer from './include/Footer.jsx';
-import UserConnectedContainer from './user/UserContainer.jsx';
-import DocumentConnectedContainer from './documents/DocumentContainer.jsx';
-import RoleConnectedContainer from './role/RoleContainer.jsx';
-import DocumentConnectedList from './documents/DocumentList.jsx';
-import UserConnectedList from './user/UserList.jsx';
-import RoleConnectedList from './role/RoleList.jsx';
+import ConnectedHeader from './include/Header';
+import SideBar from './include/sideBar';
+import Footer from './include/Footer';
+import UserConnectedContainer from './user/UserContainer';
+import DocumentConnectedContainer from './documents/DocumentContainer';
+import RoleConnectedContainer from './role/RoleContainer';
+import DocumentConnectedList from './documents/DocumentList';
+import UserConnectedList from './user/UserList';
+import RoleConnectedList from './role/RoleList';
 
 /**
  * @class Dashboard

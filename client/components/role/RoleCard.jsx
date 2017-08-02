@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
-import InputField from '../common/InputField.jsx';
+import InputField from '../common/InputField';
 import parseDate from '../../utilities/parseDate';
 
 /**

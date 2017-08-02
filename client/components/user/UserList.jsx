@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
 import UserActions from '../../actions/UserActions';
-import UserCard from './UserCard.jsx';
-import UserView from './UserView.jsx';
+import UserCard from './UserCard';
+import UserView from './UserView';
 
 const getAllUsers = UserActions.getUsers;
 const viewUser = UserActions.viewUser;

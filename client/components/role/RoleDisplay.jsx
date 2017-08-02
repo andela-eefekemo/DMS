@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import InputField from '../common/InputField.jsx';
+import InputField from '../common/InputField';
 
 /**
  * Role Display component for creating a role

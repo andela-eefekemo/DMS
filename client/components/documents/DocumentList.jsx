@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
 import DocumentActions from '../../actions/DocumentActions';
-import DocumentCard from './DocumentCard.jsx';
-import DocumentView from './DocumentView.jsx';
-import Dropdown from '../common/Dropdown.jsx';
+import DocumentCard from './DocumentCard';
+import DocumentView from './DocumentView';
+import Dropdown from '../common/Dropdown';
 
 const getAllDocuments = DocumentActions.getAllDocuments;
 const viewDocument = DocumentActions.viewDocument;

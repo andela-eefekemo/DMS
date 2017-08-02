@@ -193,7 +193,7 @@ class User {
                 });
               }
             }).catch((error) => {
-              handleError(409,
+              handleError(400,
                 `We're sorry,${error.errors[0].message}, please try again`,
                 res);
             });

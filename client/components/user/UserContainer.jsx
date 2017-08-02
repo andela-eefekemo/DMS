@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import UserActions from '../../actions/UserActions';
 
 import validate from '../../utilities/validate';
-import UserDisplay from './UserDisplay.jsx';
+import UserDisplay from './UserDisplay';
 
 const updateUser = UserActions.updateUser;
 const viewUser = UserActions.viewUser;
