@@ -276,12 +276,12 @@ class User {
     };
 
     return db.User.findAndCount(query)
-      .then((users) => {
+      .then(({ rows: users, count }) => {
         res.status(200).send(
           {
             message: 'Users found',
-            userList: users.rows.map(user => user.filterUserList()),
-            metaData: paginate(users.count, limit, offset)
+            userList: users.map(user => user.filterUserList()),
+            metaData: paginate(count, limit, offset)
           });
       })
       .catch(() => {

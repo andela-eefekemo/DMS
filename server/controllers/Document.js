@@ -122,11 +122,11 @@ class Document {
       }],
       order: [['createdAt', 'DESC']]
     })
-      .then((documents) => {
+      .then(({ rows: documents, count }) => {
         res.status(200).send({
           message: 'Documents found',
-          documents: documents.rows,
-          metaData: paginate(documents.count, limit, offset)
+          documents,
+          metaData: paginate(count, limit, offset)
         });
       })
       .catch(() => res.status(500).send({
@@ -260,11 +260,11 @@ class Document {
     }
 
     return db.Document.findAndCount(query)
-      .then(documents => res.status(200).send(
+      .then(({ rows: documents, count }) => res.status(200).send(
         {
           message: 'Documents found',
-          documentList: documents.rows,
-          metaData: paginate(documents.count, limit, offset)
+          documentList: documents,
+          metaData: paginate(count, limit, offset)
         }))
       .catch(() => {
         res.status(500).send({
