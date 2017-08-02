@@ -15,7 +15,7 @@ const signUpUser = AccessActions.signUpUser;
 export class SignUpForm extends Component {
   /**
    * Creates an instance of SignUpForm.
-   * @param {Object} props
+   * @param {Object} props -
    * @memberof SignUpForm
    */
   constructor(props) {
@@ -157,11 +157,11 @@ export class SignUpForm extends Component {
   }
 }
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     access: state.access
-  };
-};
+  }
+);
 
 SignUpForm.propTypes = {
   signUpUser: PropTypes.func,

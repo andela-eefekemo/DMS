@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'react-materialize';
 import PropTypes from 'prop-types';
 
-import InputField from '../common/InputField';
+import InputField from '../common/InputField.jsx';
 /**
  * User Display component for creating a document
  *
@@ -10,8 +10,7 @@ import InputField from '../common/InputField';
  * @returns {String} HTML markup for the User Display
  */
 const UserDisplay = (
-  { onSubmit, onChange, firstName, lastName, email }) => {
-  return (
+  { onSubmit, onChange, firstName, lastName, email }) => (
     <div className="document-form">
       <div className="center hover">
         <div className="card">
@@ -20,6 +19,7 @@ const UserDisplay = (
             <div className="col l8 m8 s12">
               <InputField
                 name="firstName"
+                id="firstName"
                 value={firstName}
                 placeholder="First Name"
                 className="validate form-design"
@@ -28,6 +28,7 @@ const UserDisplay = (
             <div className="col l8 m8 s12">
               <InputField
                 name="lastName"
+                id="lastName"
                 value={lastName}
                 placeholder="Last Name"
                 className="validate form-design"
@@ -36,6 +37,7 @@ const UserDisplay = (
             <div className="col l8 m8 s12">
               <InputField
                 name="email"
+                id="email"
                 value={email}
                 placeholder="Email"
                 className="validate form-design"
@@ -101,7 +103,6 @@ const UserDisplay = (
       </div >
     </div>
   );
-};
 
 UserDisplay.propTypes = {
   firstName: PropTypes.string,

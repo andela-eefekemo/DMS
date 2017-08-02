@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
-import InputField from '../common/InputField';
+import InputField from '../common/InputField.jsx';
 import parseDate from '../../utilities/parseDate';
 
 /**
@@ -12,8 +12,7 @@ import parseDate from '../../utilities/parseDate';
 * @returns {String} HTML markup for the Role Card
 */
 const RoleCard = ({
-    title, id, description, updatedAt, onChange, onSubmit, deleteRole }) => {
-  return (
+    title, id, description, updatedAt, onChange, onSubmit, deleteRole }) => (
     <div>
       <h5>{title}</h5>
       <p>{description}</p>
@@ -93,7 +92,6 @@ const RoleCard = ({
       </div>
     </div>
   );
-};
 
 // Set Props
 RoleCard.propTypes = {

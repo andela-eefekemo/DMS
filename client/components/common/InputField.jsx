@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
  * @returns {String} The HTML markup for the Input component
  */
 const InputField =
-  ({ className, name, value, placeholder, type, onChange, label }) => (
+  ({ className, name, value, placeholder, type, onChange, label, id }) => (
     <div className="input-field">
       <input
         className={className}
+        id={id}
         type={type}
         name={name}
         value={value}
@@ -33,7 +34,8 @@ InputField.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  label: PropTypes.string
+  label: PropTypes.string,
+  id: PropTypes.string
 };
 
 export default InputField;

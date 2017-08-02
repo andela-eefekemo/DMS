@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import DocumentDisplay from './DocumentDisplay';
+import DocumentDisplay from './DocumentDisplay.jsx';
 import DocumentActions from '../../actions/DocumentActions';
 import validate from '../../utilities/validate';
 
@@ -17,7 +17,7 @@ export class DocumentContainer extends Component {
   /**
    * Creates an instance of DocumentContainer.
    * Binds the functions to the class
-   * @param {Object} props
+   * @param {Object} props -
    * @memberof DocumentContainer
    */
   constructor(props) {
@@ -75,7 +75,7 @@ export class DocumentContainer extends Component {
   /**
   * Get the content of the TinyMCE editor and sets it to the state
   *
-  * @param {Object} event
+  * @param {Object} event -
   * @returns {void}
   */
   getContent(event) {
@@ -97,11 +97,11 @@ export class DocumentContainer extends Component {
   }
 }
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     document: state.document
-  };
-};
+  }
+);
 
 DocumentContainer.propTypes = {
   createDocument: PropTypes.func.isRequired,

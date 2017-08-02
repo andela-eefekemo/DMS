@@ -28,7 +28,7 @@ class Role {
       db.Role.findOne({ where: { title: req.body.title } })
         .then((role) => {
           if (role !== null) {
-            handleError(400, 'Role already exists', res);
+            handleError(409, 'Role already exists', res);
           } else {
             return db.Role.create({
               title: req.body.title,
@@ -105,14 +105,12 @@ class Role {
           roles.update({
             title: req.body.title || roles.title,
             description: req.body.description || roles.description
-          }).then((updatedRole) => {
-            return res.status(200).send({
-              message: 'Role successfully updated',
-              updatedRole
-            });
-          })
+          }).then(updatedRole => res.status(200).send({
+            message: 'Role successfully updated',
+            updatedRole
+          }))
             .catch((error) => {
-              handleError(404,
+              handleError(409,
                 `we're sorry, role ${error.errors[0].message}`, res);
             });
         })
@@ -145,9 +143,8 @@ class Role {
           return res.status(404).send({ message: 'Role not found' });
         }
         roles.destroy()
-          .then(() => {
-            return res.status(200).send({ message: 'Role has been deleted' });
-          });
+          .then(() => res.status(200).send(
+            { message: 'Role has been deleted' }));
       }).catch(() => {
         res.status(500).send({
           message: "we're sorry, there was an error, please try again"

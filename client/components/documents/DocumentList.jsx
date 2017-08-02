@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
 import DocumentActions from '../../actions/DocumentActions';
-import DocumentCard from './DocumentCard';
-import DocumentView from './DocumentView';
-import Dropdown from '../common/Dropdown';
+import DocumentCard from './DocumentCard.jsx';
+import DocumentView from './DocumentView.jsx';
+import Dropdown from '../common/Dropdown.jsx';
 
 const getAllDocuments = DocumentActions.getAllDocuments;
 const viewDocument = DocumentActions.viewDocument;
@@ -24,7 +24,7 @@ export class DocumentList extends Component {
   /**
    * Creates an instance of DocumentList.
    * Binds class methods
-   * @param {Object} props
+   * @param {Object} props -
    * @memberof DocumentList
    */
   constructor(props) {
@@ -61,7 +61,7 @@ export class DocumentList extends Component {
    * Update the state if the props are changed
    *
    * @return {void}
-   * @param {Object} nextProps
+   * @param {Object} nextProps -
    * @memberof DocumentList
    */
   componentWillReceiveProps(nextProps) {
@@ -78,7 +78,7 @@ export class DocumentList extends Component {
   * Sets document list to the state
   *
   * @return {void}
-  * @param {Object} event
+  * @param {Object} event -
   * @memberof DocumentList
   */
   changeDocument(event) {
@@ -117,7 +117,7 @@ export class DocumentList extends Component {
   * Toasts the error/success message
   * Sets document to the state
   *
-  * @param {Object} event
+  * @param {Object} event -
   * @return {void}
   * @memberof DocumentList
   */
@@ -140,7 +140,7 @@ export class DocumentList extends Component {
   /**
    * Sets the searchterm to the state
    * Makes an action call to the search for a document
-   * @param {Object} event
+   * @param {Object} event -
    * @return {void}
    * @memberof DocumentList
    */
@@ -172,7 +172,7 @@ export class DocumentList extends Component {
   /**
   * Get the content of the TinyMCE editor and sets it to the state
   *
-  * @param {Object} event
+  * @param {Object} event -
   * @returns {void} nothing
   */
   getContent(event) {
@@ -183,7 +183,7 @@ export class DocumentList extends Component {
   * Toasts the error/success message
   *
   * @return {void}
-  * @param {Object} event
+  * @param {Object} event -
   * @memberof DocumentList
   */
   deleteDocument(event) {
@@ -200,7 +200,7 @@ export class DocumentList extends Component {
   * Pagination for the list of documents
   *
   * @return {void}
-  * @param {Object} data
+  * @param {Object} data -
   * @memberof DocumentList
   */
   handlePageClick(data) {
@@ -325,6 +325,7 @@ export class DocumentList extends Component {
             <div className="col l6 m6 s12 text-scrollable">
               <Switch>
                 <Route
+                  // eslint-disable-next-line
                   path={`${this.props.match.url}/view-document`} render={() => {
                     if (!this.props.document.id) {
                       this.props.history.push(`${this.props.match.url}`);
@@ -367,15 +368,15 @@ DocumentList.propTypes = {
   history: PropTypes.object
 };
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     documentList: state.document.documentList,
     document: state.document.document,
     message: state.document.message,
     pagination: state.document.pagination,
     access: state.access
-  };
-};
+  }
+);
 
 export default connect(
   mapPropsToState, {

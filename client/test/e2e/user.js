@@ -4,6 +4,8 @@ const email = faker.internet.email();
 const password = faker.internet.password();
 const newPassword = faker.internet.password();
 const newEmail = faker.internet.email();
+const firstName = faker.name.firstName();
+const lastName = faker.name.lastName();
 
 module.exports = {
   'User sign up without credentials': browser =>
@@ -96,27 +98,19 @@ module.exports = {
       .waitForElementVisible('input', 5000)
       .pause(5000)
       .clearValue('input[name=firstName]')
-      .setValue('input[name=firstName]', 'Eguono')
+      .setValue('input[name=firstName]', firstName)
       .clearValue('input[name=lastName]')
-      .setValue('input[name=lastName]', 'John')
+      .setValue('input[name=lastName]', lastName)
       .clearValue('input[name=email]')
       .setValue('input[name=email]', newEmail)
       .pause(5000)
       .click('#update-button')
       .waitForElementVisible('.toast', 5000)
       .assert.containsText('.toast', 'Profile updated!')
-      .click('#user-header')
       .click('#profile')
       .waitForElementVisible('input', 5000)
-      .click('#update-password')
-      .pause(5000)
-      .setValue('input[name=oldPassword]', password)
-      .setValue('input[name=password]', newPassword)
-      .setValue('input[name=confirmPassword]', newPassword)
-      .click('#password-button')
-      .pause(1000)
-      .waitForElementVisible('.toast', 5000)
-      .assert.containsText('.toast', 'Profile updated!'),
+      .assert.valueContains('#firstName', firstName)
+      .assert.valueContains('#lastName', lastName),
   'User should be able to search through user': browser =>
     browser
       .url('http://localhost:7000/auth/signin')

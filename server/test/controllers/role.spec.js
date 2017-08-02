@@ -4,7 +4,7 @@ import testData from '../testData';
 
 import server from '../../../server';
 
-const should = chai.should();
+const should = chai.should(); // eslint-disable-line
 
 chai.use(chaiHttp);
 
@@ -62,7 +62,7 @@ describe('Role', () => {
         .set({ Authorization: adminToken })
         .send(testData.roleOne)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           res.body.should.have.property('message').eql('Role already exists');
           done();
         });

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ConnectedHeader from '../include/Header';
+import ConnectedHeader from '../include/Header.jsx';
 
-import SignInConnectedForm from './SignInForm';
-import SignUpConnectedForm from './SignUpForm';
+import SignInConnectedForm from './SignInForm.jsx';
+import SignUpConnectedForm from './SignUpForm.jsx';
 
 
 /**

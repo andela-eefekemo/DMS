@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
 import UserActions from '../../actions/UserActions';
-import UserCard from './UserCard';
-import UserView from './UserView';
+import UserCard from './UserCard.jsx';
+import UserView from './UserView.jsx';
 
 const getAllUsers = UserActions.getUsers;
 const viewUser = UserActions.viewUser;
@@ -21,7 +21,7 @@ export class UserList extends Component {
   /**
    * Creates an instance of UserList.
    * Binds class methods
-   * @param {Object} props
+   * @param {Object} props -
    * @memberof UserList
    */
   constructor(props) {
@@ -48,30 +48,11 @@ export class UserList extends Component {
   componentDidMount() {
     this.updateUserList();
   }
-
-  /**
-   * Makes an action call to get all users
-   * Sets list of users to the state
-   *
-   * @return {void}
-   * @memberof UserList
-   */
-  updateUserList() {
-    this.props.getAllUsers()
-      .then(() => {
-        this.setState({
-          Users: this.props.UserList,
-          count: this.props.pagination.count
-        });
-      }).catch(() => {
-
-      });
-  }
   /**
    * Update the state if the props are changed
    *
    * @return {void}
-   * @param {Object} nextProps
+   * @param {Object} nextProps -
    * @memberof UserList
    */
   componentWillReceiveProps(nextProps) {
@@ -82,11 +63,27 @@ export class UserList extends Component {
     });
   }
   /**
+  * Makes an action call to get all users
+  * Sets list of users to the state
+  *
+  * @return {void}
+  * @memberof UserList
+  */
+  updateUserList() {
+    this.props.getAllUsers()
+      .then(() => {
+        this.setState({
+          Users: this.props.UserList,
+          count: this.props.pagination.count
+        });
+      });
+  }
+  /**
   * Makes an action call to view a user
   * Toasts the error/success message
   * Sets user to the state
   *
-   * @param {Object} event
+   * @param {Object} event -
    * @return {void}
    * @memberof UserList
    */
@@ -104,14 +101,13 @@ export class UserList extends Component {
         roleId: this.props.User.roleId
       });
       this.props.history.push(`${this.props.match.url}/view-user`);
-    }).catch(() => {
     });
   }
 
   /**
    * Sets the searchterm to the state
    * Makes an action call to the search for a user
-   * @param {Object} event
+   * @param {Object} event -
    * @return {void}
    * @memberof UserList
    */
@@ -129,7 +125,7 @@ export class UserList extends Component {
   * Toasts the error/success message
   *
   * @return {void}
-  * @param {Object} event
+  * @param {Object} event -
   * @memberof UserList
   */
   deleteUser(event) {
@@ -144,7 +140,7 @@ export class UserList extends Component {
   * Pagination for the list of users
   *
   * @return {void}
-  * @param {Object} data
+  * @param {Object} data -
   * @memberof UserList
   */
   handlePageClick(data) {
@@ -209,6 +205,7 @@ export class UserList extends Component {
             <div className="col l6 m6 s12">
               <Switch>
                 <Route
+                  // eslint-disable-next-line
                   path={`${this.props.match.url}/view-user`} render={() => {
                     if (!this.props.User.id) {
                       this.props.history.push(`${this.props.match.url}`);
@@ -243,13 +240,13 @@ UserList.propTypes = {
   history: PropTypes.object
 };
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     UserList: state.user.userList,
     pagination: state.user.pagination,
     User: state.user.user
-  };
-};
+  }
+);
 
 export default connect(
   mapPropsToState, {

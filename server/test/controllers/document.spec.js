@@ -4,7 +4,7 @@ import testData from '../testData';
 
 import server from '../../../server';
 
-const should = chai.should();
+const should = chai.should(); // eslint-disable-line
 
 chai.use(chaiHttp);
 
@@ -477,7 +477,7 @@ describe('Document', () => {
         .set({ Authorization: adminToken })
         .send({ title: 'The main man' })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           res.body.should.have.property(
             'message').eql("We're sorry, document title must be unique");
           res.body.should.not.have.property('updatedDocument');

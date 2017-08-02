@@ -129,7 +129,8 @@ module.exports = {
       .click('#update')
       .waitForElementVisible('.toast', 5000)
       .pause(1000)
-      .assert.containsText('.toast', 'Role successfully updated');
+      .assert.containsText('.toast', 'Role successfully updated')
+      .assert.containsText('.scrollable > div > h5', newTitle);
   },
   'User delete role': (browser) => {
     browser

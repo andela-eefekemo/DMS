@@ -15,7 +15,7 @@ export class SignInForm extends Component {
   /**
   * Creates an instance of SignUpForm.
   * Binds the functions to the class
-  * @param {Object} props
+  * @param {Object} props -
   * @memberof SignInForm
   */
   constructor(props) {
@@ -112,11 +112,11 @@ export class SignInForm extends Component {
   }
 }
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     access: state.access
-  };
-};
+  }
+);
 
 SignInForm.propTypes = {
   signInUser: PropTypes.func.isRequired,

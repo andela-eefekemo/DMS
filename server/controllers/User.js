@@ -28,7 +28,7 @@ class User {
       db.User.findOne({ where: { email: req.body.email } })
         .then((user) => {
           if (user !== null) {
-            handleError(400, 'Email already exists', res);
+            handleError(409, 'Email already exists', res);
           } else {
             return db.User.create({
               firstName: req.body.firstName,
@@ -175,7 +175,7 @@ class User {
             .then((existingUser) => {
               if ((existingUser.length !== 0) &&
                 (existingUser[0].id !== res.locals.user.id)) {
-                handleError(400, 'Email already exists', res);
+                handleError(409, 'Email already exists', res);
               } else {
                 user.update(req.body).then((updatedUser) => {
                   const userInfo = authenticate.setUserInfo(updatedUser);
@@ -193,7 +193,7 @@ class User {
                 });
               }
             }).catch((error) => {
-              handleError(400,
+              handleError(409,
                 `We're sorry,${error.errors[0].message}, please try again`,
                 res);
             });

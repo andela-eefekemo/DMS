@@ -4,7 +4,7 @@ import testData from '../testData';
 
 import server from '../../../server';
 
-const should = chai.should();
+const should = chai.should(); // eslint-disable-line
 
 chai.use(chaiHttp);
 
@@ -20,8 +20,6 @@ describe('User', () => {
   let userToken5;
   let fineUser;
   let fineToken;
-  let hotAdmin;
-  let hotToken;
   before((done) => {
     chai.request(server)
       .post('/api/v1/users')
@@ -43,8 +41,6 @@ describe('User', () => {
       .post('/api/v1/users')
       .send(testData.userFour)
       .end((err, res) => {
-        hotAdmin = res.body.userData;
-        hotToken = `JWT ${res.body.token}`;
         res.should.have.status(201);
       });
     chai.request(server)
@@ -109,7 +105,7 @@ describe('User', () => {
         .post('/api/v1/users')
         .send(testData.newUser)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           res.body.should.have.property('message').eql('Email already exists');
           done();
         });
@@ -354,7 +350,7 @@ describe('User', () => {
         .set({ Authorization: fineToken })
         .send({ email: 'jonah@gmail.com' })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           res.body.should.have.property(
             'message').eql('Email already exists');
           done();
@@ -364,17 +360,18 @@ describe('User', () => {
 
   // Search documents by title
   describe('USERS search', () => {
-    it('admin should search all users based on firstname or lastname', (done) => {
-      chai.request(server)
-        .get('/api/v1/search/users?q=o')
-        .set({ Authorization: adminToken })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('userList');
-          res.body.userList.length.should.eql(5);
-          done();
-        });
-    });
+    it('admin should search all users based on firstname or lastname',
+      (done) => {
+        chai.request(server)
+          .get('/api/v1/search/users?q=o')
+          .set({ Authorization: adminToken })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property('userList');
+            res.body.userList.length.should.eql(5);
+            done();
+          });
+      });
 
     it('user not be able to search for other users', (done) => {
       chai.request(server)

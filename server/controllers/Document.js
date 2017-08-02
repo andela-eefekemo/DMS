@@ -35,14 +35,12 @@ class Document {
           })
             .then((document) => {
               document.save()
-                .then((newDocument) => {
-                  return res.status(201).send({
-                    message: 'Document successfully created',
-                    newDocument: newDocument.filterDocumentDetails()
-                  });
-                });
+                .then(newDocument => res.status(201).send({
+                  message: 'Document successfully created',
+                  newDocument: newDocument.filterDocumentDetails()
+                }));
             }).catch((error) => {
-              handleError(400, `we're sorry,
+              handleError(409, `we're sorry,
                 document ${error.errors[0].message}, please try again`, res);
             });
         }).catch(() => {
@@ -168,23 +166,21 @@ class Document {
             .then((existingDocument) => {
               if (existingDocument.length !== 0 &&
                 document.authorId !== req.user.id) {
-                handleError(400,
+                handleError(409,
                   'Document already exists', res);
               }
               document.update({
                 title: req.body.title || document.title,
                 content: req.body.content || document.content,
                 access: req.body.access || document.access
-              }).then((updatedDocument) => {
-                return res.status(200).send(
-                  {
-                    message: 'Document information has been updated',
-                    updatedDocument: updatedDocument.filterDocumentDetails()
-                  });
-              }).catch((error) => {
-                handleError(400,
-                  `We're sorry, document ${error.errors[0].message}`, res);
-              });
+              }).then(updatedDocument => res.status(200).send(
+                {
+                  message: 'Document information has been updated',
+                  updatedDocument: updatedDocument.filterDocumentDetails()
+                })).catch((error) => {
+                  handleError(409,
+                    `We're sorry, document ${error.errors[0].message}`, res);
+                });
             }).catch(() => {
               res.send({
                 message: "we're sorry, there was an error, please try again"
@@ -264,14 +260,12 @@ class Document {
     }
 
     return db.Document.findAndCount(query)
-      .then((documents) => {
-        return res.status(200).send(
-          {
-            message: 'Documents found',
-            documentList: documents.rows,
-            metaData: paginate(documents.count, limit, offset)
-          });
-      })
+      .then(documents => res.status(200).send(
+        {
+          message: 'Documents found',
+          documentList: documents.rows,
+          metaData: paginate(documents.count, limit, offset)
+        }))
       .catch(() => {
         res.status(500).send({
           message: "we're sorry, there was an error, please try again"

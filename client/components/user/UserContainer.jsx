@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import UserActions from '../../actions/UserActions';
 
 import validate from '../../utilities/validate';
-import UserDisplay from './UserDisplay';
+import UserDisplay from './UserDisplay.jsx';
 
 const updateUser = UserActions.updateUser;
 const viewUser = UserActions.viewUser;
@@ -17,7 +17,7 @@ export class UserContainer extends Component {
   /**
    * Creates an instance of UserContainer.
    * Binds the functions to the class
-   * @param {Object} props
+   * @param {Object} props -
    * @memberof UserContainer
    */
   constructor(props) {
@@ -75,6 +75,7 @@ export class UserContainer extends Component {
           }
           Materialize.toast(
             'Profile updated!', 2000, 'indigo darken-4 white-text rounded');
+          this.props.history.push('/dashboard');
         });
     } catch (err) {
       Materialize.toast(err.message, 3000,
@@ -110,18 +111,19 @@ export class UserContainer extends Component {
   }
 }
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     access: state.access,
     user: state.user
-  };
-};
+  }
+);
 
 UserContainer.propTypes = {
   user: PropTypes.object.isRequired,
   access: PropTypes.object.isRequired,
   updateUser: PropTypes.func.isRequired,
-  viewUser: PropTypes.func.isRequired
+  viewUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 

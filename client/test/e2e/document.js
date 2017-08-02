@@ -121,7 +121,7 @@ module.exports = {
       .waitForElementVisible('.toast', 6000)
       .assert
       .containsText(
-      '.toast', "we're sorry, document title must be unique, please try again");
+      '.toast', 'Document title already exists, please rename document');
   },
   'User should search documents': (browser) => {
     browser
@@ -201,7 +201,7 @@ module.exports = {
       .waitForElementVisible('.toast', 5000)
       .pause(1000)
       .assert.containsText('.toast',
-      "We're sorry, document title must be unique");
+      'Document title already exists, please rename document');
   },
   'User delete document': (browser) => {
     browser

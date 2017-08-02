@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ConnectedHeader from '../include/Header';
-import SectionDisplay from './SectionDisplay';
+import ConnectedHeader from '../include/Header.jsx';
+import SectionDisplay from './SectionDisplay.jsx';
 
 /**
  * @class LandingContainer
@@ -42,11 +42,11 @@ export class LandingContainer extends Component {
   }
 }
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     access: state.access
-  };
-};
+  }
+);
 
 LandingContainer.propTypes = {
   access: PropTypes.object.isRequired,

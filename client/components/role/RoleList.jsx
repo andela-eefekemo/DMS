@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import RoleActions from '../../actions/RoleActions';
-import RoleCard from './RoleCard';
+import RoleCard from './RoleCard.jsx';
 
 const viewRole = RoleActions.viewRole;
 const updateRole = RoleActions.updateRole;
@@ -16,7 +16,7 @@ export class RoleList extends Component {
   /**
    * Creates an instance of RoleList.
    * Binds class methods
-   * @param {Object} props
+   * @param {Object} props -
    * @memberof RoleList
    */
   constructor(props) {
@@ -43,7 +43,7 @@ export class RoleList extends Component {
    * Update the state if the props are changed
    *
    * @return {void}
-   * @param {Object} nextProps
+   * @param {Object} nextProps -
    * @memberof RoleList
    */
   componentWillReceiveProps(nextProps) {
@@ -88,7 +88,7 @@ export class RoleList extends Component {
   * Toasts the error/success message
   *
   * @return {void}
-  * @param {Object} event
+  * @param {Object} event -
   * @memberof RoleList
   */
   deleteRole(event) {
@@ -103,7 +103,7 @@ export class RoleList extends Component {
   * Toasts error/success message
   * Sets updated role to state
   *
-  * @param {Object} event
+  * @param {Object} event -
   * @return {void}
   * @memberof RoleList
   */
@@ -161,13 +161,13 @@ export class RoleList extends Component {
   }
 }
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     role: state.role,
     roleList: state.role.roleList,
     access: state.access
-  };
-};
+  }
+);
 
 RoleList.propTypes = {
   viewRole: PropTypes.func,

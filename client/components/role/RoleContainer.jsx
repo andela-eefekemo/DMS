@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-import RoleDisplay from './RoleDisplay';
+import RoleDisplay from './RoleDisplay.jsx';
 import RoleActions from '../../actions/RoleActions';
 import validate from '../../utilities/validate';
 
@@ -17,7 +17,7 @@ export class RoleContainer extends Component {
   /**
    * Creates an instance of RoleContainer.
    * Binds the functions to the class
-   * @param {Object} props
+   * @param {Object} props -
    * @memberof RoleContainer
    */
   constructor(props) {
@@ -86,11 +86,11 @@ export class RoleContainer extends Component {
   }
 }
 
-const mapPropsToState = (state) => {
-  return {
+const mapPropsToState = state => (
+  {
     role: state.role
-  };
-};
+  }
+);
 
 RoleContainer.propTypes = {
   createRole: PropTypes.func.isRequired,
