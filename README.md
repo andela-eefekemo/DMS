@@ -1,6 +1,6 @@
 ## Document Management System
 
-[![Build Status](https://travis-ci.org/andela-eefekemo/DMS.svg?branch=staging)](https://travis-ci.org/andela-eefekemo/DMS)
+[![Build Status](https://travis-ci.org/eguonoefe/DMS.svg?branch=staging)](https://travis-ci.org/andela-eefekemo/DMS)
 [![Code Climate](https://codeclimate.com/github/andela-eefekemo/DMS/badges/gpa.svg)](https://codeclimate.com/github/andela-efeekemo/DMS)
 [![Coverage Status](https://coveralls.io/repos/github/andela-eefekemo/DMS/badge.svg?branch=master)](https://coveralls.io/github/andela-eefekemo/DMS?branch=master)
 
