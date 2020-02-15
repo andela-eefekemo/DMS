@@ -4,6 +4,7 @@ import controllers from '../controllers';
 import authenticate from '../helpers/Authenticate';
 
 const documentController = controllers.Document;
+
 const auth = passport.authenticate('jwt', {
   session: false
 });
