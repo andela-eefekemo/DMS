@@ -28,7 +28,7 @@ describe('Document Reducer', () => {
       type: actionTypes.DOCUMENT_UPDATED, document, message: 'Document updated'
     };
     const expected = {
-      document, documentList: [], message: 'Document updated'
+      document, documentList: [document], message: 'Document updated'
     };
     const newState = documentReducer(initialState.document, action);
 
