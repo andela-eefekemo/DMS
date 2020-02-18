@@ -11,7 +11,13 @@ module.exports = {
     logging: false
   },
   test: {
-    use_env_variable: 'DATABASE_TEST_URL'
+    username: 'eguono',
+    password: null,
+    database: 'document_test',
+    host: 'localhost',
+    port: 5432,
+    dialect: 'postgres',
+    logging: false
   },
   production: {
     use_env_variable: 'DATABASE_URL'

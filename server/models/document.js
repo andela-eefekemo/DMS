@@ -1,10 +1,14 @@
 
-const documentModel = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Document = sequelize.define('Document', {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        msg: 'Title must be unique',
+ 
+      },
       validate: {
         notEmpty: true
       }
@@ -35,25 +39,20 @@ const documentModel = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-        Document.belongsTo(models.User, {
-          foreignKey: 'authorId',
-          onDelete: 'SET NULL',
-        });
-      }
-    },
-    instanceMethods: {
+  }, { });
 
-      filterDocumentDetails() {
-        const { createdAt, updatedAt, ...rest } = this.get();
-        return rest;
-      }
-    },
-  });
+  Document.associate = function (models) {
+    // associations can be defined here
+    this.belongsTo(models.User, {
+      foreignKey: 'authorId'
+    });
+
+  }
+
+  Document.prototype.filterDocumentDetails = function () {
+    const { createdAt, updatedAt, ...rest } = this.get();
+    return rest;
+  }
+
   return Document;
 };
-
-export default documentModel;

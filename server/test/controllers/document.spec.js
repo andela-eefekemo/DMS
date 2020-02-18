@@ -20,105 +20,103 @@ describe('Document', () => {
   let regularUserPrivate;
   let regularUserPublic;
   let regularUserRole;
-  before((done) => {
-    chai.request(server)
+
+  before(async () => {
+    const firstResponse = await chai.request(server)
       .post('/api/v1/users')
-      .send(testData.userEight)
-      .end((err, res) => {
-        savedUser = res.body.userData;
-        regularUserToken = `JWT ${res.body.token}`;
-        res.should.have.status(201);
-      });
-    chai.request(server)
+      .send(testData.userEight);
+
+    const secondResponse = await chai.request(server)
       .post('/api/v1/users')
-      .send(testData.userNine)
-      .end((err, res) => {
-        adminUser = res.body.userData;
-        adminToken = `JWT ${res.body.token}`;
-        res.should.have.status(201);
-      });
-    chai.request(server)
+      .send(testData.userNine);
+
+    const thirdResponse = await chai.request(server)
       .post('/api/v1/users')
-      .send(testData.userTen)
-      .end((err, res) => {
-        contributorToken = `JWT ${res.body.token}`;
-        res.should.have.status(201);
-        done();
-      });
+      .send(testData.userTen);
+    
+
+    firstResponse.should.have.status(201);
+    secondResponse.should.have.status(201);
+    thirdResponse .should.have.status(201);
+
+    regularUserToken = `Bearer ${firstResponse.body.token}`;
+    adminToken = `Bearer ${secondResponse.body.token}`;
+    contributorToken = `Bearer ${thirdResponse .body.token}`;
+
+    savedUser = firstResponse.body.userData;
+    adminUser = secondResponse.body.userData;
   });
-  before((done) => {
-    chai.request(server)
+  before(async () => {
+    const firstResponse = await chai.request(server)
       .post('/api/v1/documents')
       .set({ Authorization: adminToken })
-      .send(testData.documentSix)
-      .end((err, res) => {
-        adminPrivate = res.body.newDocument;
-        res.should.have.status(201);
-      });
-    chai.request(server)
+      .send(testData.documentSix);
+    
+    const secondResponse = await chai.request(server)
       .post('/api/v1/documents')
       .set({ Authorization: adminToken })
-      .send(testData.documentEight)
-      .end((err, res) => {
-        adminPublic = res.body.newDocument;
-        res.should.have.status(201);
-      });
-    chai.request(server)
+      .send(testData.documentEight);
+    
+    const thirdResponse = await chai.request(server)
       .post('/api/v1/documents')
       .set({ Authorization: adminToken })
-      .send(testData.documentTen)
-      .end((err, res) => {
-        adminRole = res.body.newDocument;
-        res.should.have.status(201);
-        done();
-      });
+      .send(testData.documentTen);
+    
+    
+    firstResponse.should.have.status(201);
+    secondResponse.should.have.status(201);
+    thirdResponse.should.have.status(201);
+
+    adminPrivate = firstResponse.body.newDocument;
+    adminPublic = secondResponse.body.newDocument;
+    adminRole = thirdResponse.body.newDocument;
   });
-  before((done) => {
-    chai.request(server)
+
+  before(async () => {
+    const firstResponse = await chai.request(server)
       .post('/api/v1/documents')
       .set({ Authorization: regularUserToken })
-      .send(testData.documentSeven)
-      .end((err, res) => {
-        regularUserPrivate = res.body.newDocument;
-        res.should.have.status(201);
-      });
-    chai.request(server)
+      .send(testData.documentSeven);
+
+    const secondResponse = await chai.request(server)
       .post('/api/v1/documents')
       .set({ Authorization: regularUserToken })
-      .send(testData.documentNine)
-      .end((err, res) => {
-        regularUserPublic = res.body.newDocument;
-        res.should.have.status(201);
-      });
-    chai.request(server)
+      .send(testData.documentNine);
+
+    const thirdResponse = await chai.request(server)
       .post('/api/v1/documents')
       .set({ Authorization: regularUserToken })
-      .send(testData.documentEleven)
-      .end((err, res) => {
-        regularUserRole = res.body.newDocument;
-        res.should.have.status(201);
-        done();
-      });
+      .send(testData.documentEleven);
+
+    firstResponse.should.have.status(201);
+    secondResponse.should.have.status(201);
+    thirdResponse.should.have.status(201);
+
+    regularUserPrivate = firstResponse.body.newDocument;
+    regularUserPublic = secondResponse.body.newDocument;
+    regularUserRole = thirdResponse.body.newDocument;
+
   });
 
   // create documents
   describe('/api/v1/DOCUMENTS create', () => {
-    it('should allow create new user document', (done) => {
-      chai.request(server)
+    it('should allow create new user document', async () => {
+      const res = await chai.request(server)
         .post('/api/v1/documents')
         .set({ Authorization: regularUserToken })
-        .send(testData.documentOne)
-        .end((err, res) => {
-          res.should.have.status(201);
-          res.body.should.have.property('newDocument');
-          res.body.should.have.property('message').eql(
-            'Document successfully created');
-          res.body.newDocument.should.have.property(
-            'authorId').eql(savedUser.id);
-          res.body.newDocument.should.have.property(
-            'roleId');
-          done();
-        });
+        .send(testData.documentOne);
+
+      res.should.have.status(201);
+      res.body.should.have.property('newDocument');
+      res.body.should.have.property('message').eql(
+        'Document successfully created'
+      );
+      res.body.newDocument.should.have.property(
+        'authorId'
+      ).eql(savedUser.id);
+      res.body.newDocument.should.have.property(
+        'roleId'
+      );
     });
 
     it('should not create document with incorrect access type', (done) => {
@@ -129,9 +127,10 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.have.property('message').eql(
-            "we're sorry, Use a valid access type, please try again");
+            'Invalid Access Type'
+          );
+          done();
         });
-      done();
     });
 
     it('should not create document with existing title', (done) => {
@@ -140,11 +139,12 @@ describe('Document', () => {
         .set({ Authorization: regularUserToken })
         .send(testData.documentOne)
         .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property('message').eql(
-            "we're sorry, document title must be unique, please try again");
+          res.should.have.status(500);
+          res.error.should.have.property('text').eql(
+            'Title must be unique'
+          );
+          done();
         });
-      done();
     });
 
     it('should not create document with no access type', (done) => {
@@ -153,11 +153,12 @@ describe('Document', () => {
         .set({ Authorization: regularUserToken })
         .send(testData.documentFour)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
           res.body.should.have.property('message').eql(
-            'Invalid Access Type');
+            'Invalid Access Type'
+          );
+          done();
         });
-      done();
     });
 
     it('should fail if user is not signed in', (done) => {
@@ -166,14 +167,14 @@ describe('Document', () => {
         .send(testData.documentThree)
         .end((err, res) => {
           res.should.have.status(401);
+          done();
         });
-      done();
     });
   });
 
   // list all documents
   describe('DOCUMENTS listAll', () => {
-    it('should listAll documents for the admin', () => {
+    it('should listAll documents for the admin', (done) => {
       chai.request(server)
         .get('/api/v1/documents')
         .set({ Authorization: adminToken })
@@ -181,13 +182,14 @@ describe('Document', () => {
           res.should.have.status(200);
           res.body.should.have.property('message').eql('Documents found');
           res.body.should.have.property('documentList');
-          res.body.documentList.length.should.eql(8);
+          res.body.documentList.length.should.eql(10);
+          done();
         });
     });
 
     it(
       'should list role, public and private documents user has access to view',
-      () => {
+      (done) => {
         chai.request(server)
           .get('/api/v1/documents')
           .set({ Authorization: regularUserToken })
@@ -196,10 +198,12 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Documents found');
             res.body.should.have.property('documentList');
             res.body.documentList.length.should.eql(6);
+            done();
           });
-      });
+      }
+    );
     it('should list only public documents if user has no other access',
-      () => {
+      (done) => {
         chai.request(server)
           .get('/api/v1/documents')
           .set({ Authorization: contributorToken })
@@ -208,13 +212,15 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Documents found');
             res.body.should.have.property('documentList');
             res.body.documentList.length.should.eql(3);
+            done();
           });
       });
-    it('should fail if user is not logged in', () => {
+    it('should fail if user is not logged in', (done) => {
       chai.request(server)
         .get('/api/v1/documents')
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(401);
+          done();
         });
     });
   });
@@ -231,7 +237,8 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Document found');
             res.body.should.have.property('document');
             res.body.document.should.have.property(
-              'title').eql(regularUserPrivate.title);
+              'title'
+            ).eql(regularUserPrivate.title);
             done();
           });
       });
@@ -245,7 +252,8 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Document found');
             res.body.should.have.property('document');
             res.body.document.should.have.property(
-              'title').eql(regularUserRole.title);
+              'title'
+            ).eql(regularUserRole.title);
             done();
           });
       });
@@ -259,7 +267,8 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Document found');
             res.body.should.have.property('document');
             res.body.document.should.have.property(
-              'title').eql(regularUserPublic.title);
+              'title'
+            ).eql(regularUserPublic.title);
             done();
           });
       });
@@ -273,7 +282,8 @@ describe('Document', () => {
           .end((err, res) => {
             res.should.have.status(403);
             res.error.should.have.property(
-              'text').eql('You are unauthorized to view this document');
+              'text'
+            ).eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -285,7 +295,8 @@ describe('Document', () => {
           .end((err, res) => {
             res.should.have.status(403);
             res.error.should.have.property(
-              'text').eql('You are unauthorized to view this document');
+              'text'
+            ).eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -299,7 +310,8 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Document found');
             res.body.should.have.property('document');
             res.body.document.should.have.property(
-              'title').eql(adminPublic.title);
+              'title'
+            ).eql(adminPublic.title);
             done();
           });
       });
@@ -313,7 +325,8 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Document found');
             res.body.should.have.property('document');
             res.body.document.should.have.property(
-              'title').eql(regularUserPrivate.title);
+              'title'
+            ).eql(regularUserPrivate.title);
             done();
           });
       });
@@ -327,7 +340,8 @@ describe('Document', () => {
           .end((err, res) => {
             res.should.have.status(403);
             res.error.should.have.property(
-              'text').eql('You are unauthorized to view this document');
+              'text'
+            ).eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -339,7 +353,8 @@ describe('Document', () => {
           .end((err, res) => {
             res.should.have.status(403);
             res.error.should.have.property(
-              'text').eql('You are unauthorized to view this document');
+              'text'
+            ).eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -353,7 +368,8 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Document found');
             res.body.should.have.property('document');
             res.body.document.should.have.property(
-              'title').eql(adminPublic.title);
+              'title'
+            ).eql(adminPublic.title);
             done();
           });
       });
@@ -365,7 +381,8 @@ describe('Document', () => {
           .end((err, res) => {
             res.should.have.status(403);
             res.error.should.have.property(
-              'text').eql('You are unauthorized to view this document');
+              'text'
+            ).eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -377,7 +394,8 @@ describe('Document', () => {
           .end((err, res) => {
             res.should.have.status(403);
             res.error.should.have.property(
-              'text').eql('You are unauthorized to view this document');
+              'text'
+            ).eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -391,7 +409,8 @@ describe('Document', () => {
             res.body.should.have.property('message').eql('Document found');
             res.body.should.have.property('document');
             res.body.document.should.have.property(
-              'title').eql(regularUserPublic.title);
+              'title'
+            ).eql(regularUserPublic.title);
             done();
           });
       });
@@ -419,10 +438,12 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property(
-            'message').eql('Document information has been updated');
+            'message'
+          ).eql('Document information has been updated');
           res.body.should.have.property('updatedDocument');
           res.body.updatedDocument.should.have.property(
-            'title').eql('The great divide');
+            'title'
+          ).eql('The great divide');
           done();
         });
     });
@@ -435,7 +456,8 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(403);
           res.error.should.have.property(
-            'text').eql('You are unauthorized to view this document');
+            'text'
+          ).eql('You are unauthorized to view this document');
           res.body.should.not.have.property('updatedDocument');
           done();
         });
@@ -449,10 +471,12 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property(
-            'message').eql('Document information has been updated');
+            'message'
+          ).eql('Document information has been updated');
           res.body.should.have.property('updatedDocument');
           res.body.updatedDocument.should.have.property(
-            'title').eql('The main man');
+            'title'
+          ).eql('The main man');
           done();
         });
     });
@@ -465,7 +489,8 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.have.property(
-            'message').eql('Title is Required');
+            'message'
+          ).eql('Title is Required');
           res.body.should.not.have.property('updatedDocument');
           done();
         });
@@ -479,7 +504,8 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(409);
           res.error.should.have.property(
-            'text').eql('Document already exists');
+            'text'
+          ).eql('Document already exists');
           res.body.should.not.have.property('updatedDocument');
           done();
         });
@@ -511,7 +537,7 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('documentList');
-          res.body.documentList.length.should.eql(5);
+          res.body.documentList.length.should.eql(9);
           done();
         });
     });
@@ -550,7 +576,8 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(403);
           res.error.should.have.property(
-            'text').eql('You are unauthorized for this action');
+            'text'
+          ).eql('You are unauthorized for this action');
           done();
         });
     });
@@ -562,7 +589,8 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property(
-            'message').eql('Document has been deleted');
+            'message'
+          ).eql('Document has been deleted');
           done();
         });
     });
@@ -574,7 +602,8 @@ describe('Document', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property(
-            'message').eql('Document has been deleted');
+            'message'
+          ).eql('Document has been deleted');
           done();
         });
     });
