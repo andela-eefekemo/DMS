@@ -9,7 +9,7 @@ exports[`RoleDisplay Component should match the role Display snapshot 1`] = `
     <InputField
       className="validate form-design"
       name="title"
-      onChange={[Function]}
+      onChange={[MockFunction]}
       placeholder="role Title"
       type="text"
       value=""
@@ -17,14 +17,14 @@ exports[`RoleDisplay Component should match the role Display snapshot 1`] = `
     <InputField
       className="validate form-design"
       name="description"
-      onChange={[Function]}
+      onChange={[MockFunction]}
       placeholder="role Content"
       type="text"
     />
     <button
       className="waves-effect btn button-design"
       id="save-role"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="submit"
     >
       Save

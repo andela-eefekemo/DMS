@@ -25,15 +25,7 @@ module.exports = {
         include:
         `${__dirname}/client`,
         exclude: /(node_modules|bower_components)/,
-        loaders: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            'react-html-attrs',
-            'transform-class-properties',
-            'transform-decorators-legacy'
-          ]
-        }
+        loaders: 'babel-loader'
       },
       {
         test: /\.scss$/,

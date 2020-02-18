@@ -9,7 +9,6 @@ exports[`NavBar Component should match the navbar snapshot 1`] = `
   >
     <Link
       className="brand-logo"
-      replace={false}
       to="/"
     >
       <img
@@ -22,7 +21,6 @@ exports[`NavBar Component should match the navbar snapshot 1`] = `
     <Link
       className="button-collapse"
       data-activates="mobile-demo"
-      replace={false}
       to=""
     >
       <i
@@ -39,7 +37,6 @@ exports[`NavBar Component should match the navbar snapshot 1`] = `
         className="signin-button"
       >
         <Link
-          replace={false}
           to="/auth/signin"
         >
           LOG IN
@@ -49,7 +46,6 @@ exports[`NavBar Component should match the navbar snapshot 1`] = `
         className="signup-button"
       >
         <Link
-          replace={false}
           to="/auth/signup"
         >
           GET STARTED
@@ -62,7 +58,6 @@ exports[`NavBar Component should match the navbar snapshot 1`] = `
     >
       <li>
         <Link
-          replace={false}
           to="/auth/signin"
         >
           LOG IN
@@ -70,7 +65,6 @@ exports[`NavBar Component should match the navbar snapshot 1`] = `
       </li>
       <li>
         <Link
-          replace={false}
           to="/auth/signup"
         >
           GET STARTED

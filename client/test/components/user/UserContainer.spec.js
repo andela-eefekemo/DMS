@@ -1,10 +1,13 @@
 /* global expect jest test */
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import toJson from 'enzyme-to-json';
+import Adapter from 'enzyme-adapter-react-16';
 import {
   UserContainer
 } from '../../../components/user/UserContainer';
+
+configure({ adapter: new Adapter() });
 
 global.$ = () => ({
   modal: () => null

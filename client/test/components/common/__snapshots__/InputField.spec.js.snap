@@ -7,7 +7,7 @@ exports[`InputField Component should match the inputfield snapshot 1`] = `
   <input
     className="awesome"
     name="input"
-    onChange={[Function]}
+    onChange={[MockFunction]}
     placeholder="inputfield"
     required={true}
     type="text"

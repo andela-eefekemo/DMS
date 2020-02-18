@@ -100,7 +100,7 @@ class DocumentController {
   static getUserDocuments(req, res) {
     const offset = authenticate.verify(req.query.offset);
     const limit = authenticate.verify(req.query.limit);
-    if ((req.query.limit && !limit) || (req.query.offset && !offset)) {
+    if ((req.query.limit && limit === null ) || (req.query.offset && offset === null)) {
       return handleError(400, 'Offset and Limit must be Numbers', res);
     }
     Document.findAndCountAll({
@@ -195,7 +195,7 @@ class DocumentController {
     const offset = authenticate.verify(req.query.offset);
     const limit = authenticate.verify(req.query.limit);
 
-    if ((req.query.limit && !limit) || (req.query.offset && !offset)) {
+    if ((req.query.limit && limit === null) || (req.query.offset && offset === null)) {
       return handleError(400, 'Offset and Limit must be Numbers', res);
     }
 

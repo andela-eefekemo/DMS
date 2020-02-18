@@ -27,7 +27,41 @@ exports[`Role List Container should match snapshot of document list 1`] = `
             />
             <div
               className="scrollable"
-            />
+            >
+              <RoleCard
+                deleteRole={[Function]}
+                match={
+                  Object {
+                    "url": "",
+                  }
+                }
+                onChange={[Function]}
+                onSubmit={[Function]}
+                title="Manny"
+              />
+              <RoleCard
+                deleteRole={[Function]}
+                match={
+                  Object {
+                    "url": "",
+                  }
+                }
+                onChange={[Function]}
+                onSubmit={[Function]}
+                title="John"
+              />
+              <RoleCard
+                deleteRole={[Function]}
+                match={
+                  Object {
+                    "url": "",
+                  }
+                }
+                onChange={[Function]}
+                onSubmit={[Function]}
+                title="move"
+              />
+            </div>
           </div>
         </div>
       </div>

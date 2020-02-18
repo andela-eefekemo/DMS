@@ -1,8 +1,12 @@
 /* global jest expect test */
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import toJson from 'enzyme-to-json';
+import Adapter from 'enzyme-adapter-react-16';
+
 import { LandingContainer } from '../../../components/access/LandingContainer';
+
+configure({ adapter: new Adapter() });
 
 global.$ = () => ({
   carousel: () => null

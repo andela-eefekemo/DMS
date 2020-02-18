@@ -1,8 +1,12 @@
 /* global expect jest test */
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import toJson from 'enzyme-to-json';
+import Adapter from 'enzyme-adapter-react-16';
+
 import { SignUpForm } from '../../../components/access/SignUpForm';
+
+configure({ adapter: new Adapter() });
 
 describe('SignUpForm Component', () => {
   const spy = jest.fn();

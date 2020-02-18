@@ -23,8 +23,9 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
         >
           <InputField
             className="validate form-design"
+            id="firstName"
             name="firstName"
-            onChange={[Function]}
+            onChange={[MockFunction]}
             placeholder="First Name"
             type="text"
             value="Efe"
@@ -35,8 +36,9 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
         >
           <InputField
             className="validate form-design"
+            id="lastName"
             name="lastName"
-            onChange={[Function]}
+            onChange={[MockFunction]}
             placeholder="Last Name"
             type="text"
             value="Eguono"
@@ -47,8 +49,9 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
         >
           <InputField
             className="validate form-design"
+            id="email"
             name="email"
-            onChange={[Function]}
+            onChange={[MockFunction]}
             placeholder="Email"
             type="email"
             value="email"
@@ -68,15 +71,30 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
                   flat={true}
                   modal="close"
                   node="button"
-                  waves="light"
-              >
+                  waves="green"
+                >
                   Close
-              </Button>,
+                </Button>,
               ]
             }
             bottomSheet={false}
             fixedFooter={false}
-            modalOptions={Object {}}
+            id="modal-1"
+            options={
+              Object {
+                "dismissible": true,
+                "endingTop": "10%",
+                "inDuration": 250,
+                "onCloseEnd": null,
+                "onCloseStart": null,
+                "onOpenEnd": null,
+                "onOpenStart": null,
+                "opacity": 0.5,
+                "outDuration": 250,
+                "preventScrolling": true,
+                "startingTop": "4%",
+              }
+            }
             trigger={
               <a
                 className="waves-effect btn button-design"
@@ -102,14 +120,14 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
                   <InputField
                     className="validate form-design"
                     name="oldPassword"
-                    onChange={[Function]}
+                    onChange={[MockFunction]}
                     placeholder="Old Password"
                     type="password"
                   />
                   <InputField
                     className="validate form-design"
                     name="password"
-                    onChange={[Function]}
+                    onChange={[MockFunction]}
                     placeholder="Password"
                     type="password"
                   />
@@ -120,7 +138,7 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
                   <InputField
                     className="validate form-design"
                     name="confirmPassword"
-                    onChange={[Function]}
+                    onChange={[MockFunction]}
                     placeholder="Re-Type Password"
                     type="password"
                   />
@@ -132,7 +150,7 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
                 <button
                   className="btn button-design modal-action modal-close"
                   id="password-button"
-                  onClick={[Function]}
+                  onClick={[MockFunction]}
                   type="submit"
                 >
                   Save
@@ -147,7 +165,7 @@ exports[`UserDisplay Component should match the user Display snapshot 1`] = `
           <button
             className="waves-effect btn button-design"
             id="update-button"
-            onClick={[Function]}
+            onClick={[MockFunction]}
             type="submit"
           >
             Save

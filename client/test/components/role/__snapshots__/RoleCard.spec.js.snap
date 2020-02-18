@@ -24,7 +24,7 @@ exports[`RoleCard Component should match the role card snapshot 1`] = `
             className="btn btn-flat modal-action modal-close"
             id="delete"
             name={3}
-            onClick={[Function]}
+            onClick={[MockFunction]}
           >
             Delete
           </button>
@@ -37,7 +37,22 @@ exports[`RoleCard Component should match the role card snapshot 1`] = `
       }
       bottomSheet={false}
       fixedFooter={false}
-      modalOptions={Object {}}
+      id="modal-1"
+      options={
+        Object {
+          "dismissible": true,
+          "endingTop": "10%",
+          "inDuration": 250,
+          "onCloseEnd": null,
+          "onCloseStart": null,
+          "onOpenEnd": null,
+          "onOpenStart": null,
+          "opacity": 0.5,
+          "outDuration": 250,
+          "preventScrolling": true,
+          "startingTop": "4%",
+        }
+      }
       trigger={
         <a
           className="waves-effect btn button-design"
@@ -67,7 +82,7 @@ exports[`RoleCard Component should match the role card snapshot 1`] = `
             className="btn btn-flat modal-action modal-close"
             id="update"
             name={3}
-            onClick={[Function]}
+            onClick={[MockFunction]}
             type="submit"
           >
             Update
@@ -81,7 +96,22 @@ exports[`RoleCard Component should match the role card snapshot 1`] = `
       }
       bottomSheet={false}
       fixedFooter={false}
-      modalOptions={Object {}}
+      id="modal-1"
+      options={
+        Object {
+          "dismissible": true,
+          "endingTop": "10%",
+          "inDuration": 250,
+          "onCloseEnd": null,
+          "onCloseStart": null,
+          "onOpenEnd": null,
+          "onOpenStart": null,
+          "opacity": 0.5,
+          "outDuration": 250,
+          "preventScrolling": true,
+          "startingTop": "4%",
+        }
+      }
       trigger={
         <a
           className="waves-effect btn button-design"
@@ -99,14 +129,14 @@ exports[`RoleCard Component should match the role card snapshot 1`] = `
         <InputField
           className="validate form-design"
           name="title"
-          onChange={[Function]}
+          onChange={[MockFunction]}
           placeholder="Book"
           type="text"
         />
         <InputField
           className="validate form-design"
           name="description"
-          onChange={[Function]}
+          onChange={[MockFunction]}
           placeholder="Awesome"
           type="text"
         />

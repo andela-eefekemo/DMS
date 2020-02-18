@@ -33,7 +33,7 @@ exports[`UserView Component should match the user view snapshot 1`] = `
               <button
                 className="btn btn-flat modal-action modal-close"
                 name={3}
-                onClick={[Function]}
+                onClick={[MockFunction]}
               >
                 Delete
               </button>
@@ -46,7 +46,22 @@ exports[`UserView Component should match the user view snapshot 1`] = `
           }
           bottomSheet={false}
           fixedFooter={false}
-          modalOptions={Object {}}
+          id="modal-1"
+          options={
+            Object {
+              "dismissible": true,
+              "endingTop": "10%",
+              "inDuration": 250,
+              "onCloseEnd": null,
+              "onCloseStart": null,
+              "onOpenEnd": null,
+              "onOpenStart": null,
+              "opacity": 0.5,
+              "outDuration": 250,
+              "preventScrolling": true,
+              "startingTop": "4%",
+            }
+          }
           trigger={
             <a
               className="waves-effect btn button-design"
