@@ -2,9 +2,9 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    username: 'andeladeveloper',
+    username: 'eguono',
     password: null,
-    database: 'Document',
+    database: 'document',
     host: 'localhost',
     port: 5432,
     dialect: 'postgres',

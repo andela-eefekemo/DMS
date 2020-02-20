@@ -191,7 +191,6 @@ export class DocumentList extends Component {
       Materialize.toast(
         this.props.document.message, 2000,
         'indigo darken-4 white-text rounded');
-      this.updateDocumentList();
       this.props.history.push(`${this.props.match.url}`);
     });
   }
@@ -258,7 +257,6 @@ export class DocumentList extends Component {
           content: this.props.document.content,
           access: this.props.document.access
         });
-        this.updateDocumentList();
       });
   }
 

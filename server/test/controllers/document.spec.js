@@ -272,8 +272,8 @@ describe('Document', () => {
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
             res.should.have.status(403);
-            res.body.should.have.property(
-              'message').eql('You are unauthorized to view this document');
+            res.error.should.have.property(
+              'text').eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -284,8 +284,8 @@ describe('Document', () => {
           .set({ Authorization: regularUserToken })
           .end((err, res) => {
             res.should.have.status(403);
-            res.body.should.have.property(
-              'message').eql('You are unauthorized to view this document');
+            res.error.should.have.property(
+              'text').eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -326,8 +326,8 @@ describe('Document', () => {
           .set({ Authorization: contributorToken })
           .end((err, res) => {
             res.should.have.status(403);
-            res.body.should.have.property(
-              'message').eql('You are unauthorized to view this document');
+            res.error.should.have.property(
+              'text').eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -338,8 +338,8 @@ describe('Document', () => {
           .set({ Authorization: contributorToken })
           .end((err, res) => {
             res.should.have.status(403);
-            res.body.should.have.property(
-              'message').eql('You are unauthorized to view this document');
+            res.error.should.have.property(
+              'text').eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -364,8 +364,8 @@ describe('Document', () => {
           .set({ Authorization: contributorToken })
           .end((err, res) => {
             res.should.have.status(403);
-            res.body.should.have.property(
-              'message').eql('You are unauthorized to view this document');
+            res.error.should.have.property(
+              'text').eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -376,8 +376,8 @@ describe('Document', () => {
           .set({ Authorization: contributorToken })
           .end((err, res) => {
             res.should.have.status(403);
-            res.body.should.have.property(
-              'message').eql('You are unauthorized to view this document');
+            res.error.should.have.property(
+              'text').eql('You are unauthorized to view this document');
             done();
           });
       });
@@ -403,7 +403,7 @@ describe('Document', () => {
         .set({ Authorization: adminToken })
         .end((err, res) => {
           res.should.have.status(404);
-          res.body.should.have.property('message').eql('Document not found');
+          res.error.should.have.property('text').eql('Document not found');
           done();
         });
     });
@@ -434,8 +434,8 @@ describe('Document', () => {
         .send({ title: 'The main man' })
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.should.have.property(
-            'message').eql('you are unauthorized for this action');
+          res.error.should.have.property(
+            'text').eql('You are unauthorized to view this document');
           res.body.should.not.have.property('updatedDocument');
           done();
         });
@@ -475,11 +475,11 @@ describe('Document', () => {
       chai.request(server)
         .put(`/api/v1/documents/${adminPrivate.id}`)
         .set({ Authorization: adminToken })
-        .send({ title: 'The main man' })
+        .send({ title: 'Harry Potter 10' })
         .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property(
-            'message').eql("We're sorry, document title must be unique");
+          res.should.have.status(409);
+          res.error.should.have.property(
+            'text').eql('Document already exists');
           res.body.should.not.have.property('updatedDocument');
           done();
         });
@@ -549,8 +549,8 @@ describe('Document', () => {
         .set({ Authorization: contributorToken })
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.should.have.property(
-            'message').eql('You are unauthorized for this action');
+          res.error.should.have.property(
+            'text').eql('You are unauthorized for this action');
           done();
         });
     });
