@@ -26,23 +26,20 @@ class DocumentController {
       throw new AppError(validateErrors[0].msg, 400);
     }
     User.findById(req.user.id)
-      .then(user =>
-        Document.create({
-          title: req.body.title,
-          content: req.body.content,
-          access: req.body.access,
-          authorId: req.user.id,
-          roleId: user.roleId
-        }))
-      .then(document => document.save())
-      .then(newDocument => res.status(201).send({
+      .then((user) => Document.create({
+        title: req.body.title,
+        content: req.body.content,
+        access: req.body.access,
+        authorId: req.user.id,
+        roleId: user.roleId
+      }))
+      .then((document) => document.save())
+      .then((newDocument) => res.status(201).send({
         message: 'Document successfully created',
         newDocument: newDocument.filterDocumentDetails()
       }))
       .catch((err) => {
-        const status = err && err.status ? err.status : 500;
-        const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-        res.status(status).send(message);
+        handleError(err.status, err.message, res, err);
       });
   }
 
@@ -72,16 +69,15 @@ class DocumentController {
               {
                 message: 'Document found',
                 document: document.filterDocumentDetails()
-              });
+              }
+            );
           }
           throw new AppError('You are unauthorized to view this document', 403);
         }
         throw new AppError('Document not found', 404);
       })
       .catch((err) => {
-        const status = err && err.status ? err.status : 500;
-        const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-        res.status(status).send(message);
+        handleError(err.status, err.message, res, err);
       });
   }
 
@@ -118,9 +114,7 @@ class DocumentController {
         });
       })
       .catch((err) => {
-        const status = err && err.status ? err.status : 500;
-        const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-        res.status(status).send(message);
+        handleError(err.status, err.message, res, err);
       });
   }
 
@@ -142,7 +136,8 @@ class DocumentController {
     if (validateErrors) return handleError(400, validateErrors[0].msg, res);
     if (!id) return handleError(400, 'Id must be a number', res);
     Document.findOne(
-      { where: { title: req.body.title, authorId: req.user.id } })
+      { where: { title: req.body.title, authorId: req.user.id } }
+    )
       .then((existingDocument) => {
         if (existingDocument) {
           throw new AppError('Document already exists', 409);
@@ -161,15 +156,14 @@ class DocumentController {
           access: req.body.access || document.access
         });
       })
-      .then(updatedDocument => res.status(200).send(
+      .then((updatedDocument) => res.status(200).send(
         {
           message: 'Document information has been updated',
           updatedDocument: updatedDocument.filterDocumentDetails()
-        }))
+        }
+      ))
       .catch((err) => {
-        const status = err && err.status ? err.status : 500;
-        const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-        res.status(status).send(message);
+        handleError(err.status, err.message, res, err);
       });
   }
 
@@ -235,11 +229,10 @@ class DocumentController {
           message: 'Documents found',
           documentList: documents,
           metaData: paginate(count, limit, offset)
-        }))
+        }
+      ))
       .catch((err) => {
-        const status = err && err.status ? err.status : 500;
-        const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-        res.status(status).send(message);
+        handleError(err.status, err.message, res, err);
       });
   }
 
@@ -267,12 +260,9 @@ class DocumentController {
       })
       .then(() => res.status(200).send({ message: 'Document has been deleted' }))
       .catch((err) => {
-        const status = err && err.status ? err.status : 500;
-        const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-        res.status(status).send(message);
+        handleError(err.status, err.message, res, err);
       });
   }
-
 }
 
 export default DocumentController;
