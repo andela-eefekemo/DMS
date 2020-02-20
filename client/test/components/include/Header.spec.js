@@ -1,10 +1,13 @@
 /* global expect jest test */
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import toJson from 'enzyme-to-json';
+import Adapter from 'enzyme-adapter-react-16';
 import {
   Header
 } from '../../../components/include/Header';
+
+configure({ adapter: new Adapter() });
 
 global.$ = () => ({
   sideNav: () => null

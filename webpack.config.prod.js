@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 process.env.NODE_ENV = 'production';
 const GLOBALS = {
@@ -19,7 +19,7 @@ module.exports = {
     contentBase: `${__dirname}/client`
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         include:
@@ -37,11 +37,11 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          // resolve-url-loader may be chained before sass-loader if necessary
-          use: ['css-loader', 'sass-loader']
-        })
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.(jpg|png|svg)$/, loader: 'url-loader' },
@@ -54,7 +54,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(GLOBALS),
     new webpack.NoEmitOnErrorsPlugin(),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: './css/style.css',
       allChunks: true
     }),

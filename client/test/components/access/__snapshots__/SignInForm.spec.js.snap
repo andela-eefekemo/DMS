@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SignInForm Component should match the SignInForm snapshot 1`] = `
-<div>
+<Fragment>
   <h5
     className="center"
   >
@@ -17,6 +17,7 @@ exports[`SignInForm Component should match the SignInForm snapshot 1`] = `
       placeholder="Email"
       required={true}
       type="email"
+      value=""
     />
   </div>
   <div
@@ -29,6 +30,7 @@ exports[`SignInForm Component should match the SignInForm snapshot 1`] = `
       placeholder="password"
       required={true}
       type="password"
+      value=""
     />
   </div>
   <div
@@ -47,11 +49,10 @@ exports[`SignInForm Component should match the SignInForm snapshot 1`] = `
   >
     Don't Have an account? 
     <Link
-      replace={false}
       to="signup"
     >
       Create an Account
     </Link>
   </p>
-</div>
+</Fragment>
 `;

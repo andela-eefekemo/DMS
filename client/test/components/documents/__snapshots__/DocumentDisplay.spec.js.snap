@@ -13,7 +13,7 @@ exports[`DocumentDisplay Component should match the document Display snapshot 1`
     <InputField
       className="validate div-design"
       name="title"
-      onChange={[Function]}
+      onChange={[MockFunction]}
       placeholder="Document Title"
       type="text"
       value=""
@@ -21,7 +21,7 @@ exports[`DocumentDisplay Component should match the document Display snapshot 1`
     <select
       className="browser-default input-field select"
       name="access"
-      onChange={[Function]}
+      onChange={[MockFunction]}
     >
       <Dropdown
         text="Select access type"
@@ -49,7 +49,7 @@ exports[`DocumentDisplay Component should match the document Display snapshot 1`
         }
       }
       content=""
-      onChange={[Function]}
+      onChange={[MockFunction]}
     />
     <div
       className="input-field center"
@@ -57,7 +57,7 @@ exports[`DocumentDisplay Component should match the document Display snapshot 1`
       <button
         className="waves-effect btn button-design"
         id="save-document"
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Create
       </button>

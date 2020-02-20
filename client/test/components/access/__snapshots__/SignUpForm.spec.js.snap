@@ -112,7 +112,6 @@ exports[`SignUpForm Component should match the SignUpForm snapshot 1`] = `
   >
     Have an account? 
     <Link
-      replace={false}
       to="signin"
     >
       Sign In

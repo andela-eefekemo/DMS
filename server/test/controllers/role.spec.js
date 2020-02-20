@@ -17,7 +17,7 @@ describe('Role', () => {
       .send(testData.admin)
       .end((err, res) => {
         res.should.have.status(201);
-        adminToken = `JWT ${res.body.token}`;
+        adminToken = `Bearer ${res.body.token}`;
         done();
       });
   });
@@ -33,7 +33,8 @@ describe('Role', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           res.body.should.have.property('message').eql(
-            'Title is Required');
+            'Title is Required'
+          );
           done();
         });
     });
@@ -94,7 +95,8 @@ describe('Role', () => {
           res.should.have.status(200);
           res.body.should.have.property('updatedRole');
           res.body.should.have.property(
-            'message').eql('Role successfully updated');
+            'message'
+          ).eql('Role successfully updated');
           res.body.updatedRole.description.should.eql('has been updated');
           done();
         });
@@ -109,7 +111,8 @@ describe('Role', () => {
           res.should.have.status(400);
           res.body.should.not.have.property('updatedRole');
           res.body.should.have.property(
-            'message').eql('Description is Required');
+            'message'
+          ).eql('Description is Required');
           done();
         });
     });
@@ -123,7 +126,8 @@ describe('Role', () => {
           res.should.have.status(404);
           res.body.should.not.have.property('updatedRole');
           res.body.should.have.property(
-            'message').eql('Role not found');
+            'message'
+          ).eql('Role not found');
           done();
         });
     });
@@ -132,13 +136,13 @@ describe('Role', () => {
   describe('/api/v1/DELETE role', () => {
     it('should delete role', (done) => {
       chai.request(server)
-      .delete('/api/v1/roles/3')
-      .set({ Authorization: adminToken })
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.have.property('message').eql('Role has been deleted');
-        done();
-      });
+        .delete('/api/v1/roles/3')
+        .set({ Authorization: adminToken })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message').eql('Role has been deleted');
+          done();
+        });
     });
 
     it('should fail if role does not exist', (done) => {
@@ -149,7 +153,8 @@ describe('Role', () => {
         .end((err, res) => {
           res.should.have.status(404);
           res.body.should.have.property(
-            'message').eql('Role not found');
+            'message'
+          ).eql('Role not found');
           done();
         });
     });

@@ -6,7 +6,7 @@ exports[`DocumentCard Component should match the document card snapshot 1`] = `
     className="truncate"
     href="#!"
     name={3}
-    onClick={[Function]}
+    onClick={[MockFunction]}
   >
     Book
   </a>

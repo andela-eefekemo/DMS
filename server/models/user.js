@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const userModel = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {
       type: DataTypes.STRING,
@@ -37,52 +37,45 @@ const userModel = (sequelize, DataTypes) => {
       defaultValue: 2,
     }
   }, {
-    classMethods: {
-      associate: (models) => {
-          // associations can be defined here
-        User.belongsTo(models.Role, {
-          foreignKey: 'roleId',
-          onDelete: 'SET NULL',
-        });
-
-        User.hasMany(models.Document, {
-          foreignKey: 'authorId'
-        });
-      }
-    },
-    instanceMethods: {
-      validPassword(password) {
-        return bcrypt.compareSync(password, this.password);
-      },
-
-      hashPassword() {
-        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
-      },
-
-      filterUserDetails() {
-        const { password, createdAt, updatedAt, ...rest } = this.get();
-        return rest;
-      },
-      filterUserList() {
-        const { password, updatedAt, ...rest } = this.get();
-        return rest;
-      }
-    },
-
     hooks: {
       beforeCreate(user) {
-        user.hashPassword();
+        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8));
       },
 
       beforeUpdate(user) {
         /* eslint-disable no-underscore-dangle*/
         if (user._changed.password) {
-          user.hashPassword();
+          user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8));
         }
       }
     }
   });
+
+  User.associate = function (models) {
+    // associations can be defined here
+    this.belongsTo(models.Role, {
+      foreignKey: 'roleId'
+    });
+
+    this.hasMany(models.Document, {
+      foreignKey: 'authorId'
+    });
+  }
+
+  User.prototype.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+  }
+
+  User.prototype.filterUserDetails = function () {
+    const { password, createdAt, updatedAt, ...rest } = this.get();
+    return rest;
+  }
+
+  User.prototype.filterUserList = function () {
+    const { password, updatedAt, ...rest } = this.get();
+    return rest;
+  }
+
   return User;
 };
 
-export default userModel;

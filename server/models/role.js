@@ -1,4 +1,4 @@
-const roleModel = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Role = sequelize.define('Role', {
     title: {
       allowNull: false,
@@ -15,18 +15,15 @@ const roleModel = (sequelize, DataTypes) => {
         notEmpty: true
       }
     }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-        Role.hasMany(models.User, {
-          foreignKey: 'roleId',
-          as: 'roles',
-        });
-      }
-    }
-  });
+  }, { });
+
+  Role.associate = function (models) {
+    // associations can be defined here
+    this.hasMany(models.User, {
+      foreignKey: 'roleId',
+      as: 'roles',
+    });
+  };
+
   return Role;
 };
-
-export default roleModel;

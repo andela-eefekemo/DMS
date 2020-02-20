@@ -22,6 +22,7 @@ class Authenticate {
       roleId: request.roleId,
     };
   }
+
   /**
   * Generate a token
   *
@@ -80,7 +81,8 @@ class Authenticate {
       return next();
     }
     return res.status(401).send(
-      { message: 'You are unauthorized for this action' });
+      { message: 'You are unauthorized for this action' }
+    );
   }
 
   /**
@@ -96,11 +98,11 @@ class Authenticate {
   static permitAdmin(req, res, next) {
     if (req.user.roleId !== 1) {
       return res.status(401).send(
-        { message: "We're sorry, you're not authorized for this feature" });
+        { message: "We're sorry, you're not authorized for this feature" }
+      );
     }
     res.locals.user = req.user;
     return next();
   }
 }
 export default Authenticate;
-

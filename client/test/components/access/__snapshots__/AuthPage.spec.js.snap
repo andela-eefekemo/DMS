@@ -17,12 +17,20 @@ exports[`AuthPage Component should match the AuthPage snapshot 1`] = `
     >
       <Switch>
         <Route
-          component={[Function]}
           exact={true}
           path="/signin"
+          render={[Function]}
         />
         <Route
-          component={[Function]}
+          component={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(withRouter(SignUpForm))",
+              "type": [Function],
+            }
+          }
           exact={true}
           path="/signup"
         />

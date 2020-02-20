@@ -35,7 +35,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
                 className="btn btn-flat modal-action modal-close"
                 id="delete"
                 name={3}
-                onClick={[Function]}
+                onClick={[MockFunction]}
               >
                 Delete
               </button>
@@ -48,7 +48,22 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
           }
           bottomSheet={false}
           fixedFooter={false}
-          modalOptions={Object {}}
+          id="modal-1"
+          options={
+            Object {
+              "dismissible": true,
+              "endingTop": "10%",
+              "inDuration": 250,
+              "onCloseEnd": null,
+              "onCloseStart": null,
+              "onOpenEnd": null,
+              "onOpenStart": null,
+              "opacity": 0.5,
+              "outDuration": 250,
+              "preventScrolling": true,
+              "startingTop": "4%",
+            }
+          }
           trigger={
             <a
               className="waves-effect btn button-design"
@@ -77,7 +92,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
               <button
                 className="modal-action modal-close btn btn-flat"
                 id="save-update"
-                onClick={[Function]}
+                onClick={[MockFunction]}
               >
                 Update
               </button>
@@ -90,7 +105,22 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
           }
           bottomSheet={false}
           fixedFooter={false}
-          modalOptions={Object {}}
+          id="modal-1"
+          options={
+            Object {
+              "dismissible": true,
+              "endingTop": "10%",
+              "inDuration": 250,
+              "onCloseEnd": null,
+              "onCloseStart": null,
+              "onOpenEnd": null,
+              "onOpenStart": null,
+              "opacity": 0.5,
+              "outDuration": 250,
+              "preventScrolling": true,
+              "startingTop": "4%",
+            }
+          }
           trigger={
             <a
               className="waves-effect btn button-design"
@@ -108,7 +138,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             <InputField
               className="validate form-design"
               name="title"
-              onChange={[Function]}
+              onChange={[MockFunction]}
               placeholder="Document Title"
               type="text"
               value="Book"
@@ -119,7 +149,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
                   "height": 200,
                   "plugins": "link image code",
                   "toolbar": "undo redo |
-                                    bold italic | alignleft aligncenter alignright | code",
+                    bold italic | alignleft aligncenter alignright | code",
                 }
               }
               content="Awesome"
@@ -127,7 +157,7 @@ exports[`DocumentView Component should match the document view snapshot 1`] = `
             <select
               className="browser-default input-field select"
               name="access"
-              onChange={[Function]}
+              onChange={[MockFunction]}
               value="public"
             >
               <Dropdown

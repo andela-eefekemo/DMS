@@ -1,13 +1,15 @@
+import Sequelize from 'sequelize';
 import db from '../models';
 import validate from '../helpers/Validate';
 import authenticate from '../helpers/Authenticate';
 import handleError from '../helpers/handleError';
 
+const { notIn } = Sequelize.Op;
+
 /**
  * @class Role
  */
 class Role {
-
   /**
   * Create a role
   * Route: POST: /roles
@@ -61,7 +63,7 @@ class Role {
   */
   static view(req, res) {
     db.Role.findAll({
-      where: { id: { $not: [1, 2] } },
+      where: { id: { [notIn]: [1, 2] } },
       order: [['createdAt', 'DESC']]
     })
       .then((roles) => {
@@ -97,7 +99,7 @@ class Role {
       if (id === false) {
         handleError(400, 'Id must be a number', res);
       }
-      db.Role.findById(id)
+      db.Role.findByPk(id)
         .then((roles) => {
           if (roles === null) {
             return res.status(404).send({ message: 'Role not found' });
@@ -105,7 +107,7 @@ class Role {
           roles.update({
             title: req.body.title || roles.title,
             description: req.body.description || roles.description
-          }).then(updatedRole => res.status(200).send({
+          }).then((updatedRole) => res.status(200).send({
             message: 'Role successfully updated',
             updatedRole
           }))
@@ -137,14 +139,15 @@ class Role {
     if (id === false) {
       handleError(400, 'Id must be a number', res);
     }
-    db.Role.findById(id)
+    db.Role.findByPk(id)
       .then((roles) => {
         if (roles === null) {
           return res.status(404).send({ message: 'Role not found' });
         }
         roles.destroy()
           .then(() => res.status(200).send(
-            { message: 'Role has been deleted' }));
+            { message: 'Role has been deleted' }
+          ));
       }).catch(() => {
         res.status(500).send({
           message: "we're sorry, there was an error, please try again"

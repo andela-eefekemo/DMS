@@ -27,7 +27,6 @@ exports[`SectionDisplay Component should match the sectiondisplay snapshot 1`] =
           DocNinja
         </h2>
         <Link
-          replace={false}
           to="/signup"
         >
           Get Started

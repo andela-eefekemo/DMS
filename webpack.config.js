@@ -1,7 +1,8 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  mode: 'development',
   devtool: 'inline-source-map',
   entry: [
     'eventsource-polyfill', // necessary for hot reloading with IE
@@ -18,31 +19,22 @@ module.exports = {
     contentBase: `${__dirname}/client`
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         include:
         `${__dirname}/client`,
         exclude: /(node_modules|bower_components)/,
-        loaders: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            'react-html-attrs',
-            'transform-class-properties',
-            'transform-decorators-legacy'
-          ]
-        }
+        loaders: 'babel-loader'
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          // resolve-url-loader may be chained before sass-loader if necessary
-          use: ['css-loader', 'sass-loader']
-        })
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       },
-      { test: /\.json$/, loader: 'json-loader' },
       { test: /\.(jpg|png|svg)$/, loader: 'url-loader' },
     ]
   },
@@ -52,7 +44,7 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: './css/style.css',
       allChunks: true
     }),

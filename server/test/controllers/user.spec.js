@@ -26,7 +26,7 @@ describe('User', () => {
       .send(testData.userFive)
       .end((err, res) => {
         savedUser5 = res.body.userData;
-        userToken5 = `JWT ${res.body.token}`;
+        userToken5 = `Bearer ${res.body.token}`;
         res.should.have.status(201);
       });
     chai.request(server)
@@ -34,7 +34,7 @@ describe('User', () => {
       .send(testData.userSix)
       .end((err, res) => {
         fineUser = res.body.userData;
-        fineToken = `JWT ${res.body.token}`;
+        fineToken = `Bearer ${res.body.token}`;
         res.should.have.status(201);
       });
     chai.request(server)
@@ -48,7 +48,7 @@ describe('User', () => {
       .send(testData.admin2)
       .end((err, res) => {
         res.should.have.status(201);
-        adminToken = `JWT ${res.body.token}`;
+        adminToken = `Bearer ${res.body.token}`;
         adminUser = res.body.userData;
         done();
       });
@@ -64,7 +64,8 @@ describe('User', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           res.body.should.have.property('message').eql(
-            'Email is Required');
+            'Email is Required'
+          );
           done();
         });
     });
@@ -151,7 +152,8 @@ describe('User', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           res.body.should.have.property('message').eql(
-            'Please Input Valid Email');
+            'Please Input Valid Email'
+          );
           done();
         });
     });
@@ -164,7 +166,8 @@ describe('User', () => {
           res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('message').eql(
-            'Wrong password, Please input correct password');
+            'Wrong password, Please input correct password'
+          );
           done();
         });
     });
@@ -180,7 +183,8 @@ describe('User', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.message.should.be.a('string').eql(
-            'Success, delete user token');
+            'Success, delete user token'
+          );
           done();
         });
     });
@@ -194,8 +198,9 @@ describe('User', () => {
         .set({ Authorization: userToken })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.have.property('message').eql(
-            "We're sorry, you're not authorized for this feature");
+          res.error.should.have.property('text').eql(
+            'Unauthorized'
+          );
           done();
         });
     });
@@ -300,18 +305,20 @@ describe('User', () => {
     it('should allow admin to update user information', (done) => {
       chai.request(server)
         .put(`/api/v1/users/${savedUser.id}`)
-        .send({ email: 'jonah@gmail.com' })
         .set({ Authorization: adminToken })
+        .send({ email: 'jonah@gmail.com' })
         .end((err, res) => {
-          updatedToken = `JWT ${res.body.token}`;
+          updatedToken = `Bearer ${res.body.token}`;
           updatedUser = res.body.updatedUser;
           res.should.have.status(200);
           res.body.should.have.property('updatedUser');
           res.body.should.have.property(
-            'message').eql('User information has been updated');
+            'message'
+          ).eql('User information has been updated');
           res.body.updatedUser.should.be.a('object');
           res.body.updatedUser.should.have.property(
-            'email').not.eql(savedUser.firstName);
+            'email'
+          ).not.eql(savedUser.firstName);
           done();
         });
     });
@@ -319,16 +326,18 @@ describe('User', () => {
     it('should allow user to update his/her information', (done) => {
       chai.request(server)
         .put(`/api/v1/users/${savedUser.id}`)
-        .send({ firstName: 'Boy' })
         .set({ Authorization: updatedToken })
+        .send({ firstName: 'Boy' })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('updatedUser');
           res.body.should.have.property(
-            'message').eql('User information has been updated');
+            'message'
+          ).eql('User information has been updated');
           res.body.updatedUser.should.be.a('object');
           res.body.updatedUser.should.have.property(
-            'firstName').eql('Boy');
+            'firstName'
+          ).eql('Boy');
           done();
         });
     });
@@ -336,8 +345,8 @@ describe('User', () => {
     it('should not allow users to update other users information', (done) => {
       chai.request(server)
         .put(`/api/v1/users/${savedUser.id}`)
-        .send({ firstName: 'Boy' })
         .set({ Authorization: fineToken })
+        .send({ firstName: 'Boy' })
         .end((err, res) => {
           res.should.have.status(401);
           done();
@@ -352,7 +361,8 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(409);
           res.body.should.have.property(
-            'message').eql('Email already exists');
+            'message'
+          ).eql('Email already exists');
           done();
         });
     });
@@ -417,7 +427,8 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('message').eql(
-            'User has been deleted');
+            'User has been deleted'
+          );
           done();
         });
     });
@@ -429,7 +440,8 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(404);
           res.body.should.have.property('message').eql(
-            'User not found');
+            'User not found'
+          );
           done();
         });
     });
@@ -441,7 +453,8 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(401);
           res.body.should.have.property('message').eql(
-            'You are unauthorized for this action');
+            'You are unauthorized for this action'
+          );
           done();
         });
     });
@@ -458,4 +471,3 @@ describe('User', () => {
     });
   });
 });
-
