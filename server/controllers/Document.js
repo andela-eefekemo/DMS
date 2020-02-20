@@ -43,9 +43,7 @@ class DocumentController {
         newDocument: newDocument.filterDocumentDetails()
       });
     } catch (err) {
-      const status = err && err.status ? err.status : 500;
-      const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-      return res.status(status).send(message);
+      handleError(err.status, err.message, res, err)
     };
   }
 
@@ -83,9 +81,7 @@ class DocumentController {
       }
       throw new AppError('Document not found', 404);
     } catch (err) {
-      const status = err && err.status ? err.status : 500;
-      const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-      res.status(status).send(message);
+      handleError(err.status, err.message, res, err)
     };
   }
 
@@ -104,6 +100,7 @@ class DocumentController {
     if ((req.query.limit && limit === null) || (req.query.offset && offset === null)) {
       return handleError(400, 'Offset and Limit must be Numbers', res);
     }
+
     try {
       const query = {
         offset: offset || 0,
@@ -120,9 +117,7 @@ class DocumentController {
         metaData: paginate(count, limit, offset)
       });
     } catch (err) {
-      const status = err && err.status ? err.status : 500;
-      const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-      res.status(status).send(message);
+      handleError(err.status, err.message, res, err)
     };
   }
 
@@ -147,26 +142,26 @@ class DocumentController {
     try {
       const existingDocument = await Document.findOne({ where: { title: req.body.title, authorId: req.user.id } });
       if (existingDocument) throw new AppError('Document already exists', 409);
-      const document = await Document.findByPk(id);
 
+      const document = await Document.findByPk(id);
       const isAuthor = document.authorId === req.user.id;
       const isAdmin = req.user.roleId === 1;
       if (!isAuthor && !isAdmin) {
         throw new AppError('You are unauthorized to view this document', 403);
       }
+
       const updatedDocument = await document.update({
         title: req.body.title || document.title,
         content: req.body.content || document.content,
         access: req.body.access || document.access
       });
+
       return res.status(200).send({
         message: 'Document information has been updated',
         updatedDocument: updatedDocument.filterDocumentDetails()
       });
     } catch (err) {
-      const status = err && err.status ? err.status : 500;
-      const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-      res.status(status).send(message);
+      handleError(err.status, err.message, res, err)
     };
   }
 
@@ -184,9 +179,9 @@ class DocumentController {
   static async search(req, res) {
     let searchTerm = '%%';
     if (req.query.q) searchTerm = `%${req.query.q}%`;
+
     const offset = authenticate.verify(req.query.offset);
     const limit = authenticate.verify(req.query.limit);
-
     if ((req.query.limit && limit === null) || (req.query.offset && offset === null)) {
       return handleError(400, 'Offset and Limit must be Numbers', res);
     }
@@ -232,9 +227,7 @@ class DocumentController {
         metaData: paginate(count, limit, offset)
       });
     } catch (err) {
-      const status = err && err.status ? err.status : 500;
-      const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-      res.status(status).send(message);
+      handleError(err.status, err.message, res, err)
     };
   }
 
@@ -259,12 +252,11 @@ class DocumentController {
       if (!isAuthor && !isAdmin) {
         throw new AppError('You are unauthorized for this action', 403);
       }
+
       const destroyed = await document.destroy();
       return res.status(200).send({ message: 'Document has been deleted' });
     } catch (err) {
-      const status = err && err.status ? err.status : 500;
-      const message = err && err.message ? err.message : "we're sorry, there was an error, please try again";
-      res.status(status).send(message);
+      handleError(err.status, err.message, res, err)
     };
   }
 }
