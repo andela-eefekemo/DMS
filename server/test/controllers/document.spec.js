@@ -1,10 +1,13 @@
+import Sequelize from 'sequelize';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import testData from '../testData';
 
+import { Document } from '../../models'
 import server from '../../../server';
 
-const should = chai.should(); // eslint-disable-line
+const should = chai.should(); // eslint-disable-line'
+const { and, or, iLike } = Sequelize.Op;
 
 chai.use(chaiHttp);
 
@@ -33,15 +36,15 @@ describe('Document', () => {
     const thirdResponse = await chai.request(server)
       .post('/api/v1/users')
       .send(testData.userTen);
-    
+
 
     firstResponse.should.have.status(201);
     secondResponse.should.have.status(201);
-    thirdResponse .should.have.status(201);
+    thirdResponse.should.have.status(201);
 
     regularUserToken = `Bearer ${firstResponse.body.token}`;
     adminToken = `Bearer ${secondResponse.body.token}`;
-    contributorToken = `Bearer ${thirdResponse .body.token}`;
+    contributorToken = `Bearer ${thirdResponse.body.token}`;
 
     savedUser = firstResponse.body.userData;
     adminUser = secondResponse.body.userData;
@@ -51,18 +54,18 @@ describe('Document', () => {
       .post('/api/v1/documents')
       .set({ Authorization: adminToken })
       .send(testData.documentSix);
-    
+
     const secondResponse = await chai.request(server)
       .post('/api/v1/documents')
       .set({ Authorization: adminToken })
       .send(testData.documentEight);
-    
+
     const thirdResponse = await chai.request(server)
       .post('/api/v1/documents')
       .set({ Authorization: adminToken })
       .send(testData.documentTen);
-    
-    
+
+
     firstResponse.should.have.status(201);
     secondResponse.should.have.status(201);
     thirdResponse.should.have.status(201);
@@ -174,46 +177,51 @@ describe('Document', () => {
 
   // list all documents
   describe('DOCUMENTS listAll', () => {
-    it('should listAll documents for the admin', (done) => {
-      chai.request(server)
-        .get('/api/v1/documents')
-        .set({ Authorization: adminToken })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('message').eql('Documents found');
-          res.body.should.have.property('documentList');
-          res.body.documentList.length.should.eql(10);
-          done();
-        });
+    it('should listAll documents for the admin', async () => {
+      const res = await chai.request(server)
+        .get('/api/v1/documents?limit=20')
+        .set({ Authorization: adminToken });
+      const documentList = await Document.findAll();
+      res.should.have.status(200);
+      res.body.should.have.property('message').eql('Documents found');
+      res.body.should.have.property('documentList');
+      res.body.documentList.length.should.eql(documentList.length);
     });
 
     it(
       'should list role, public and private documents user has access to view',
-      (done) => {
-        chai.request(server)
-          .get('/api/v1/documents')
-          .set({ Authorization: regularUserToken })
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.have.property('message').eql('Documents found');
-            res.body.should.have.property('documentList');
-            res.body.documentList.length.should.eql(6);
-            done();
-          });
+      async () => {
+        const res = await chai.request(server)
+          .get('/api/v1/documents?limit=20')
+          .set({ Authorization: regularUserToken });
+        const query = {
+          [or]: [
+            {
+              [or]: [{ access: 'public' }, {
+                [and]: [
+                  { access: 'role' }, { roleId: savedUser.roleId }]
+              }]
+            },
+            { authorId: savedUser.id }
+          ]
+        };
+        const documentList = await Document.findAll({ where: query });
+        res.should.have.status(200);
+        res.body.should.have.property('message').eql('Documents found');
+        res.body.should.have.property('documentList');
+        res.body.documentList.length.should.eql(documentList.length);
       }
     );
     it('should list only public documents if user has no other access',
-      (done) => {
-        chai.request(server)
-          .get('/api/v1/documents')
-          .set({ Authorization: contributorToken })
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.have.property('message').eql('Documents found');
-            res.body.should.have.property('documentList');
-            res.body.documentList.length.should.eql(3);
-            done();
-          });
+      async () => {
+        const res = await chai.request(server)
+          .get('/api/v1/documents?limit=20')
+          .set({ Authorization: contributorToken });
+        const documentList = await Document.findAll({ where: { access: 'public' } });
+        res.should.have.status(200);
+        res.body.should.have.property('message').eql('Documents found');
+        res.body.should.have.property('documentList');
+        res.body.documentList.length.should.eql(documentList.length);
       });
     it('should fail if user is not logged in', (done) => {
       chai.request(server)
@@ -514,56 +522,59 @@ describe('Document', () => {
 
   // Get user documents by id
   describe('GETUSERDOCUMENTS', () => {
-    it('should get all documents by user', (done) => {
-      chai.request(server)
-        .get(`/api/v1/users/${adminUser.id}/documents`)
-        .set({ Authorization: adminToken })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('message').eql('Documents found');
-          res.body.should.have.property('documents');
-          res.body.documents.length.should.eql(3);
-          done();
-        });
+    it('should get all documents by user', async () => {
+      const res = await chai.request(server)
+        .get(`/api/v1/users/${adminUser.id}/documents?limit=20`)
+        .set({ Authorization: adminToken });
+      const documentList = await Document.findAll({ where: { authorId: adminUser.id } });
+      res.should.have.status(200);
+      res.body.should.have.property('message').eql('Documents found');
+      res.body.should.have.property('documents');
+      res.body.documents.length.should.eql(documentList.length);
     });
   });
 
   // Search documents by title
   describe('DOCUMENTS search', () => {
-    it('admin should search all documents based on title', (done) => {
-      chai.request(server)
-        .get('/api/v1/search/documents?q=o')
-        .set({ Authorization: adminToken })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('documentList');
-          res.body.documentList.length.should.eql(9);
-          done();
-        });
+    it('admin should search all documents based on title', async () => {
+      const res = await chai.request(server)
+        .get('/api/v1/search/documents?q=o&limit=20')
+        .set({ Authorization: adminToken });
+      const documentList = await Document.findAll(
+        { where: { title: { [iLike]: `%o%` } } });
+      res.should.have.status(200);
+      res.body.should.have.property('documentList');
+      res.body.documentList.length.should.eql(documentList.length);
     });
 
-    it('user should view only documents he/her has access to view', (done) => {
-      chai.request(server)
-        .get('/api/v1/search/documents?q=o')
-        .set({ Authorization: regularUserToken })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('documentList');
-          res.body.documentList.length.should.eql(5);
-          done();
-        });
+    it('user should view only documents he/her has access to view', async () => {
+      const res = await chai.request(server)
+        .get('/api/v1/search/documents?q=o&limit=20')
+        .set({ Authorization: regularUserToken });
+      const query = {
+        [and]: [{
+          [or]: [
+            {[or]: [
+                { access: 'public' },
+                {[and]: [{ access: 'role' }, { roleId: savedUser.roleId }]
+              }]},
+            { authorId: savedUser.id }]},
+          { title: { [iLike]: `%o%` } }]
+      }
+      const documentList = await Document.findAll({ where: query });
+      res.should.have.status(200);
+      res.body.should.have.property('documentList');
+      res.body.documentList.length.should.eql(documentList.length);
     });
 
-    it('should return empty if no searchterm was provided', (done) => {
-      chai.request(server)
+    it('should return empty if an empty string is provided', async () => {
+      const res = await chai.request(server)
         .get('/api/v1/search/documents?q=""')
-        .set({ Authorization: regularUserToken })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('documentList');
-          res.body.documentList.length.should.eql(0);
-          done();
-        });
+        .set({ Authorization: regularUserToken });
+      const documentList = await Document.findAll({ where: { title: { [iLike]: `%''%` } }});
+      res.should.have.status(200);
+      res.body.should.have.property('documentList');
+      res.body.documentList.length.should.eql(documentList.length);
     });
   });
 

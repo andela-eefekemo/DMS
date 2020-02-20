@@ -188,7 +188,7 @@ class DocumentController {
 
     const query = {
       offset: offset || 0,
-      limit: limit || 10,
+      limit: limit || 5,
       where: {
         [or]: [
           { title: { [iLike]: `${searchTerm}` } }
